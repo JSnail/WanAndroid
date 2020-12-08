@@ -1,0 +1,63 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+}
+apply plugin: 'kotlin-kapt'
+apply from : '../config.gradle'
+
+
+android {
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion versions.buildToolsVersion
+
+    defaultConfig {
+        applicationId appName.appName
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionCode versions.versionCode
+        versionName versions.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${dependenciesVersion.kotlin_version}"
+    implementation "androidx.core:core-ktx:${dependenciesVersion.core_ktx}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${dependenciesVersion.coroutines}"
+    implementation "androidx.appcompat:appcompat:${dependenciesVersion.appcompat}"
+    //noinspection GradleDependency
+    implementation "com.google.android.material:material:${dependenciesVersion.meterial}"
+    implementation "androidx.constraintlayout:constraintlayout:${dependenciesVersion.constraintlayout}"
+    implementation "androidx.navigation:navigation-fragment-ktx:${dependenciesVersion.navigation_fragment_ktx}"
+    implementation "androidx.navigation:navigation-ui-ktx:${dependenciesVersion.navigation_ui_ktx}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${dependenciesVersion.lifecycle_livedata_ktx}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${dependenciesVersion.lifecycle_viewmodel_ktx}"
+    implementation "com.squareup.okhttp3:okhttp:${dependenciesVersion.okhttp}"
+    implementation "com.squareup.retrofit2:retrofit:${dependenciesVersion.retrofit}"
+    implementation "com.github.bumptech.glide:glide:${dependenciesVersion.glide}"
+    kapt "com.github.bumptech.glide:compiler:${dependenciesVersion.glide}"
+
+    implementation "androidx.room:room-runtime:${dependenciesVersion.room}"
+    kapt "androidx.room:room-compiler:${dependenciesVersion.room}"
+
+    implementation "androidx.room:room-ktx:${dependenciesVersion.room}"
+}

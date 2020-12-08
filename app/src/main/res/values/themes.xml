@@ -1,0 +1,46 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.WanAndroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue_700</item>
+        <item name="colorPrimaryVariant">@color/blue_800</item>
+        <item name="colorSecondary">@color/orange_500</item>
+        <item name="colorSecondaryVariant">@color/orange_400</item>
+
+        <item name="android:colorBackground">@color/blue_50</item>
+        <item name="colorError">@color/red_400</item>
+
+        <item name="android:statusBarColor">@color/blue_50_alpha_060</item>
+        <item name="android:navigationBarColor">@color/nav_bar</item>
+
+        <item name="bottomAppBarStyle">
+            @style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
+        </item>
+        <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
+    </style>
+
+    <style name="DialogActivity" parent="Theme.WanAndroid">
+        <item name="theme">@android:style/Theme.Translucent</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="register" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    </style>
+
+
+    <style name="TextInputLayout_Style">
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorControlActivated">@color/orange_300</item>
+        <item name="colorControlNormal">#1d1a1a</item>
+    </style>
+
+    <style name="TextLabel">
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorControlActivated">#FFCC00</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+    </style>
+
+</resources>
