@@ -1,148 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/x200"
-        android:layout_height="@dimen/x200"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/x50"
-        android:src="@mipmap/ic_launcher" />
+    </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvLogin"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="3dp"
-            app:cardUseCompatPadding="true">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/x200"
+            android:layout_height="@dimen/x200"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x50"
+            android:src="@mipmap/ic_launcher" />
 
-                <RelativeLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvLogin"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:background="@color/blue_700" />
+                    <RelativeLayout
+                        android:layout_width="301dp"
+                        android:layout_height="37dp"
+                        android:layout_marginTop="10dp">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:background="@color/blue_700" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="50dp"
+                            android:text=""
+                            android:textColor="#FFCC00"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x100"
+                        android:layout_marginTop="10dp"
+                        android:minHeight="@dimen/x100"
+                        android:orientation="horizontal"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp"
+                        android:theme="@style/TextInputLayout_Style"
+                        android:textColorHint="#c5c5c5">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editLoginAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="11"
+                            android:imeOptions="actionNext"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="#2fa881"
+                            android:background="@color/white"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/x100"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="30dp"
+                        android:textColorHint="#c5c5c5"
+                        android:theme="@style/TextInputLayout_Style"
+                        app:passwordToggleTintMode="multiply"
+                        app:passwordToggleEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editLoginPwd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x5"
+                            android:hint="密码"
+                            android:inputType="textPassword"
+                            android:textColor="#2fa881"
+                            android:textSize="@dimen/font_size_16" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--                                        android:textCursorDrawable="@drawable/bg_input_cursor"
+                    -->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="25dp"
+                        android:gravity="center">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnLogin"
+                            android:layout_width="@dimen/x300"
+                            android:layout_height="@dimen/x80"
+                            android:stateListAnimator="@drawable/state_list_animator_z"
+                            android:text="@string/login_login" />
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/textToFindPassWorld"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="50dp"
-                        android:text=""
-                        android:textColor="#FFCC00"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="忘记密码？"
+                        android:textColor="#F1ACAC"
+                        android:layout_marginBottom="@dimen/x20"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabToRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/cvLogin"
+                android:layout_alignEnd="@id/cvLogin"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="-20dp"
+                android:src="@drawable/ic_baseline_add_24"
+                android:elevation="@dimen/x5"
+                android:transitionName="loginFab"
+                app:fabSize="normal" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x100"
-                    android:layout_marginTop="10dp"
-                    android:minHeight="@dimen/x100"
-                    android:orientation="horizontal"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp"
-                    android:theme="@style/TextInputLayout_Style"
-                    android:textColorHint="#c5c5c5">
+        </RelativeLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editLoginAccount"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="11"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="#2fa881"
-                        android:background="@color/white"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="@dimen/x100"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp"
-                    android:textColorHint="#c5c5c5"
-                    android:theme="@style/TextInputLayout_Style"
-                    app:passwordToggleTintMode="multiply"
-                    app:passwordToggleEnabled="true">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editLoginPwd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/x5"
-                        android:hint="密码"
-                        android:inputType="textPassword"
-                        android:textColor="#2fa881"
-                        android:textSize="@dimen/font_size_16" />
-                </com.google.android.material.textfield.TextInputLayout>
-<!--                                        android:textCursorDrawable="@drawable/bg_input_cursor"
--->
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="25dp"
-                    android:gravity="center">
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnLogin"
-                        android:layout_width="@dimen/x300"
-                        android:layout_height="@dimen/x80"
-                        android:stateListAnimator="@drawable/state_list_animator_z"
-                        android:text="@string/login_login"/>
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/textToFindPassWorld"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="忘记密码？"
-                    android:textColor="#F1ACAC"
-                    android:layout_marginBottom="@dimen/x20"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabToRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/cvLogin"
-            android:layout_alignEnd="@id/cvLogin"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="-20dp"
-            android:src="@drawable/ic_baseline_add_24"
-            android:elevation="@dimen/x5"
-            android:transitionName="loginFab"
-            app:fabSize="normal" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

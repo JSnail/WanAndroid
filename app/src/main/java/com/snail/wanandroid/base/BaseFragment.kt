@@ -5,20 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.snail.wanandroid.R
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment< T : ViewDataBinding> constructor(@LayoutRes private val layoutId: Int) : Fragment() {
+
+    protected lateinit var vB: T
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(getLayoutId(), container, false)
+        vB = DataBindingUtil.inflate(inflater, layoutId, container, false) as T
+        loadData()
+        return vB.root
     }
 
-    abstract fun getLayoutId(): Int
 
     abstract fun loadData()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        vB.unbind()
+    }
 }

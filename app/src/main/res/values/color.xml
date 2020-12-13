@@ -16,6 +16,7 @@
 
     <!--Color palette-->
     <color name="white_50">#ffffff</color>
+    <color name="transparent">#00000000</color>
 
     <color name="black_800">#121212</color>
     <color name="black_900">#000000</color>

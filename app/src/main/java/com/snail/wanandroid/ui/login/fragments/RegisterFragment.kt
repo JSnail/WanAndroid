@@ -2,11 +2,12 @@ package com.snail.wanandroid.ui.login.fragments
 
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
+import com.snail.wanandroid.databinding.FragmentRegisterBinding
 
-class RegisterFragment :BaseFragment() {
-
-    override fun getLayoutId(): Int  = R.layout.activity_register
+class RegisterFragment : BaseFragment<FragmentRegisterBinding>(R.layout.fragment_register) {
 
     override fun loadData() {
+
     }
+
 }

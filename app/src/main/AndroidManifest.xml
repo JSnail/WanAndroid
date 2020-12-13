@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.login.LoginActivity"
-            android:theme="@style/DialogActivity"/>
+            android:theme="@style/AppTheme.Transparent"/>
     </application>
 
 </manifest>
