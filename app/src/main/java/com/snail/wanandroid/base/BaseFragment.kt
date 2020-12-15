@@ -19,6 +19,7 @@ abstract class BaseFragment< T : ViewDataBinding> constructor(@LayoutRes private
         savedInstanceState: Bundle?
     ): View? {
         vB = DataBindingUtil.inflate(inflater, layoutId, container, false) as T
+        vB.lifecycleOwner = this
         loadData()
         return vB.root
     }

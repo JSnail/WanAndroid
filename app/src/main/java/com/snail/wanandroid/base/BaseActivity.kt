@@ -1,6 +1,7 @@
 package com.snail.wanandroid.base
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
