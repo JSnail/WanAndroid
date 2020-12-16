@@ -5,8 +5,13 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentLoginBinding
+import com.snail.wanandroid.viewmodel.LoginViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
+
+    private val loginViewModel : LoginViewModel by  viewModel()
+
 
     override fun loadData() {
         vB.fabToRegister.setOnClickListener {
@@ -20,7 +25,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 null,
                 extras
             )
-
         }
     }
 

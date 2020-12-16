@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="register"
+            type="com.snail.wanandroid.ui.login.fragments.RegisterFragment" />
+
 
     </data>
 
@@ -113,6 +117,7 @@
                     android:layout_marginBottom="@dimen/x30"
                     android:stateListAnimator="@drawable/state_list_animator_z"
                     android:text="@string/login_confirm"
+                    android:onClick="@{register::register}"
                     android:textColor="#2fa881" />
 
             </LinearLayout>

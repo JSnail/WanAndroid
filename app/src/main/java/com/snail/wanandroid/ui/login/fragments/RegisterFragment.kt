@@ -13,10 +13,13 @@ import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentRegisterBinding
 import com.snail.wanandroid.interfaceImpl.LoginTransitionInterfaceImpl
+import com.snail.wanandroid.viewmodel.RegisterViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import retrofit2.Retrofit
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(R.layout.fragment_register) {
 
-//    private lateinit var transition: Transition
+    private val registerRepository :RegisterViewModel by viewModel()
 
     override fun loadData() {
 
@@ -77,7 +80,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(R.layout.fragment
             override fun onAnimationEnd(animation: Animator) {
                 vB.cvRegister.visibility = View.INVISIBLE
                 super.onAnimationEnd(animation)
-//                vB.fabRegister.setImageResource(R.drawable.ic_home_black_24dp)
+                vB.fabRegister.setImageResource(R.drawable.ic_regiseter_close_24)
                 Navigation.findNavController(vB.cvRegister).popBackStack()
             }
 
@@ -85,4 +88,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(R.layout.fragment
         mAnimator.start()
     }
 
+    fun register(view:View){
+        val name = vB.editRegisterAccount.text.toString()
+    }
 }

@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="holder"
+            type="com.snail.wanandroid.ui.login.fragments.LoginFragment" />
     </data>
 
 
@@ -35,7 +37,7 @@
                         android:layout_width="8dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
-                        android:background="@color/blue_700" />
+                        android:background="#FFCC00" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -63,9 +65,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editLoginAccount"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="11"
+                        android:hint="@string/login_account"
                         android:imeOptions="actionNext"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -90,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x5"
-                        android:hint="密码"
+                        android:hint="@string/login_password"
                         android:inputType="textPassword"
                         android:textColor="#2fa881"
                         android:textSize="@dimen/font_size_16" />
@@ -119,8 +121,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="@dimen/x20"
-                    android:text="忘记密码？"
-                    android:textColor="#F1ACAC"
+                    android:text="@string/login_forget_password"
+                    android:textColor="#FFCC00"
                     android:textSize="12sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

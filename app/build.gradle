@@ -47,6 +47,12 @@ dependencies {
     implementation "androidx.core:core-ktx:${dependenciesVersion.core_ktx}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${dependenciesVersion.coroutines}"
     implementation "androidx.appcompat:appcompat:${dependenciesVersion.appcompat}"
+    //koin
+    implementation "org.koin:koin-core:${dependenciesVersion.koin}"
+    implementation "org.koin:koin-core-ext:${dependenciesVersion.koin}"
+    implementation "org.koin:koin-androidx-viewmodel:${dependenciesVersion.koin}"
+    implementation "org.koin:koin-androidx-fragment:${dependenciesVersion.koin}"
+
     //noinspection GradleDependency
     implementation "com.google.android.material:material:${dependenciesVersion.meterial}"
     implementation "androidx.constraintlayout:constraintlayout:${dependenciesVersion.constraintlayout}"
@@ -63,4 +69,6 @@ dependencies {
     kapt "androidx.room:room-compiler:${dependenciesVersion.room}"
 
     implementation "androidx.room:room-ktx:${dependenciesVersion.room}"
+    implementation "com.squareup.moshi:moshi:${dependenciesVersion.moshi}"
+    implementation "com.squareup.retrofit2:converter-moshi:${dependenciesVersion.retrofit}"
 }
