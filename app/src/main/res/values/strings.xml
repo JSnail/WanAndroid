@@ -4,12 +4,15 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <string name="is_loading">正在加载…</string>
+
     <string name="login_account">账号</string>
     <string name="login_login">登录</string>
     <string name="login_register">注册</string>
     <string name="login_forget_password">忘记密码</string>
     <string name="login_password">密码</string>
     <string name="login_confirm">确认</string>
+
 
 
 </resources>

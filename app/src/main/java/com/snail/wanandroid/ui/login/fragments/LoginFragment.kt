@@ -5,6 +5,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentLoginBinding
+import com.snail.wanandroid.dialog.LoadingDialog
 import com.snail.wanandroid.viewmodel.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

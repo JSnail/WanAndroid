@@ -20,5 +20,8 @@ val repositoryModule = module {
 
 val retrofitModule = module {
     single { RetrofitManager().apiService }
+}
 
+val dialogModule = module {
+    single {  }
 }

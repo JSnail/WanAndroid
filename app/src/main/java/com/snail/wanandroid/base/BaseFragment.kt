@@ -20,12 +20,14 @@ abstract class BaseFragment< T : ViewDataBinding> constructor(@LayoutRes private
     ): View? {
         vB = DataBindingUtil.inflate(inflater, layoutId, container, false) as T
         vB.lifecycleOwner = this
+        startObserver()
         loadData()
         return vB.root
     }
 
 
     abstract fun loadData()
+    protected fun startObserver(){}
     override fun onDestroyView() {
         super.onDestroyView()
         vB.unbind()
