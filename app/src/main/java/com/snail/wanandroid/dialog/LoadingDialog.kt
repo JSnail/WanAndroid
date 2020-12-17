@@ -1,25 +1,27 @@
 package com.snail.wanandroid.dialog
 
 import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.snail.wanandroid.R
 
-object LoadingDialog {
-    private var dialog: AlertDialog? = null
-
-
-    fun showLoadingDialog(context: Context) {
-        dialog = MaterialAlertDialogBuilder(context)
-            .setView(R.layout.view_loading)
-            .show()
-        dialog?.setCanceledOnTouchOutside(false)
+class LoadingDialog : DialogFragment() {
+    init {
+        setStyle(STYLE_NO_TITLE, R.style.ThemeOverlay_AppCompat_Dialog)
+        isCancelable = false
     }
 
-    fun dismiss() {
-        dialog?.isShowing?.let {
-            if (it) dialog?.dismiss()
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        dialog?.setCanceledOnTouchOutside(false)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 }

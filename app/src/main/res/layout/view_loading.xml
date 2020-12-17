@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x200"
+    android:layout_height="@dimen/x200"
     android:gravity="center"
-    android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/x5"
+    android:orientation="horizontal">
 
-  <ProgressBar
-      android:layout_marginTop="@dimen/x30"
-      android:layout_width="wrap_content"
-      android:layout_marginBottom="@dimen/x30"
-      android:layout_height="wrap_content"/>
+    <com.snail.wanandroid.widget.LoadingView
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/x120"
+        android:layout_gravity="center" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_marginStart="@dimen/x100"
-        android:layout_height="wrap_content"
-        android:text="@string/is_loading"/>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

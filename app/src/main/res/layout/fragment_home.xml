@@ -25,5 +25,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.snail.wanandroid.widget.LoadingView
+            android:id="@+id/loadingView"
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/x100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_home" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
