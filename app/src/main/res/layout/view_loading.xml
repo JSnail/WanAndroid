@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/x200"
-    android:layout_height="@dimen/x200"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="@dimen/x5"
     android:orientation="horizontal">
 
     <com.snail.wanandroid.widget.LoadingView
-        android:layout_width="@dimen/x120"
-        android:layout_height="@dimen/x120"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/x80"
+        android:layout_margin="@dimen/x50"
         android:layout_gravity="center" />
 
 </androidx.cardview.widget.CardView>

@@ -1,8 +1,10 @@
 package com.snail.wanandroid.koin
 
+import com.snail.wanandroid.dialog.LoadingDialog
 import com.snail.wanandroid.network.RetrofitManager
 import com.snail.wanandroid.repository.LoginRepository
 import com.snail.wanandroid.repository.RegisterRepository
+import com.snail.wanandroid.viewmodel.LoadingViewLiveData
 import com.snail.wanandroid.viewmodel.LoginViewModel
 import com.snail.wanandroid.viewmodel.RegisterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -23,5 +25,6 @@ val retrofitModule = module {
 }
 
 val dialogModule = module {
-    single {  }
+    single { LoadingViewLiveData() }
+    single { LoadingDialog() }
 }

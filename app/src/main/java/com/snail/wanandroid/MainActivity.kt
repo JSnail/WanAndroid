@@ -13,11 +13,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun loadData() {
         val navController = findNavController(R.id.nav_host_fragment)
-        AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
 
         findViewById<BottomNavigationView>(R.id.navView)
             .setupWithNavController(navController)

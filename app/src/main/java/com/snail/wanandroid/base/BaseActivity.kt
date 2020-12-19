@@ -16,8 +16,8 @@ constructor(@LayoutRes private val layoutId: Int) : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         vB = DataBindingUtil.setContentView(this, layoutId)
         loadData()
-
     }
+
 
 
     abstract fun loadData()

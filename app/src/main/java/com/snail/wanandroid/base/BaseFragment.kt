@@ -8,10 +8,17 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.snail.wanandroid.dialog.LoadingDialog
+import com.snail.wanandroid.viewmodel.LoadingViewLiveData
+import org.koin.android.ext.android.inject
 
-abstract class BaseFragment< T : ViewDataBinding> constructor(@LayoutRes private val layoutId: Int) : Fragment() {
+abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private val layoutId: Int) :
+    Fragment() {
 
     protected lateinit var vB: T
+     val dialogViewLiveData: LoadingViewLiveData by inject()
+    private val loadingDialog : LoadingDialog by inject()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +34,12 @@ abstract class BaseFragment< T : ViewDataBinding> constructor(@LayoutRes private
 
 
     abstract fun loadData()
-    protected fun startObserver(){}
+    open fun startObserver() {
+        dialogViewLiveData.observe(this.viewLifecycleOwner, {
+            if (it) loadingDialog.show(childFragmentManager,"") else loadingDialog.dismiss()
+        })
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         vB.unbind()
