@@ -1,5 +1,7 @@
 package com.snail.wanandroid
 
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController

@@ -16,7 +16,7 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
     Fragment() {
 
     protected lateinit var vB: T
-     val dialogViewLiveData: LoadingViewLiveData by inject()
+    protected val dialogViewLiveData: LoadingViewLiveData by inject()
     private val loadingDialog : LoadingDialog by inject()
 
 

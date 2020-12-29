@@ -9,7 +9,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun loadData() {
         vB.textHome.setOnClickListener {
 //            startActivity(Intent(activity,LoginActivity::class.java))
+//            dialogViewLiveData.value = true
         }
+
 
     }
 

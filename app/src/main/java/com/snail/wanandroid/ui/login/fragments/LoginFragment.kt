@@ -1,5 +1,6 @@
 package com.snail.wanandroid.ui.login.fragments
 
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.snail.wanandroid.R
