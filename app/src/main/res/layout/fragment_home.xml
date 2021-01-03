@@ -10,7 +10,7 @@
     <com.snail.wanandroid.widget.MultiStateView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:msv_viewState="loading">
+        app:msv_viewState="content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

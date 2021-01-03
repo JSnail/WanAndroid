@@ -2,9 +2,9 @@ package com.snail.wanandroid.entity
 
 data class UserEntity(
     val admin: Boolean,
-    val chapterTops: List<Any>,
+//    val chapterTops: List<Any>,
     val coinCount: Int,
-    val collectIds: List<Any>,
+//    val collectIds: List<Any>,
     val email: String,
     val icon: String,
     val id: Int,
