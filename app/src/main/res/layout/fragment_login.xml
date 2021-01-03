@@ -30,7 +30,7 @@
 
                 <RelativeLayout
                     android:layout_width="301dp"
-                    android:layout_height="37dp"
+                    android:layout_height="36dp"
                     android:layout_marginTop="10dp">
 
                     <View
@@ -52,8 +52,9 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editLoginAccountLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x100"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:minHeight="@dimen/x100"
                     android:orientation="horizontal"
@@ -66,7 +67,6 @@
                         android:id="@+id/editLoginAccount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:hint="@string/login_account"
                         android:imeOptions="actionNext"
                         android:maxLines="1"
@@ -77,6 +77,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editLoginPwdLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/x100"
@@ -93,12 +94,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x5"
                         android:hint="@string/login_password"
-                        android:inputType="textPassword"
                         android:textColor="#2fa881"
                         android:textSize="@dimen/font_size_16" />
                 </com.google.android.material.textfield.TextInputLayout>
-                <!--                                        android:textCursorDrawable="@drawable/bg_input_cursor"
-                -->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -122,6 +120,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="@dimen/x20"
                     android:text="@string/login_forget_password"
+                    android:onClick="forgetPassword"
                     android:textColor="#FFCC00"
                     android:textSize="12sp" />
             </LinearLayout>

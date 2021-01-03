@@ -1,10 +1,8 @@
 package com.snail.wanandroid.base
 
 import android.app.Application
-import com.snail.wanandroid.koin.dialogModule
-import com.snail.wanandroid.koin.repositoryModule
-import com.snail.wanandroid.koin.retrofitModule
-import com.snail.wanandroid.koin.viewModelModule
+import com.snail.wanandroid.koin.*
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class WanAndroidApplication : Application() {
@@ -17,8 +15,9 @@ class WanAndroidApplication : Application() {
 
     private fun initKoin() {
         startKoin{
+            androidContext(this@WanAndroidApplication)
             modules(
-                viewModelModule, repositoryModule,dialogModule, retrofitModule
+                viewModelModule, repositoryModule,dialogModule, retrofitModule, dataBaseModule
             )
         }
     }

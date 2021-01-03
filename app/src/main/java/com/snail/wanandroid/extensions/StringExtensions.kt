@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.annotation.MainThread
 
 @MainThread
-fun String.Check(context: Context){
+fun String.onCheck(context: Context){
     if (this.isEmpty()){
         Toast.makeText(context,"内容不能为空", Toast.LENGTH_SHORT).show()
         return

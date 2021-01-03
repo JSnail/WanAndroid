@@ -1,5 +1,6 @@
 package com.snail.wanandroid.koin
 
+import com.snail.wanandroid.db.AppDataBase
 import com.snail.wanandroid.dialog.LoadingDialog
 import com.snail.wanandroid.network.RetrofitManager
 import com.snail.wanandroid.repository.HomeRepository
@@ -31,4 +32,8 @@ val retrofitModule = module {
 val dialogModule = module {
     single { LoadingViewLiveData() }
     single { LoadingDialog() }
+}
+
+val dataBaseModule = module {
+    single { AppDataBase.getInstance(get()) }
 }

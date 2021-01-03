@@ -1,5 +1,6 @@
 package com.snail.wanandroid.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.snail.wanandroid.base.BaseViewModel
 import com.snail.wanandroid.repository.LoginRepository
@@ -10,16 +11,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class LoginViewModel constructor(private val loginRepository: LoginRepository) : BaseViewModel(),
-    CoroutineScope by MainScope() {
+class LoginViewModel constructor(private val loginRepository: LoginRepository) : BaseViewModel(){
 
     val loginLiveData = MutableLiveData<Boolean>()
 
     fun login(account: String, password: String) {
-        launch {
+        launch (handlerExpectation){
             loginRepository.login(account, password)
-                .onStart { dialogViewLiveData.value = true }
-
                 .collectLatest {
                     loginLiveData.value = true
                 }

@@ -12,7 +12,8 @@
     <string name="login_forget_password">忘记密码</string>
     <string name="login_password">密码</string>
     <string name="login_confirm">确认</string>
-
+    <string name="error_account_empty">账号不能为空</string>
+    <string name="error_password_empty">密码不能为空</string>
 
 
 </resources>
