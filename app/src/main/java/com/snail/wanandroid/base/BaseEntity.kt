@@ -6,7 +6,7 @@ data class BaseEntity<T>(
     var errorCode: Int = 0,
     var errorMsg: String?,
     @Json(name = "data")
-    var recordset: T
+    var recordset: T?
 ) {
 
     override fun toString(): String {

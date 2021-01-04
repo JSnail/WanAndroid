@@ -19,7 +19,13 @@ class LoginViewModel constructor(private val loginRepository: LoginRepository) :
         launch (handlerExpectation){
             loginRepository.login(account, password)
                 .collectLatest {
-                    loginLiveData.value = true
+                    if (null == it.recordset){
+                        loginLiveData.value = false
+                        errorMessage.value = it.errorMsg
+                    }else{
+                        loginLiveData.value = true
+                    }
+
                 }
         }
     }
