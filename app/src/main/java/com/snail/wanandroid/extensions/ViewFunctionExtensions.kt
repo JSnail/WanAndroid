@@ -2,7 +2,10 @@ package com.snail.wanandroid.extensions
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatEditText
+import com.google.android.material.snackbar.Snackbar
 
 
 /**
@@ -25,4 +28,12 @@ fun AppCompatEditText.onAfterTextChanged(change:()->Unit){
             change.invoke()
         }
     })
+}
+
+fun View.showSnackBar(@StringRes message:Int){
+    Snackbar.make(this,this.context.getString(message),Snackbar.LENGTH_SHORT).show()
+}
+
+fun View.showSnackBar( message:String){
+    Snackbar.make(this,message,Snackbar.LENGTH_SHORT).show()
 }

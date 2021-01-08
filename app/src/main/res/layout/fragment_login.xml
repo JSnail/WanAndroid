@@ -108,7 +108,7 @@
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnLogin"
                         android:layout_width="@dimen/x300"
-                        android:layout_height="@dimen/x80"
+                        android:layout_height="@dimen/x100"
                         android:stateListAnimator="@drawable/state_list_animator_z"
                         android:onClick="@{holder::login}"
                         android:text="@string/login_login" />
@@ -122,6 +122,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="@dimen/x20"
                     android:text="@string/login_forget_password"
+                    android:visibility="gone"
                     android:onClick="@{holder::forgetPassword}"
                     android:textColor="#FFCC00"
                     android:textSize="12sp" />

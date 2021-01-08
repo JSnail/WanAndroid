@@ -1,14 +1,13 @@
 package com.snail.wanandroid.ui.login.fragments
 
-import android.util.Log
 import android.view.View
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import com.google.android.material.snackbar.Snackbar
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentLoginBinding
 import com.snail.wanandroid.extensions.onAfterTextChanged
+import com.snail.wanandroid.extensions.showSnackBar
 import com.snail.wanandroid.viewmodel.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -62,10 +61,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     override fun startObserver() {
         super.startObserver()
         loginViewModel.loginLiveData.observe(this, {
-            if (it) Log.i("TAG", "登录成功") else Log.i("TAG", "登录失败")
+            if (it) {
+                vB.root.showSnackBar(R.string.login_success)
+            }
         })
-        loginViewModel.errorMessage.observe(this,{
-            Snackbar.make(vB.btnLogin,it,Snackbar.LENGTH_SHORT).show()
+
+        loginViewModel.errorMessage.observe(this, {
+            vB.root.showSnackBar(it)
         })
     }
 }

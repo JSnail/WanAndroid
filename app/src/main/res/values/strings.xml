@@ -14,6 +14,8 @@
     <string name="login_confirm">确认</string>
     <string name="error_account_empty">账号不能为空</string>
     <string name="error_password_empty">密码不能为空</string>
+    <string name="register_success">注册成功</string>
+    <string name="login_success">登录成功</string>
 
 
 </resources>

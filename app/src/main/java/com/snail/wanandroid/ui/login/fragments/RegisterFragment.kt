@@ -12,18 +12,20 @@ import androidx.transition.TransitionInflater
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentRegisterBinding
+import com.snail.wanandroid.extensions.showSnackBar
 import com.snail.wanandroid.interfaceImpl.LoginTransitionInterfaceImpl
 import com.snail.wanandroid.viewmodel.RegisterViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import retrofit2.Retrofit
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(R.layout.fragment_register) {
 
-    private val registerRepository :RegisterViewModel by viewModel()
+    private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun loadData() {
+        vB.register = this
 
-      val  transition = TransitionInflater.from(activity).inflateTransition(R.transition.fabtransition)
+        val transition =
+            TransitionInflater.from(activity).inflateTransition(R.transition.fabtransition)
 
         sharedElementEnterTransition = transition
 
@@ -88,7 +90,35 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(R.layout.fragment
         mAnimator.start()
     }
 
-    fun register(view:View){
-        val name = vB.editRegisterAccount.text.toString()
+    override fun startObserver() {
+        super.startObserver()
+        registerViewModel.registerData.observe(this, {
+            if (it) {
+                vB.root.showSnackBar(R.string.register_success)
+            }
+        })
+        registerViewModel.errorMessage.observe(this, {
+            vB.root.showSnackBar(it)
+        })
+    }
+
+    fun register(view: View) {
+        val account = vB.editRegisterAccount.text.toString()
+        if (account.isEmpty()) {
+            vB.editRegisterAccountLayout.error = getString(R.string.error_account_empty)
+            return
+        }
+
+        val pwd = vB.editRegisterPwd.text.toString()
+        if (pwd.isEmpty()) {
+            vB.editRegisterPwdLayout.error = getString(R.string.error_password_empty)
+            return
+        }
+        val rePwd = vB.editRegisterRePwd.text.toString()
+        if (rePwd.isEmpty()) {
+            vB.editRegisterRePwdLayout.error = getString(R.string.error_password_empty)
+            return
+        }
+        registerViewModel.startRegister(account, pwd)
     }
 }

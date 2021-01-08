@@ -5,7 +5,7 @@ package com.snail.wanandroid.entity
  **/
 data class ArticleListEntity(
     val curPage: Int,
-    val data: MutableList<ArticleListBean>,
+    val datas: MutableList<ArticleListBean>,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,

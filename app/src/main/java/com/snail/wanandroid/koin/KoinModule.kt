@@ -20,7 +20,7 @@ val viewModelModule = module {
 }
 
 val repositoryModule = module {
-    single { LoginRepository(get()) }
+    single { LoginRepository(get(),get()) }
     single { RegisterRepository(get()) }
     single { HomeRepository(get()) }
 }

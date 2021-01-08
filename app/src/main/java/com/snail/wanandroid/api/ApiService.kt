@@ -33,13 +33,13 @@ interface ApiService {
       *首页banner
       **/
     @GET("banner/json")
-    suspend fun getHomeBanner():BaseEntity<BannerEntity>
+    suspend fun getHomeBanner():BaseEntity<MutableList<BannerEntity>>
 
     /**
       *置顶文章
       **/
     @GET("article/top/json")
-    suspend fun getArticleTop() :BaseEntity<ArticleTopEntity>
+    suspend fun getArticleTop() :BaseEntity<MutableList<ArticleTopEntity>>
 
 
 }

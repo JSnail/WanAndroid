@@ -28,10 +28,20 @@ data class ArticleListBean(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<Any>,
+    val tags: MutableList<Tag>,
     val title: String,
     val type: Int,
     val userId: Int,
     val visible: Int,
     val zan: Int
+):BaseHomeAllEntity() {
+    init {
+        itemType = commonArticle
+    }
+}
+
+
+data class Tag(
+    val name :String,
+    val url :String
 )

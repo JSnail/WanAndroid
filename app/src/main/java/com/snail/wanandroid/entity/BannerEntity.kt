@@ -1,7 +1,8 @@
 package com.snail.wanandroid.entity
+
 /**
-  *首页banner
-  **/
+ *首页banner
+ **/
 data class BannerEntity(
     val desc: String,
     val id: Int,
@@ -11,4 +12,8 @@ data class BannerEntity(
     val title: String,
     val type: Int,
     val url: String
-)
+) : BaseHomeAllEntity() {
+    init {
+        itemType = banner
+    }
+}

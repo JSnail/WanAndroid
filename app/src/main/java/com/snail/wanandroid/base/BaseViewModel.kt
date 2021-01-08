@@ -17,7 +17,7 @@ open class BaseViewModel : ViewModel(), KoinComponent, CoroutineScope by MainSco
      val dialogViewLiveData by inject<LoadingViewLiveData>()
      val errorMessage = MediatorLiveData<String>()
      protected val  handlerExpectation = CoroutineExceptionHandler{ _, throwable ->
-          Log.d("TAG","throwable  --->  ${throwable.message}")
+          Log.e("TAG","throwable  --->  ${throwable.message}")
      }
 
 }

@@ -1,11 +1,9 @@
 package com.snail.wanandroid.db.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.snail.wanandroid.entity.UserEntity
 import kotlinx.coroutines.flow.Flow
+import org.jetbrains.annotations.NotNull
 
 
 /**
@@ -22,8 +20,11 @@ interface UserDao {
     @Query("SELECT *  FROM  UserEntity")
     suspend fun queryAllUser(): Array<UserEntity>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(userEntity: UserEntity)
+
+    @Update
+    suspend fun updateUser(userEntity: UserEntity)
 
     @Delete
     suspend fun deleteUser(userEntity: UserEntity)

@@ -36,7 +36,7 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
     abstract fun loadData()
     open fun startObserver() {
         dialogViewLiveData.observe(this.viewLifecycleOwner, {
-            if (it) loadingDialog.show(childFragmentManager,"") else loadingDialog.dismiss()
+            if (it) loadingDialog.show(childFragmentManager,"loading") else loadingDialog.dismiss()
         })
     }
 
