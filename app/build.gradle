@@ -66,6 +66,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:${dependenciesVersion.okhttp}"
     implementation "com.squareup.retrofit2:retrofit:${dependenciesVersion.retrofit}"
     implementation "com.github.bumptech.glide:glide:${dependenciesVersion.glide}"
+    implementation project(path: ':banner')
     kapt "com.github.bumptech.glide:compiler:${dependenciesVersion.glide}"
 
     implementation "androidx.room:room-runtime:${dependenciesVersion.room}"
