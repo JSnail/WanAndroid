@@ -4,7 +4,8 @@ import android.content.Intent
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.base.project.banner.layoutmanager.BannerLayoutManager
+import com.snail.banner.banner.layoutmanager.BannerLayoutManager
+import com.snail.banner.banner.layoutmanager.RepeatLayoutManager
 import com.snail.wanandroid.R
 import com.snail.wanandroid.adapter.HomeAdapter
 import com.snail.wanandroid.base.BaseFragment
@@ -12,7 +13,6 @@ import com.snail.wanandroid.databinding.FragmentHomeBinding
 import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.ui.login.LoginActivity
 import com.snail.wanandroid.viewmodel.HomeViewModel
-import com.snail.wanandroid.widget.banner.layoutmanager.CustomLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -29,7 +29,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         homeViewModel.getHomeAllData()
         vB.homeRecyclerView.apply {
-            this.layoutManager = BannerLayoutManager(context)
+            this.layoutManager = RepeatLayoutManager(RecyclerView.HORIZONTAL)
             this.adapter = HomeAdapter(context, mutableListOf(
                 "https://scpic.chinaz.net/files/pic/pic9/202101/apic30631.jpg",
                 "https://scpic.chinaz.net/files/pic/pic9/202101/apic30547.jpg",
