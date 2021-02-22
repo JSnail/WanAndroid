@@ -36,7 +36,7 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
         var offsetX = 0
 
         //绘制并添加view
-        for (i in 0 .. 0) {
+        for (i in 0 .. itemCount) {
             Log.i("TAG", "添加view == $i      itemCount == $itemCount")
             val view = recycler.getViewForPosition(i)
             addView(view)
@@ -47,9 +47,9 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
             layoutDecorated(view, offsetX, 0, offsetX + viewWidth, viewHeight)
             offsetX += viewWidth
 
-//            if (offsetX > width) {
-//                break
-//            }
+            if (offsetX > width) {
+                break
+            }
         }
     }
 
@@ -60,9 +60,9 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
     override fun scrollHorizontallyBy(
         dx: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State
     ): Int {
-        recycleViews(dx, recycler)
         fill(dx, recycler)
         offsetChildrenHorizontal(dx * -1)
+        recycleViews(dx, recycler)
         return dx
     }
 

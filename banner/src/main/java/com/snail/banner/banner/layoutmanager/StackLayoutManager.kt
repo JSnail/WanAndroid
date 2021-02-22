@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.content.Context
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -100,8 +101,9 @@ class StackLayoutManager @JvmOverloads constructor(context: Context, gap: Int = 
         }
         mHorizontalOffset += dx.toLong()
         dx = fill(recycler, state, dx)
+        offsetChildrenHorizontal(-dx)
         return dx
-    }// getWidth() / 2 + childWidth / 2 +
+    }
 
     /**
      * 最大偏移量
@@ -126,7 +128,7 @@ class StackLayoutManager @JvmOverloads constructor(context: Context, gap: Int = 
         if (dx < 0) {
             // 已到达左边界
             if (mHorizontalOffset < 0) {
-                dx = 0
+//                dx = 0
                 mHorizontalOffset = dx.toLong()
             }
         }
@@ -135,7 +137,7 @@ class StackLayoutManager @JvmOverloads constructor(context: Context, gap: Int = 
                 // 因为在因为scrollHorizontallyBy里加了一次dx，现在减回去
                 // mHorizontalOffset -= dx;
                 mHorizontalOffset = maxOffset.toLong()
-                dx = 0
+//                dx = 0
             }
         }
 
@@ -179,8 +181,7 @@ class StackLayoutManager @JvmOverloads constructor(context: Context, gap: Int = 
 
         //----------------3、开始布局-----------------
         for (i in mFirstVisiPos..mLastVisiPos) {
-            var item: View
-            item = if (i == tempPosition && tempView != null) {
+            val item: View = if (i == tempPosition && tempView != null) {
                 // 如果初始化数据时已经取了一个临时view
                 tempView
             } else {
@@ -197,12 +198,10 @@ class StackLayoutManager @JvmOverloads constructor(context: Context, gap: Int = 
                 startX -= normalViewOffset
                 isNormalViewOffsetSetted = true
             }
-            var l: Int
-            var t: Int
             var r: Int
             var b: Int
-            l = startX.toInt()
-            t = paddingTop
+            val l: Int = startX.toInt()
+            val t: Int = paddingTop
             r = l + getDecoratedMeasurementHorizontal(item)
             b = t + getDecoratedMeasurementVertical(item)
 
@@ -219,6 +218,10 @@ class StackLayoutManager @JvmOverloads constructor(context: Context, gap: Int = 
                 val fractionScale = (childCenterX - parentCenterX) / (parentCenterX * 1.0f)
                 1.0f - (1.0f - minScale) * fractionScale
             }
+
+            Log.i("TAG","childCenterX   ==  $childCenterX    currentScale == $currentScale   \n" +
+                    "left == $l    right==$r")
+
             item.scaleX = currentScale
             item.scaleY = currentScale
             // item.setAlpha(currentScale);
@@ -242,8 +245,7 @@ class StackLayoutManager @JvmOverloads constructor(context: Context, gap: Int = 
                     //找到离目标落点最近的item索引
                     smoothScrollToPosition(findShouldSelectPosition(), null)
                 }
-            else -> {
-            }
+
         }
     }
 
