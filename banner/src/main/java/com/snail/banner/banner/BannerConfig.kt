@@ -1,4 +1,5 @@
 package com.snail.banner.banner
 
-class BannerConfig {
+object BannerConfig {
+    var BANNER_LOOP_TIME = 1000L
 }
