@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
 
-class BannerLayoutManager() :
+class BLayoutManager() :
     RecyclerView.LayoutManager(), RecyclerView.SmoothScroller.ScrollVectorProvider {
 
 

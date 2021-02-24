@@ -11,7 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.base.project.banner.R
 import com.base.project.banner.databinding.BannerLayoutBinding
 import com.snail.banner.banner.adapter.BannerAdapter
-import com.snail.banner.banner.layoutmanager.BannerLayoutManager
+import com.snail.banner.banner.layoutmanager.BLayoutManager
 import com.snail.banner.banner.listener.BannerLifeCycle
 import com.snail.banner.banner.listener.OnBannerLifeListener
 
@@ -34,7 +34,7 @@ class Banner @JvmOverloads constructor(
         if (!isStarted) {
             isStarted = true
             viewBinding.bannerRecycler.apply {
-                this.layoutManager = BannerLayoutManager()
+                this.layoutManager = BLayoutManager()
                 this.adapter = BannerAdapter(context, imageUrls)
             }
             initIndicator(imageUrls.size)
