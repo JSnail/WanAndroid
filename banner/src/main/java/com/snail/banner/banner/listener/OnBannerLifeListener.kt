@@ -1,5 +1,5 @@
 package com.snail.banner.banner.listener
 
 interface OnBannerLifeListener {
-    fun onNext()
+    fun onNext(position:Int)
 }

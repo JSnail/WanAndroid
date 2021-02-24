@@ -1,6 +1,5 @@
 package com.snail.banner.banner.listener
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -12,9 +11,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BannerLifeCycle constructor(
-    private val onBannerLifeListener: OnBannerLifeListener
-) : LifecycleObserver {
+    private val onBannerLifeListener: OnBannerLifeListener,
+    private val dataSize: Int
+    ) : LifecycleObserver {
     private var mStartLoop = false
+    private var tempPosition = dataSize
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onResume() {
@@ -44,8 +45,19 @@ class BannerLifeCycle constructor(
     private suspend fun countDown() {
         delay(BannerConfig.BANNER_LOOP_TIME)
         if (mStartLoop) {
-            onBannerLifeListener.onNext()
+            val position = calculatePosition(tempPosition)
+            onBannerLifeListener.onNext(position)
             countDown()
+        }
+    }
+
+    private fun calculatePosition(position: Int): Int {
+        return if (position == dataSize) {
+            tempPosition =0
+            tempPosition
+        } else {
+            tempPosition += 1
+            tempPosition
         }
     }
 }

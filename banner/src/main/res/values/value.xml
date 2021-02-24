@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="indicatorWidth">6dp</dimen>
+    <dimen name="indicatorHeight">6dp</dimen>
+    <dimen name="indicatorMargin">2dp</dimen>
+</resources>
