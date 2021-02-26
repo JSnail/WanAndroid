@@ -90,11 +90,11 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
     }
 
     private fun getOffsetToPosition(position: Int): Int {
-        return position * mItemGap.toInt() - mOffset.toInt()
+        return (getCurrentPosition() + (position - getCurrentPosition()) * mItemGap - mOffset).toInt()
     }
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
-        if (itemCount == 0) {
+        if (state.itemCount == 0) {
             removeAndRecycleAllViews(recycler)
             mOffset = 0F
             return
@@ -118,14 +118,19 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
         recycler: RecyclerView.Recycler,
         state: RecyclerView.State?
     ): Int {
-        if (itemCount <=1 || dx == 0) {
+        if (itemCount <= 1 || dx == 0) {
             return 0
         }
-        mOffset += dx
         return scroll(recycler, dx)
     }
 
     private fun scroll(recycler: RecyclerView.Recycler, dx: Int): Int {
+        if (itemCount == 0) {
+            removeAndRecycleAllViews(recycler)
+            mOffset = 0F
+            return 0
+        }
+        mOffset += dx
         layout(recycler)
         recycleViews(recycler, dx)
         return dx
@@ -148,11 +153,7 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
     }
 
     private fun layout(recycler: RecyclerView.Recycler) {
-        if (childCount == 0) {
-            removeAndRecycleAllViews(recycler)
-            mOffset = 0F
-            return
-        }
+
         detachAndScrapAttachedViews(recycler)
         val currentPosition = findCurrentPosition()
         val left = currentPosition - 1
@@ -162,6 +163,7 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
             val position = abs(i) % itemCount
             val scrapView = recycler.getViewForPosition(position)
             measureChildWithMargins(scrapView, 0, 0)
+            resetViewProperty(scrapView)
             val targetOffset = position * mItemGap - mOffset
             layoutItem(scrapView, targetOffset)
             addView(scrapView, 0)
@@ -184,6 +186,11 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
         val scale = calculateScale(targetOffset + mRemainWidth)
         scrapView.scaleX = scale
         scrapView.scaleY = scale
+    }
+
+    private fun resetViewProperty(v: View) {
+        v.scaleX = 1f
+        v.scaleY = 1f
     }
 
     private fun calculateScale(x: Float): Float {

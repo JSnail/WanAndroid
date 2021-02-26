@@ -41,8 +41,8 @@ class Banner @JvmOverloads constructor(
                 this.adapter = BannerAdapter(context, imageUrls)
             }
             initIndicator(imageUrls.size)
-            val bannerLifeCycle = BannerLifeCycle(this, imageUrls.size )
-            lifecycleOwner.lifecycle.addObserver(bannerLifeCycle)
+//            val bannerLifeCycle = BannerLifeCycle(this, imageUrls.size )
+//            lifecycleOwner.lifecycle.addObserver(bannerLifeCycle)
         }
     }
 
