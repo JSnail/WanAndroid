@@ -1,180 +1,120 @@
-package com.snail.banner.banner.layoutmanager;
+package com.snail.banner.banner.layoutmanager
 
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Scroller;
+import android.view.animation.DecelerateInterpolator
+import android.widget.Scroller
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnFlingListener
+import com.snail.banner.banner.listener.OnBannerPageChangeListener
+import kotlin.math.abs
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.LayoutManager;
+class CenterSnapHelper : OnFlingListener() {
+    private var mRecyclerView: RecyclerView? = null
+    private lateinit var mGravityScroller: Scroller
+    private var snapToCenter = false
 
-/**
- * Class intended to support snapping for a {@link RecyclerView} which use {@link
- * BannerLayoutManager} as its {@link LayoutManager}.
- * <p>
- * The implementation will snap the center of the target child view to the center of the attached
- * {@link RecyclerView}.
- */
-public class CenterSnapHelper extends RecyclerView.OnFlingListener {
-
-  RecyclerView mRecyclerView;
-  Scroller mGravityScroller;
-
-  /**
-   * when the dataSet is extremely large {@link #snapToCenterView(BannerLayoutManager,
-   * BannerLayoutManager.OnPageChangeListener)} may keep calling itself because the accuracy of
-   * float
-   */
-  private boolean snapToCenter = false;
-
-  // Handles the snap on scroll case.
-  private final RecyclerView.OnScrollListener mScrollListener =
-      new RecyclerView.OnScrollListener() {
-
-        boolean mScrolled = false;
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-          super.onScrollStateChanged(recyclerView, newState);
-
-          final BannerLayoutManager layoutManager =
-              (BannerLayoutManager) recyclerView.getLayoutManager();
-          final BannerLayoutManager.OnPageChangeListener onPageChangeListener =
-              layoutManager.onPageChangeListener;
-          if (onPageChangeListener != null) {
-            onPageChangeListener.onPageScrollStateChanged(newState);
-          }
-
-          if (newState == RecyclerView.SCROLL_STATE_IDLE && mScrolled) {
-            mScrolled = false;
-            if (!snapToCenter) {
-              snapToCenter = true;
-              snapToCenterView(layoutManager, onPageChangeListener);
-            } else {
-              snapToCenter = false;
+    private val mScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            var mScrolled = false
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val layoutManager = recyclerView.layoutManager as BannerLayoutManager
+                val onPageChangeListener = layoutManager.onBannerPageChangeListener
+                onPageChangeListener?.onPageScrollStateChanged(newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && mScrolled) {
+                    mScrolled = false
+                    if (!snapToCenter) {
+                        snapToCenter = true
+                        snapToCenterView(layoutManager, onPageChangeListener)
+                    } else {
+                        snapToCenter = false
+                    }
+                }
             }
-          }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dx != 0 || dy != 0) {
+                    mScrolled = true
+                }
+            }
         }
 
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-          if (dx != 0 || dy != 0) {
-            mScrolled = true;
-          }
-        }
-      };
-
-  @Override
-  public boolean onFling(int velocityX, int velocityY) {
-    BannerLayoutManager layoutManager = (BannerLayoutManager) mRecyclerView.getLayoutManager();
-    if (layoutManager == null) {
-      return false;
-    }
-    RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
-    if (adapter == null) {
-      return false;
-    }
-
-    if (!layoutManager.getInfinite() &&
-        (layoutManager.mOffset == layoutManager.getMaxOffset()
-            || layoutManager.mOffset == layoutManager.getMinOffset())) {
-      return false;
-    }
-
-    final int minFlingVelocity = mRecyclerView.getMinFlingVelocity();
-    mGravityScroller.fling(0, 0, velocityX, velocityY,
-        Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
-
-    if (layoutManager.mOrientation == BannerLayoutManager.VERTICAL
-        && Math.abs(velocityY) > minFlingVelocity) {
-      final int currentPosition = layoutManager.getCurrentPosition();
-      final int offsetPosition = (int) (mGravityScroller.getFinalY() /
-          layoutManager.mInterval / layoutManager.getDistanceRatio());
-      mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
-          currentPosition - offsetPosition : currentPosition + offsetPosition);
-      return true;
-    } else if (layoutManager.mOrientation == BannerLayoutManager.HORIZONTAL
-        && Math.abs(velocityX) > minFlingVelocity) {
-      final int currentPosition = layoutManager.getCurrentPosition();
-      final int offsetPosition = (int) (mGravityScroller.getFinalX() /
-          layoutManager.mInterval / layoutManager.getDistanceRatio());
-      mRecyclerView.smoothScrollToPosition(layoutManager.getReverseLayout() ?
-          currentPosition - offsetPosition : currentPosition + offsetPosition);
-      return true;
-    }
-
-    return true;
-  }
-
-  /**
-   * Please attach after {{@link LayoutManager} is setting} Attaches the {@link com.example.CenterSnapHelper} to
-   * the provided RecyclerView, by calling {@link RecyclerView#setOnFlingListener(RecyclerView.OnFlingListener)}.
-   * You can call this method with {@code null} to detach it from the current RecyclerView.
-   *
-   * @param recyclerView The RecyclerView instance to which you want to add this helper or {@code
-   * null} if you want to remove CenterSnapHelper from the current RecyclerView.
-   * @throws IllegalArgumentException if there is already a {@link RecyclerView.OnFlingListener}
-   * attached to the provided {@link RecyclerView}.
-   */
-  public void attachToRecyclerView(@Nullable RecyclerView recyclerView)
-      throws IllegalStateException {
-    if (mRecyclerView == recyclerView) {
-      return; // nothing to do
-    }
-    if (mRecyclerView != null) {
-      destroyCallbacks();
-    }
-    mRecyclerView = recyclerView;
-    if (mRecyclerView != null) {
-      final LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-        if (!(layoutManager instanceof BannerLayoutManager)) {
-            return;
+    override fun onFling(velocityX: Int, velocityY: Int): Boolean {
+        mRecyclerView?.let {
+            val layoutManager = it.layoutManager as BannerLayoutManager
+            it.adapter ?: return false
+            if ((layoutManager.mOffset == layoutManager.getMaxOffset()
+                        || layoutManager.mOffset == layoutManager.getMinOffset())
+            ) {
+                return false
+            }
+            val minFlingVelocity = it.minFlingVelocity
+            mGravityScroller.fling(
+                0,
+                0,
+                velocityX,
+                velocityY,
+                Int.MIN_VALUE,
+                Int.MAX_VALUE,
+                Int.MIN_VALUE,
+                Int.MAX_VALUE
+            )
+            if (abs(velocityX) > minFlingVelocity
+            ) {
+                val currentPosition = layoutManager.getCurrentPosition()
+                val offsetPosition = mGravityScroller.finalX / layoutManager.mItemGap
+                it.smoothScrollToPosition((currentPosition + offsetPosition).toInt())
+                return true
+            }
         }
 
-      setupCallbacks();
-      mGravityScroller = new Scroller(mRecyclerView.getContext(),
-          new DecelerateInterpolator());
-
-      snapToCenterView((BannerLayoutManager) layoutManager,
-          ((BannerLayoutManager) layoutManager).onPageChangeListener);
+        return true
     }
-  }
 
-  void snapToCenterView(BannerLayoutManager layoutManager,
-                        BannerLayoutManager.OnPageChangeListener listener) {
-    final int delta = layoutManager.getOffsetToCenter();
-    if (delta != 0) {
-        if (layoutManager.getOrientation()
-            == BannerLayoutManager.VERTICAL) {
-            mRecyclerView.smoothScrollBy(0, delta);
+    fun attachToRecyclerView(recyclerView: RecyclerView) {
+        if (null != mRecyclerView && mRecyclerView == recyclerView) {
+            return
+        }
+        destroyCallbacks()
+        mRecyclerView = recyclerView
+        val layoutManager = mRecyclerView?.layoutManager as? BannerLayoutManager ?: return
+        setupCallbacks()
+        mGravityScroller = Scroller(
+            mRecyclerView?.context,
+            DecelerateInterpolator()
+        )
+        snapToCenterView(
+            layoutManager,
+            layoutManager.onBannerPageChangeListener
+        )
+    }
+
+    fun snapToCenterView(
+        layoutManager: BannerLayoutManager,
+        listener: OnBannerPageChangeListener?
+    ) {
+        val delta = layoutManager.getOffsetToCenter()
+        if (delta != 0) {
+            mRecyclerView?.smoothScrollBy(delta, 0)
         } else {
-            mRecyclerView.smoothScrollBy(delta, 0);
+            snapToCenter = false
         }
-    } else {
-      // set it false to make smoothScrollToPosition keep trigger the listener
-      snapToCenter = false;
+        listener?.onPageSelected(layoutManager.getCurrentPosition())
     }
 
-      if (listener != null) {
-          listener.onPageSelected(layoutManager.getCurrentPosition());
-      }
-  }
-
-  /**
-   * Called when an instance of a {@link RecyclerView} is attached.
-   */
-  void setupCallbacks() throws IllegalStateException {
-    if (mRecyclerView.getOnFlingListener() != null) {
-      throw new IllegalStateException("An instance of OnFlingListener already set.");
+    /**
+     * Called when an instance of a [RecyclerView] is attached.
+     */
+    private fun setupCallbacks() {
+        check(mRecyclerView?.onFlingListener == null) { "An instance of OnFlingListener already set." }
+        mRecyclerView?.addOnScrollListener(mScrollListener)
+        mRecyclerView?.onFlingListener = this
     }
-    mRecyclerView.addOnScrollListener(mScrollListener);
-    mRecyclerView.setOnFlingListener(this);
-  }
 
-  /**
-   * Called when the instance of a {@link RecyclerView} is detached.
-   */
-  void destroyCallbacks() {
-    mRecyclerView.removeOnScrollListener(mScrollListener);
-    mRecyclerView.setOnFlingListener(null);
-  }
+    /**
+     * Called when the instance of a [RecyclerView] is detached.
+     */
+    private fun destroyCallbacks() {
+        mRecyclerView?.removeOnScrollListener(mScrollListener)
+        mRecyclerView?.onFlingListener = null
+    }
 }
