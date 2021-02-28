@@ -1,5 +1,6 @@
 package com.snail.banner.banner
 
 object BannerConfig {
-    var BANNER_LOOP_TIME = 2000L
+  const  val BANNER_LOOP_TIME = 4000L
+   const val BANNER_IS_AUTO = true
 }

@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.base.project.banner.R
 import com.base.project.banner.databinding.BannerItemLayoutBinding
+import com.snail.banner.banner.listener.OnImageLoadListener
 
 
 /**
@@ -18,6 +20,9 @@ import com.base.project.banner.databinding.BannerItemLayoutBinding
  **/
 class BannerAdapter constructor(private val context: Context, private val data: MutableList<String>) :
     RecyclerView.Adapter<BannerAdapter.HomeViewHolder>() {
+
+     var onImageLoadListener: OnImageLoadListener?=null
+
 
     override fun getItemCount(): Int = data.size
 
@@ -31,22 +36,13 @@ class BannerAdapter constructor(private val context: Context, private val data: 
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-//        holder.image.loadImage(data[position])
-        when(position % 5){
-            0 ->  holder.image.setBackgroundColor(context.resources.getColor(android.R.color.holo_green_light))
-            1 ->  holder.image.setBackgroundColor(context.resources.getColor(android.R.color.holo_orange_light))
-            2 ->  holder.image.setBackgroundColor(context.resources.getColor(android.R.color.holo_blue_bright))
-            3 ->  holder.image.setBackgroundColor(context.resources.getColor(android.R.color.holo_purple))
-            4 ->  holder.image.setBackgroundColor(context.resources.getColor(android.R.color.holo_red_light))
-        }
-        holder.text.text = "Item $position"
+        onImageLoadListener?.onLoadImage(holder.image,data[position])
     }
 
 
     inner class HomeViewHolder(view: BannerItemLayoutBinding) :
         RecyclerView.ViewHolder(view.root) {
-        val image: View = view.root
-        val text: TextView = view.text
+        val image: ImageView = view.image
     }
 
 }

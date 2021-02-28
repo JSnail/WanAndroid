@@ -9,7 +9,7 @@ import com.snail.banner.banner.listener.OnBannerPageChangeListener
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-class BannerLayoutManager : RecyclerView.LayoutManager(),
+open class BannerLayoutManager : RecyclerView.LayoutManager(),
     RecyclerView.SmoothScroller.ScrollVectorProvider {
 
     var mOffset = 0F
@@ -42,8 +42,7 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
     /**
      *缩放比例
      **/
-    private val mScale = 1.2F
-
+    private val mScale = 1.3F
 
     private val mOrientationHelper by lazy {
         OrientationHelper.createOrientationHelper(
@@ -55,17 +54,21 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
     var onBannerPageChangeListener: OnBannerPageChangeListener? = null
 
 
+    init {
+        isItemPrefetchEnabled = false
+    }
+
+    override fun isAutoMeasureEnabled(): Boolean {
+        return true
+    }
+
+
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
         return RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
-
-    override fun canScrollHorizontally(): Boolean {
-        return true
-    }
-
 
     override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
         if (childCount == 0) return null
@@ -77,63 +80,109 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
         return null
     }
 
+    override fun canScrollHorizontally(): Boolean {
+        return true
+    }
+
+
     override fun smoothScrollToPosition(
         recyclerView: RecyclerView,
         state: RecyclerView.State,
         position: Int
     ) {
-        val targetPosition = getOffsetToPosition(position)
-        recyclerView.smoothScrollBy(targetPosition, 0)
+        val offsetPosition = getOffsetToPosition(position)
+        recyclerView.smoothScrollBy(offsetPosition, 0, null)
         if (position == itemCount) {
             mOffset = -mItemGap
         }
     }
 
     private fun getOffsetToPosition(position: Int): Int {
-        return (getCurrentPosition() + (position - getCurrentPosition()) * mItemGap - mOffset).toInt()
+        return ((findCurrentPosition() + (position - getCurrentPosition())) * mItemGap - mOffset).toInt()
     }
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
         if (state.itemCount == 0) {
             removeAndRecycleAllViews(recycler)
-            mOffset = 0F
+            mOffset = 0f
             return
         }
 
-        val scrapView = recycler.getViewForPosition(0)
-        measureChildWithMargins(scrapView, 0, 0)
-        mDecoratedMeasurementWidth = mOrientationHelper.getDecoratedMeasurement(scrapView)
-        mDecoratedMeasurementHeight = mOrientationHelper.getDecoratedMeasurementInOther(scrapView)
+        val scrap = recycler.getViewForPosition(0)
+        measureChildWithMargins(scrap, 0, 0)
+        mDecoratedMeasurementWidth = mOrientationHelper.getDecoratedMeasurement(scrap)
+        mDecoratedMeasurementHeight = mOrientationHelper.getDecoratedMeasurementInOther(scrap)
         mRemainWidth = (mOrientationHelper.totalSpace - mDecoratedMeasurementWidth) / 2
+        mSpaceInVertical = (totalSpaceInOther - mDecoratedMeasurementHeight) / 2
 
-        mSpaceInVertical = (getTotalSpace() - mDecoratedMeasurementHeight) / 2
         initItemGap()
 
-
-        layout(recycler)
+        layoutItems(recycler)
     }
+
 
     override fun scrollHorizontallyBy(
         dx: Int,
         recycler: RecyclerView.Recycler,
-        state: RecyclerView.State?
+        state: RecyclerView.State
     ): Int {
-        if (itemCount <= 1 || dx == 0) {
-            return 0
-        }
-        return scroll(recycler, dx)
+        return scrollBy(dx, recycler)
     }
 
-    private fun scroll(recycler: RecyclerView.Recycler, dx: Int): Int {
-        if (itemCount == 0) {
-            removeAndRecycleAllViews(recycler)
-            mOffset = 0F
+    private fun scrollBy(dy: Int, recycler: RecyclerView.Recycler): Int {
+        if (childCount == 0 || dy == 0) {
             return 0
         }
-        mOffset += dx
-        layout(recycler)
-        recycleViews(recycler, dx)
-        return dx
+        mOffset += dy.toFloat()
+
+        layoutItems(recycler)
+        recycleViews(recycler, dy)
+        return dy
+    }
+
+    private fun layoutItems(recycler: RecyclerView.Recycler) {
+        if (itemCount == 0) return
+
+        detachAndScrapAttachedViews(recycler)
+
+        val currentPos = findCurrentPosition()
+        val start = currentPos - 1
+        val end = currentPos + 2
+
+        for (i in start..end) {
+            var adapterPosition = i
+            if (i >= itemCount) {
+                adapterPosition %= itemCount
+            } else if (i < 0) {
+                var delta = -adapterPosition % itemCount
+                if (delta == 0) delta = itemCount
+                adapterPosition = itemCount - delta
+            }
+
+            val scrap = recycler.getViewForPosition(adapterPosition)
+            measureChildWithMargins(scrap, 0, 0)
+            resetViewProperty(scrap)
+            val targetOffset = i * mItemGap - mOffset
+            layoutScrap(scrap, targetOffset)
+            addView(scrap, 0)
+        }
+    }
+
+    private fun layoutScrap(scrapView: View, targetOffset: Float) {
+        layoutDecorated(
+            scrapView,
+            mRemainWidth + targetOffset.toInt(),
+            mSpaceInVertical,
+            mRemainWidth + mDecoratedMeasurementWidth + targetOffset.toInt(),
+            mSpaceInVertical + mDecoratedMeasurementHeight
+        )
+        scaleView(scrapView, targetOffset)
+    }
+
+    private fun scaleView(itemView: View, targetOffset: Float) {
+        val scale = calculateScale(targetOffset + mRemainWidth)
+        itemView.scaleX = scale
+        itemView.scaleY = scale
     }
 
     private fun recycleViews(recycler: RecyclerView.Recycler, dx: Int) {
@@ -152,63 +201,28 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
         }
     }
 
-    private fun layout(recycler: RecyclerView.Recycler) {
-
-        detachAndScrapAttachedViews(recycler)
-        val currentPosition = findCurrentPosition()
-        val left = currentPosition - 1
-        val right = currentPosition + 1
-
-        for (i in left..right) {
-            val position = abs(i) % itemCount
-            val scrapView = recycler.getViewForPosition(position)
-            measureChildWithMargins(scrapView, 0, 0)
-            resetViewProperty(scrapView)
-            val targetOffset = position * mItemGap - mOffset
-            layoutItem(scrapView, targetOffset)
-            addView(scrapView, 0)
-
-        }
-    }
-
-    private fun layoutItem(scrapView: View, targetOffset: Float) {
-        layoutDecorated(
-            scrapView,
-            mRemainWidth + targetOffset.toInt(),
-            mSpaceInVertical,
-            mRemainWidth + mDecoratedMeasurementWidth,
-            mSpaceInVertical + mDecoratedMeasurementHeight
-        )
-        scaleItem(scrapView, targetOffset)
-    }
-
-    private fun scaleItem(scrapView: View, targetOffset: Float) {
-        val scale = calculateScale(targetOffset + mRemainWidth)
-        scrapView.scaleX = scale
-        scrapView.scaleY = scale
-    }
-
     private fun resetViewProperty(v: View) {
-        v.scaleX = 1f
-        v.scaleY = 1f
+        v.scaleX = 1F
+        v.scaleY = 1F
     }
 
     private fun calculateScale(x: Float): Float {
-        val xOffset = abs(x - (mOrientationHelper.totalSpace - mDecoratedMeasurementWidth) / 2F)
-        val temp =
-            if ((mDecoratedMeasurementWidth - xOffset) > 0) mDecoratedMeasurementWidth - xOffset else 1F
-        return (mScale - 1F) / temp * mDecoratedMeasurementWidth + 1
+        val deltaX = abs(x - (mOrientationHelper.totalSpace - mDecoratedMeasurementWidth) / 2F)
+        val diff =
+            if (mDecoratedMeasurementWidth - deltaX > 0) mDecoratedMeasurementWidth - deltaX else 1F
+        return (mScale - 1f) / mDecoratedMeasurementWidth * diff + 1
     }
 
-
     private fun findCurrentPosition(): Int {
-        if (mItemGap == 0F) return 0
+        if (mItemGap == 0f) return 0
         return (mOffset / mItemGap).roundToInt()
     }
 
-    private fun getTotalSpace(): Int {
-        return height - paddingTop - paddingBottom
-    }
+
+    private val totalSpaceInOther: Int
+        get() = (height - paddingTop
+                - paddingBottom)
+
 
     private fun initItemGap() {
         mItemGap = mDecoratedMeasurementWidth * ((mScale - 1) / 2 + 1) + 30
@@ -234,6 +248,7 @@ class BannerLayoutManager : RecyclerView.LayoutManager(),
     fun getMaxOffset(): Float = (itemCount - 1) * mItemGap
 
     fun getMinOffset(): Float = 0F
+
 
     fun setOnPageChangeListener(onBannerPageChangeListener: OnBannerPageChangeListener) {
         this.onBannerPageChangeListener = onBannerPageChangeListener

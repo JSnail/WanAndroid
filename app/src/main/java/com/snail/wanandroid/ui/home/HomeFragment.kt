@@ -5,6 +5,8 @@ import android.util.Log
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentHomeBinding
+import com.snail.wanandroid.extensions.loadImage
+import com.snail.wanandroid.extensions.loadRoundImage
 import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.ui.login.LoginActivity
 import com.snail.wanandroid.viewmodel.HomeViewModel
@@ -17,10 +19,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun loadData() {
         vB.holder = this
 
-        vB.textHome.onClick {
-            val intent = Intent(requireActivity(), LoginActivity::class.java)
-            startActivity(intent)
-        }
 
         homeViewModel.getHomeAllData()
         val data = mutableListOf(
@@ -30,7 +28,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             "https://scpic.chinaz.net/files/pic/pic9/202101/apic30160.jpg",
             "https://scpic.chinaz.net/files/pic/pic9/202101/apic30547.jpg"
         )
-        vB.homeBanner.startLoop(data, this)
+        vB.homeBanner.BannerBuilder().setData(data)
+            .addLifecycleOwner(this)
+            .isAutoPlaying(true)
+            .setOnImageLoadListener{imageView, url ->
+                imageView.loadRoundImage(url)
+            }
+            .build()
+        vB.textHome.loadRoundImage( "https://scpic.chinaz.net/files/pic/pic9/202101/apic30631.jpg")
     }
 
 
