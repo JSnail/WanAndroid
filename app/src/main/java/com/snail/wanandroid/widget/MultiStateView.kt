@@ -208,54 +208,11 @@ class MultiStateView : FrameLayout {
             false
         } else view !== mLoadingView && view !== mErrorView && view !== mEmptyView && view !== mCustomView
     }
-//
-//    /**
-//     * 根据状态来设置布局
-//     */
-//    fun setViewForState(view: View?, state: ViewState, switchToState: Boolean) {
-//        when (state) {
-//            ViewState.LOADING -> {
-//                if (mLoadingView != null) removeView(mLoadingView)
-//                mLoadingView = view
-//                addView(mLoadingView)
-//            }
-//            ViewState.EMPTY -> {
-//                if (mEmptyView != null) removeView(mEmptyView)
-//                mEmptyView = view
-//                addView(mEmptyView)
-//            }
-//            ViewState.ERROR -> {
-//                if (mErrorView != null) removeView(mErrorView)
-//                mErrorView = view
-//                addView(mErrorView)
-//            }
-//            ViewState.CONTENT -> {
-//                if (mContentView != null) removeView(mContentView)
-//                mContentView = view
-//                addView(mContentView)
-//            }
-//            ViewState.CUSTOM -> {
-//                if (mCustomView != null) removeView(mCustomView)
-//                mCustomView = view
-//                addView(mCustomView)
-//            }
-//        }
-//        if (switchToState) viewState = state
-//    }
-//
-//    fun setViewForState(view: View?, state: ViewState) {
-//        setViewForState(view, state, false)
-//    }
-//
-//    fun setViewForState(@LayoutRes layoutRes: Int, state: ViewState, switchToState: Boolean) {
-//        if (mInflater == null) mInflater = LayoutInflater.from(context)
-//        val view = mInflater.inflate(layoutRes, this, false)
-//        setViewForState(view, state, switchToState)
-//    }
-//
-//    fun setViewForState(@LayoutRes layoutRes: Int, state: ViewState) {
-//        setViewForState(layoutRes, state, false)
-//    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        this.removeAllViews()
+    }
 
     companion object {
         private const val UNKNOWN_VIEW = -1

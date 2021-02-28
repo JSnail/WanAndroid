@@ -1,6 +1,7 @@
 package com.snail.wanandroid.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,12 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.i("TAG","BaseFragment  onDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         vB.unbind()
+        Log.i("TAG","BaseFragment  onDestroy")
     }
 }

@@ -11,8 +11,8 @@ class BannerLifeCycle constructor(
     private val dataSize: Int,
     private val intervalTime: Long
 ) : LifecycleObserver {
+    private var tempPosition = dataSize - 1
     private var mStartLoop = false
-    private var tempPosition = dataSize-1
     private var job: Job? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -26,6 +26,7 @@ class BannerLifeCycle constructor(
     fun pause() {
         Log.i("TAG", "BannerLifeCycle   pause")
         mStartLoop = false
+        job?.cancel()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -36,10 +37,8 @@ class BannerLifeCycle constructor(
     }
 
     private fun startBannerLoop() {
-        if (null == job) {
-            job = CoroutineScope(Dispatchers.IO).launch {
-                countDown()
-            }
+        job = CoroutineScope(Dispatchers.IO).launch {
+            countDown()
         }
     }
 
@@ -55,7 +54,7 @@ class BannerLifeCycle constructor(
     }
 
     private fun calculatePosition(position: Int): Int {
-        return if (position == dataSize-1) {
+        return if (position == dataSize - 1) {
             tempPosition = 0
             tempPosition
         } else {

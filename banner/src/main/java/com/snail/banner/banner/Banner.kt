@@ -18,6 +18,7 @@ import com.snail.banner.banner.layoutmanager.BannerLayoutManager
 import com.snail.banner.banner.listener.BannerLifeCycle
 import com.snail.banner.banner.listener.OnBannerLifeListener
 import com.snail.banner.banner.listener.OnImageLoadListener
+import com.snail.banner.banner.listener.OnItemClickListener
 import com.snail.banner.banner.snap.BannerSnapHelper
 
 class Banner @JvmOverloads constructor(
@@ -62,8 +63,12 @@ class Banner @JvmOverloads constructor(
     }
 
     private fun changeIndicator(position: Int) {
+        var mPosition = position
+        if (position == indicatorViews.size) {
+            mPosition = 0
+        }
         indicatorViews.forEachIndexed { index, view ->
-            view.isSelected = index == position
+            view.isSelected = index == mPosition
         }
     }
 
@@ -74,6 +79,7 @@ class Banner @JvmOverloads constructor(
         private var data = mutableListOf<String>()
         private var lifecycleOwner: LifecycleOwner? = null
         private var onImageLoadListener: OnImageLoadListener? = null
+        private var onItemClickListener: OnItemClickListener? = null
 
 
         fun setData(data: MutableList<String>): BannerBuilder {
@@ -106,6 +112,15 @@ class Banner @JvmOverloads constructor(
             return this
         }
 
+        fun setOnItemClickListener(listener: (ImageView, Int) -> Unit): BannerBuilder {
+            this.onItemClickListener = object : OnItemClickListener {
+                override fun onItemClick(view: ImageView, position: Int) {
+                    listener.invoke(view, position)
+                }
+            }
+            return this
+        }
+
         fun build() {
             if (!isStarted) {
                 isStarted = true
@@ -114,16 +129,16 @@ class Banner @JvmOverloads constructor(
                     BannerSnapHelper().attachToRecyclerView(this)
                     val adapter = BannerAdapter(context, data)
                     adapter.onImageLoadListener = onImageLoadListener
+                    adapter.onItemClickListener = onItemClickListener
                     this.adapter = adapter
                 }
                 initIndicator(data.size)
-
-                bannerLifeCycle = BannerLifeCycle(this@Banner, data.size, intervalTime)
 
                 if (isAutoPlaying) {
                     if (null == lifecycleOwner) {
                         throw NullPointerException("lifecycleOwner  can not be null ")
                     }
+                    bannerLifeCycle = BannerLifeCycle(this@Banner, data.size, intervalTime)
                     lifecycleOwner?.lifecycle?.addObserver(bannerLifeCycle!!)
                 }
 
@@ -134,6 +149,8 @@ class Banner @JvmOverloads constructor(
                         if (newState == RecyclerView.SCROLL_STATE_IDLE && isTouch) {
                             isTouch = false
                             bannerLifeCycle?.onResume()
+                            val position = (recyclerView.layoutManager as BannerLayoutManager).getCurrentPosition()
+                            changeIndicator(position)
                         }
                     }
                 })

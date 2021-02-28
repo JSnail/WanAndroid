@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.base.project.banner.R
 import com.base.project.banner.databinding.BannerItemLayoutBinding
 import com.snail.banner.banner.listener.OnImageLoadListener
+import com.snail.banner.banner.listener.OnItemClickListener
 
 
 /**
@@ -22,6 +23,7 @@ class BannerAdapter constructor(private val context: Context, private val data: 
     RecyclerView.Adapter<BannerAdapter.HomeViewHolder>() {
 
      var onImageLoadListener: OnImageLoadListener?=null
+    var onItemClickListener : OnItemClickListener? = null
 
 
     override fun getItemCount(): Int = data.size
@@ -37,6 +39,7 @@ class BannerAdapter constructor(private val context: Context, private val data: 
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         onImageLoadListener?.onLoadImage(holder.image,data[position])
+        holder.image.setOnClickListener { onItemClickListener?.onItemClick(holder.image,position) }
     }
 
 

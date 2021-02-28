@@ -2,7 +2,6 @@ package com.snail.wanandroid.extensions
 
 import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.snail.wanandroid.glide.GlideApp
@@ -14,7 +13,7 @@ import com.snail.wanandroid.glide.GlideApp
  * @Description
  **/
 
-fun ImageView.loadImage(url:Any){
+fun ImageView.loadImage(url: Any) {
     GlideApp.with(this.context)
         .asBitmap()
         .load(url)
@@ -22,10 +21,19 @@ fun ImageView.loadImage(url:Any){
 
 }
 
-fun ImageView.loadRoundImage(url:Any){
+fun ImageView.loadRoundImage(url: Any) {
     GlideApp.with(context)
         .load(url)
         .apply(RequestOptions.bitmapTransform(RoundedCorners(100)))
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .into(this)
+}
+
+
+fun ImageView.loadCircleImage(url: Any) {
+    GlideApp.with(context)
+        .load(url)
+        .apply(RequestOptions.circleCropTransform())
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(this)
 }

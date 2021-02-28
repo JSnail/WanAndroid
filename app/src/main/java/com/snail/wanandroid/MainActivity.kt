@@ -18,5 +18,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         findViewById<BottomNavigationView>(R.id.navView)
             .setupWithNavController(navController)
+        lifecycle
     }
 }

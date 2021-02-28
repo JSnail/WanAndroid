@@ -2,9 +2,13 @@ package com.snail.wanandroid.ui.home
 
 import android.content.Intent
 import android.util.Log
+import android.widget.ImageView
+import com.google.android.material.snackbar.Snackbar
+import com.snail.banner.banner.listener.OnItemClickListener
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentHomeBinding
+import com.snail.wanandroid.extensions.loadCircleImage
 import com.snail.wanandroid.extensions.loadImage
 import com.snail.wanandroid.extensions.loadRoundImage
 import com.snail.wanandroid.extensions.onClick
@@ -32,10 +36,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             .addLifecycleOwner(this)
             .isAutoPlaying(true)
             .setOnImageLoadListener{imageView, url ->
-                imageView.loadRoundImage(url)
+                imageView.loadImage(url)
+            }
+            .setOnItemClickListener { _, position->
+                Snackbar.make( vB.homeBanner,"position $position",Snackbar.LENGTH_SHORT).show()
             }
             .build()
-        vB.textHome.loadRoundImage( "https://scpic.chinaz.net/files/pic/pic9/202101/apic30631.jpg")
+        vB.textHome.loadCircleImage( "https://scpic.chinaz.net/files/pic/pic9/202101/apic30631.jpg")
     }
 
 
