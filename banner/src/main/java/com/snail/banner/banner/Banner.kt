@@ -15,10 +15,7 @@ import com.base.project.banner.R
 import com.base.project.banner.databinding.BannerLayoutBinding
 import com.snail.banner.banner.adapter.BannerAdapter
 import com.snail.banner.banner.layoutmanager.BannerLayoutManager
-import com.snail.banner.banner.listener.BannerLifeCycle
-import com.snail.banner.banner.listener.OnBannerLifeListener
-import com.snail.banner.banner.listener.OnImageLoadListener
-import com.snail.banner.banner.listener.OnItemClickListener
+import com.snail.banner.banner.listener.*
 import com.snail.banner.banner.snap.BannerSnapHelper
 
 class Banner @JvmOverloads constructor(
@@ -26,11 +23,13 @@ class Banner @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), OnBannerLifeListener {
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), OnBannerLifeListener,
+    OnFragmentChangeListener {
 
     private var isStarted = false
     private var currentPosition = -1
     private var isTouch = false
+    private var isMoved = false
     private val indicatorViews = mutableListOf<View>()
     private var bannerLifeCycle: BannerLifeCycle? = null
 
@@ -58,7 +57,7 @@ class Banner @JvmOverloads constructor(
     override fun onNext(position: Int) {
         this.currentPosition = position + 1
         viewBinding.bannerRecycler.smoothScrollToPosition(currentPosition)
-        Log.i("TAG", "onNext  position  == $position")
+        Log.i("TAG", "onNext  currentPosition  == $currentPosition")
         changeIndicator(currentPosition)
     }
 
@@ -140,6 +139,7 @@ class Banner @JvmOverloads constructor(
                     }
                     bannerLifeCycle = BannerLifeCycle(this@Banner, data.size, intervalTime)
                     lifecycleOwner?.lifecycle?.addObserver(bannerLifeCycle!!)
+
                 }
 
                 viewBinding.bannerRecycler.addOnScrollListener(object :
@@ -148,9 +148,12 @@ class Banner @JvmOverloads constructor(
                         super.onScrollStateChanged(recyclerView, newState)
                         if (newState == RecyclerView.SCROLL_STATE_IDLE && isTouch) {
                             isTouch = false
-                            bannerLifeCycle?.onResume()
-                            val position = (recyclerView.layoutManager as BannerLayoutManager).getCurrentPosition()
+                            val position =
+                                (recyclerView.layoutManager as BannerLayoutManager).getCurrentPosition()
+                            Log.i("TAG", "current position == $position")
                             changeIndicator(position)
+                            bannerLifeCycle?.tempPosition = position-1
+                            bannerLifeCycle?.onResume()
                         }
                     }
                 })
@@ -164,9 +167,28 @@ class Banner @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
                 bannerLifeCycle?.pause()
                 isTouch = true
+                isMoved = false
+            }
+            MotionEvent.ACTION_MOVE -> {
+                isMoved = true
+            }
+            MotionEvent.ACTION_UP -> {
+                if (!isMoved) {
+                    bannerLifeCycle?.onResume()
+                    isMoved = false
+                }
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onHiddenChanged(onHidden: Boolean) {
+        if (onHidden && bannerLifeCycle?.mStartLoop == true) {
+            bannerLifeCycle?.pause()
+
+        } else if (!onHidden) {
+            bannerLifeCycle?.onResume()
+        }
     }
 
 }

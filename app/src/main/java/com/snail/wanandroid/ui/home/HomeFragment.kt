@@ -46,4 +46,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             Log.d("TAG", "请求成功 == ")
         })
     }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        vB.homeBanner.onHiddenChanged(hidden)
+    }
+
 }

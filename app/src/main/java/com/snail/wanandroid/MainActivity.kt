@@ -1,8 +1,11 @@
 package com.snail.wanandroid
 
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.snail.wanandroid.base.BaseActivity
 import com.snail.wanandroid.databinding.ActivityMainBinding
+import com.snail.wanandroid.listener.OnScrollToTopListener
 import com.snail.wanandroid.ui.home.HomeFragment
 import com.snail.wanandroid.ui.home.NavigationFragment
 import com.snail.wanandroid.ui.home.ProjectFragment
@@ -11,6 +14,7 @@ import com.snail.wanandroid.ui.home.SystemFragment
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var fragments: Map<Int, Fragment>
+    private var currentFragment: Fragment?=null
 
     override fun loadData() {
         fragments = mapOf(
@@ -19,6 +23,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             R.id.main_navigation to createFragment(NavigationFragment::class.java),
             R.id.main_project to createFragment(ProjectFragment::class.java)
         )
+
+        vB.navView.apply {
+            setOnNavigationItemSelectedListener {
+                showFragment(it.itemId)
+                return@setOnNavigationItemSelectedListener true
+            }
+
+            setOnNavigationItemReselectedListener {
+                currentFragment?.let { fragment ->
+                    if (fragment is OnScrollToTopListener) fragment.onScrollToTop()
+                }
+            }
+        }
+        showFragment(R.id.main_home)
     }
 
     private fun createFragment(clazz: Class<out Fragment>): Fragment {
@@ -33,5 +51,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
         return fragment
+    }
+
+    private fun showFragment(@IdRes id:Int){
+        currentFragment = supportFragmentManager.fragments.find { it.isVisible }
+        val targetFragment  =  fragments.entries.find { it.key == id }?.value
+        supportFragmentManager.beginTransaction()
+            .apply {
+                currentFragment?.let {
+                    if (it.isVisible) {
+                        this.hide(it)
+                    }
+                }
+                targetFragment?.let {
+                    if (it.isAdded) this.show(it) else this.add(R.id.fragmentContainer,it)
+                }
+            }.commit()
     }
 }

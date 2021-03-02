@@ -11,8 +11,10 @@ class BannerLifeCycle constructor(
     private val dataSize: Int,
     private val intervalTime: Long
 ) : LifecycleObserver {
-    private var tempPosition = dataSize - 1
-    private var mStartLoop = false
+    @Volatile
+     var tempPosition = dataSize - 1
+    @Volatile
+     var mStartLoop = false
     private var job: Job? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
