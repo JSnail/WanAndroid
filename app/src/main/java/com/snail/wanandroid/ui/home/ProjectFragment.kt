@@ -1,10 +1,10 @@
-package com.snail.wanandroid.ui.dashboard
+package com.snail.wanandroid.ui.home
 
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
-import com.snail.wanandroid.databinding.FragmentDashboardBinding
+import com.snail.wanandroid.databinding.FragmentProjectBinding
 
-class DashboardFragment : BaseFragment<FragmentDashboardBinding>(R.layout.fragment_dashboard) {
+class ProjectFragment : BaseFragment<FragmentProjectBinding>(R.layout.fragment_project) {
     override fun loadData() {
         vB.textDashboard.setOnClickListener {
             dialogViewLiveData.value = false
