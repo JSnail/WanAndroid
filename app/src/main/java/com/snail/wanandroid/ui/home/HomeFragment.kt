@@ -16,6 +16,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun loadData() {
         vB.holder = this
+        vB.viewModel = homeViewModel
 
 
         homeViewModel.getHomeAllData()
