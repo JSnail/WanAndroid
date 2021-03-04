@@ -1,3 +1,4 @@
+include ':AllRefresh'
 include ':banner'
 include ':app'
 rootProject.name = "WanAndroid"

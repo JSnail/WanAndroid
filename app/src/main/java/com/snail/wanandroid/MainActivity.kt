@@ -1,8 +1,9 @@
 package com.snail.wanandroid
 
 import androidx.annotation.IdRes
-import androidx.annotation.StringRes
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
+import androidx.navigation.ui.AppBarConfiguration
 import com.snail.wanandroid.base.BaseActivity
 import com.snail.wanandroid.databinding.ActivityMainBinding
 import com.snail.wanandroid.listener.OnScrollToTopListener
@@ -14,7 +15,7 @@ import com.snail.wanandroid.ui.home.SystemFragment
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var fragments: Map<Int, Fragment>
-    private var currentFragment: Fragment?=null
+    private var currentFragment: Fragment? = null
 
     override fun loadData() {
         fragments = mapOf(
@@ -37,6 +38,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
         showFragment(R.id.main_home)
+        vB.mainToolbar.apply {
+            this.title = "aaaa"
+            setSupportActionBar(this)
+        }
+        ActionBarDrawerToggle(
+            this,
+            vB.mainDrawerLayout,
+            vB.mainToolbar,
+            R.string.app_name,
+            R.string.title_home
+        )
+            .apply {
+                vB.mainDrawerLayout.addDrawerListener(this)
+                this.syncState()
+            }
+        AppBarConfiguration(setOf(
+            R.id.nav_home, R.id.nav_gallery), vB.mainDrawerLayout)
     }
 
     private fun createFragment(clazz: Class<out Fragment>): Fragment {
@@ -53,9 +71,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         return fragment
     }
 
-    private fun showFragment(@IdRes id:Int){
+    private fun showFragment(@IdRes id: Int) {
         currentFragment = supportFragmentManager.fragments.find { it.isVisible }
-        val targetFragment  =  fragments.entries.find { it.key == id }?.value
+        val targetFragment = fragments.entries.find { it.key == id }?.value
         supportFragmentManager.beginTransaction()
             .apply {
                 currentFragment?.let {
@@ -64,7 +82,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     }
                 }
                 targetFragment?.let {
-                    if (it.isAdded) this.show(it) else this.add(R.id.fragmentContainer,it)
+                    if (it.isAdded) this.show(it) else this.add(R.id.fragmentContainer, it)
                 }
             }.commit()
     }
