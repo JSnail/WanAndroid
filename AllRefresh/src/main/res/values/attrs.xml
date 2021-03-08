@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CanRefreshLayout">
-        <attr name="can_enabled_up" format="boolean" />
-        <attr name="can_enabled_down" format="boolean" />
+    <declare-styleable name="RefreshLayout">
+        <attr name="isCanLoadMore" format="boolean" />
+        <attr name="isCanRefresh" format="boolean" />
 
-        <attr name="can_style_up" format="enum">
-            <enum name="classic" value="0" />
-            <enum name="upper" value="1" />
-            <enum name="lower" value="2" />
-            <enum name="mid" value="3" />
+        <attr name="headStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="inContentUp" value="1" />
         </attr>
 
-        <attr name="can_style_down" format="enum">
-            <enum name="classic" value="0" />
-            <enum name="upper" value="1" />
-            <enum name="lower" value="2" />
-            <enum name="mid" value="3" />
+        <attr name="footerStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="inContentUp" value="1" />
         </attr>
-        <attr name="can_friction" format="float" />
-        <attr name="can_duration" format="integer" />
 
-        <attr name="can_smooth_length" format="integer" />
-        <attr name="can_smooth_duration" format="integer" />
-        <attr name="can_bg_up" format="reference" />
-        <attr name="can_bg_down" format="reference" />
-        <attr name="can_is_coo" format="boolean" />
+        <attr name="friction" format="float" />
+        <attr name="duration" format="integer" />
+
+        <attr name="smoothLength" format="integer" />
+        <attr name="smoothDuration" format="integer" />
+        <attr name="backgroundRefresh" format="reference" />
+        <attr name="backgroundLoadMore" format="reference" />
+        <attr name="isCoo" format="boolean" />
 
     </declare-styleable>
 </resources>
