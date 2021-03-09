@@ -3,20 +3,17 @@ package com.snail.allrefresh.view.normal
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
 import android.widget.FrameLayout
 import com.snail.allrefresh.R
 import com.snail.allrefresh.RefreshInterface
 import com.snail.allrefresh.databinding.LayoutRotateBinding
 
 class RotateRefreshView @JvmOverloads constructor(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(
-    context!!, attrs, defStyleAttr
+    context, attrs, defStyleAttr
 ), RefreshInterface {
 
     override fun onPrepare() {}
@@ -26,10 +23,8 @@ class RotateRefreshView @JvmOverloads constructor(
     override fun onPositionChange(currentPercent: Float) {}
     override fun setIsHeaderOrFooter(isHeader: Boolean) {}
     override fun onReset() {
-        resetImageRotation()
     }
 
-    private fun resetImageRotation() {}
 
     init {
         LayoutRotateBinding.bind(LayoutInflater.from(context).inflate(R.layout.layout_rotate, this,true))

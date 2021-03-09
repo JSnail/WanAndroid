@@ -30,12 +30,12 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
             val result = mutableListOf<BaseHomeAllEntity>()
             val bannerEntities = HomeBannerEntity(banner.await().recordset)
             result.add(bannerEntities)
-
-            val articleTopEntities = HomeArticleTopEntity( topArticle.await().recordset)
-            result.add(articleTopEntities)
-            homeArticleList.await().recordset?.datas?.forEach {
-                result.add(it)
-            }
+//
+//            val articleTopEntities = HomeArticleTopEntity( topArticle.await().recordset)
+//            result.add(articleTopEntities)
+//            homeArticleList.await().recordset?.datas?.forEach {
+//                result.add(it)
+//            }
             multiStateView.set(MultiStateView.ViewState.CONTENT)
             allData.value = result
         }

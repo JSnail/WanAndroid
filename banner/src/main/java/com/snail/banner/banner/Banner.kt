@@ -57,7 +57,6 @@ class Banner @JvmOverloads constructor(
     override fun onNext(position: Int) {
         this.currentPosition = position + 1
         viewBinding.bannerRecycler.smoothScrollToPosition(currentPosition)
-        Log.i("TAG", "onNext  currentPosition  == $currentPosition")
         changeIndicator(currentPosition)
     }
 

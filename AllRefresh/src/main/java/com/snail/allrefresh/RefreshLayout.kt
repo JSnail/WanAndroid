@@ -2,6 +2,7 @@ package com.snail.allrefresh
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
@@ -271,11 +272,11 @@ class RefreshLayout @JvmOverloads constructor(
 //            bringChildToFront(mContentView)
 //        }
 
-        if (mHeadStyle == Style.IN_ABOVE) {
+        if (mHeadStyle != Style.IN_LOWER) {
             bringChildToFront(mHeaderView)
         }
 
-        if (mFooterStyle == Style.IN_ABOVE) {
+        if (mFooterStyle != Style.IN_LOWER) {
             bringChildToFront(mFooterView)
         }
 
@@ -296,6 +297,9 @@ class RefreshLayout @JvmOverloads constructor(
             if (!isSetFooterHeight) {
                 mFooterHeight = params.bottomMargin + params.topMargin + it.measuredHeight
             }
+        }
+        mContentView?.let {
+            measureChildWithMargins(it, widthMeasureSpec, 0, heightMeasureSpec, 0)
         }
     }
 
@@ -520,7 +524,7 @@ class RefreshLayout @JvmOverloads constructor(
     }
 
     private fun finish(isHead: Boolean) {
-        performClick()
+//        performClick()
         if (isHead) {
             //当滑动的距离大于等于头部高度的时候触发刷新操作
             if (abs(scrollSum) >= mHeaderHeight) {
@@ -539,7 +543,6 @@ class RefreshLayout @JvmOverloads constructor(
             }
         } else {
             if (abs(scrollSum) >= mFooterHeight) {
-                getFooterInterface().onRelease()
                 smoothMove(
                     isHead = false,
                     isMove = false,
@@ -547,6 +550,8 @@ class RefreshLayout @JvmOverloads constructor(
                         ?: 0 + mFooterHeight - measuredHeight) else mFooterHeight,
                     moveY = mFooterHeight
                 )
+                getFooterInterface().onRelease()
+
                 loadMore()
             } else {
                 getFooterInterface().onReleaseNoEnough(abs(scrollSum) / mFooterHeight.toFloat())
@@ -554,7 +559,7 @@ class RefreshLayout @JvmOverloads constructor(
                     isHead = false,
                     isMove = false,
                     moveScrollY = if (mFooterStyle == Style.NORMAL) (mContentView?.measuredHeight
-                        ?: 0 + mFooterHeight) else 0, moveY = 0
+                        ?: 0 -measuredHeight) else 0, moveY = 0
                 )
                 onStartDownListener?.onReset()
             }
