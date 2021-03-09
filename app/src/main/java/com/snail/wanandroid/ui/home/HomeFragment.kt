@@ -41,6 +41,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.startObserver()
         homeViewModel.allData.observe(this, {
             homeAdapter.setData(it)
+            vB.homeRefreshLayout.refreshComplete()
+            vB.homeRefreshLayout.lordMoreComplete()
         })
     }
 

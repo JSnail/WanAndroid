@@ -428,7 +428,6 @@ class RefreshLayout @JvmOverloads constructor(
 
                             }
                         }
-                        MotionEvent.ACTION_UP -> super.performClick()
                     }
                     return true
                 }
@@ -703,7 +702,7 @@ class RefreshLayout @JvmOverloads constructor(
             return
         }
         postDelayed({
-            calculateOffset(
+            smoothMove(
                 true,
                 isMove = false,
                 moveScrollY = if (mHeadStyle == Style.NORMAL) 0 else mHeaderHeight,
@@ -711,7 +710,7 @@ class RefreshLayout @JvmOverloads constructor(
             )
             getHeaderInterface().run {
                 this.onComplete()
-                this.onRelease()
+                this.onReset()
             }
             isHeaderRefreshing = false
             onStartUpListener?.onReset()
@@ -723,7 +722,7 @@ class RefreshLayout @JvmOverloads constructor(
             return
         }
         postDelayed({
-            calculateOffset(
+            smoothMove(
                 isHead = false,
                 isMove = false,
                 moveScrollY = if (mFooterStyle == Style.NORMAL) mContentView?.measuredHeight
@@ -732,7 +731,7 @@ class RefreshLayout @JvmOverloads constructor(
             )
             getFooterInterface().run {
                 this.onComplete()
-                this.onRelease()
+                this.onReset()
             }
             isFooterLoading = false
             onStartDownListener?.onReset()
@@ -743,7 +742,7 @@ class RefreshLayout @JvmOverloads constructor(
         mHeaderView?.let {
             postDelayed({
                 setBackgroundResource(true)
-                calculateOffset(
+                smoothMove(
                     isHead = true,
                     isMove = false,
                     moveScrollY = -mHeaderHeight,
@@ -809,18 +808,18 @@ class RefreshLayout @JvmOverloads constructor(
             }
         }
         return if (isDown) {
-            canScrollDown(mContentView)
-        } else {
             canScrollUp(mContentView)
+        } else {
+            canScrollDown(mContentView)
         }
     }
 
     private fun canScrollDown(view: View?): Boolean {
-        return view?.canScrollVertically(1) ?: false
+        return view!!.canScrollVertically(1)
     }
 
     private fun canScrollUp(view: View?): Boolean {
-        return view?.canScrollVertically(-1) ?: false
+        return view!!.canScrollVertically(-1)
     }
 
     /**

@@ -9,6 +9,7 @@ import android.view.animation.RotateAnimation
 import android.widget.FrameLayout
 import com.snail.allrefresh.R
 import com.snail.allrefresh.RefreshInterface
+import com.snail.allrefresh.databinding.LayoutRotateBinding
 
 class RotateRefreshView @JvmOverloads constructor(
     context: Context?,
@@ -31,7 +32,6 @@ class RotateRefreshView @JvmOverloads constructor(
     private fun resetImageRotation() {}
 
     init {
-        val v = LayoutInflater.from(context).inflate(R.layout.layout_rotate, null)
-        addView(v)
+        LayoutRotateBinding.bind(LayoutInflater.from(context).inflate(R.layout.layout_rotate, this,true))
     }
 }
