@@ -96,11 +96,6 @@ class RefreshLayout @JvmOverloads constructor(
     private var isHeaderRefreshing = false
     private var isFooterLoading = false
 
-
-    private val mMidContentPara = 2.0f
-    private val mMidHeaderPara = 2.0f
-
-
     //    摩擦系数
     private var mFriction = DEFAULT_FRICTION
 
@@ -209,16 +204,16 @@ class RefreshLayout @JvmOverloads constructor(
     }
 
     override fun onFinishInflate() {
-        super.onFinishInflate()
         if (childCount > 0) {
-            mHeaderView = findViewById(R.id.header_view)
-            mContentView = findViewById(R.id.content_view)
-            mScrollView = findViewById(R.id.scroll_view)
-            mFooterView = findViewById(R.id.footer_view)
+            mHeaderView = findViewById(R.id.headerView)
+            mContentView = findViewById(R.id.contentView)
+            mScrollView = findViewById(R.id.scrollView)
+            mFooterView = findViewById(R.id.footerView)
             checkView()
         } else {
             throw NullPointerException("Refresh don‘t have any view")
         }
+        super.onFinishInflate()
     }
 
     private fun checkView() {
@@ -253,13 +248,13 @@ class RefreshLayout @JvmOverloads constructor(
         }
 
         mHeaderView?.let {
-            if (mHeaderView !is RefreshLayout) {
+            if (mHeaderView !is RefreshInterface) {
                 throw IllegalArgumentException("mHeaderView error")
             }
             getHeaderInterface().setIsHeaderOrFooter(true)
         }
         mFooterView?.let {
-            if (mFooterView !is RefreshLayout) {
+            if (mFooterView !is RefreshInterface) {
                 throw IllegalArgumentException("mFooterView error")
             }
             getFooterInterface().setIsHeaderOrFooter(false)
@@ -272,9 +267,9 @@ class RefreshLayout @JvmOverloads constructor(
         this.mHeadStyle = mHeadStyle
         this.mFooterStyle = mFooterStyle
 
-        if (mHeadStyle == Style.NORMAL || mFooterStyle == Style.NORMAL) {
-            bringChildToFront(mContentView)
-        }
+//        if (mHeadStyle == Style.NORMAL || mFooterStyle == Style.NORMAL) {
+//            bringChildToFront(mContentView)
+//        }
 
         if (mHeadStyle == Style.IN_ABOVE) {
             bringChildToFront(mHeaderView)
@@ -361,6 +356,40 @@ class RefreshLayout @JvmOverloads constructor(
         return mFooterView as RefreshInterface
     }
 
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.action) {
+            MotionEvent.ACTION_DOWN -> {
+                directionX = ev.x
+                directionY = ev.y
+            }
+            MotionEvent.ACTION_MOVE -> {
+                if (directionY > 0 && directionX > 0) {
+                    val eventX = ev.x
+                    val eventY = ev.y
+
+                    val offsetX = eventX - directionX
+                    val offsetY = eventY - directionY
+
+                    directionX = eventX
+                    directionY = eventY
+
+                    val moved = abs(offsetY) > abs(offsetX)
+                    isUpOrDown = if (offsetY > 0 && moved && canRefresh()) {
+                        NO_SCROLL_REFRESH
+                    } else if (offsetY < 0 && moved && canLoadMore()) {
+                        NO_SCROLL_LOAD_MORE
+                    } else {
+                        NO_SCROLL
+                    }
+                    if (isUpOrDown == NO_SCROLL_LOAD_MORE || isUpOrDown == NO_SCROLL_REFRESH) {
+                        return true
+                    }
+                }
+            }
+        }
+        return super.onInterceptTouchEvent(ev)
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         //不可滑动的view
         if (!contentCanScroll(true) || !contentCanScroll(false)) {
@@ -399,6 +428,7 @@ class RefreshLayout @JvmOverloads constructor(
 
                             }
                         }
+                        MotionEvent.ACTION_UP -> super.performClick()
                     }
                     return true
                 }
@@ -673,7 +703,8 @@ class RefreshLayout @JvmOverloads constructor(
             return
         }
         postDelayed({
-            calculateOffset(true,
+            calculateOffset(
+                true,
                 isMove = false,
                 moveScrollY = if (mHeadStyle == Style.NORMAL) 0 else mHeaderHeight,
                 moveY = 0
@@ -812,5 +843,23 @@ class RefreshLayout @JvmOverloads constructor(
         return !isFooterLoading && mLoadMoreEnabled && mFooterView != null && !contentCanScroll(
             false
         )
+    }
+
+    fun addOnLoadMoreListener(listener: () -> Unit): RefreshLayout {
+        this.mOnLoadMoreListener = object : OnLoadMoreListener {
+            override fun onLoadMore() {
+                listener.invoke()
+            }
+        }
+        return this
+    }
+
+    fun addOnRefreshListener(listener: () -> Unit): RefreshLayout {
+        this.mOnRefreshListener = object : OnRefreshListener {
+            override fun onRefresh() {
+                listener.invoke()
+            }
+        }
+        return this
     }
 }

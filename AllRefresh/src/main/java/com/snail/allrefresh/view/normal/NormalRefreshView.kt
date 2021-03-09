@@ -17,7 +17,7 @@ class NormalRefreshView @JvmOverloads constructor(
 ) : FrameLayout(
     context, attrs, defStyleAttr
 ), RefreshInterface {
-    private var viewBinding: LayoutNormalRefreshBinding = LayoutNormalRefreshBinding.inflate(LayoutInflater.from(context))
+    private var viewBinding: LayoutNormalRefreshBinding = LayoutNormalRefreshBinding.bind(LayoutInflater.from(context).inflate(R.layout.layout_normal_refresh,this,true))
     private val rotateUp: Animation = AnimationUtils.loadAnimation(context, R.anim.rotate_up)
     private val rotateDown: Animation = AnimationUtils.loadAnimation(context, R.anim.rotate_down)
     private var rotated = false

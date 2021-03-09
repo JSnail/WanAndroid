@@ -34,8 +34,4 @@ data class ArticleTopEntity(
     val userId: Int,
     val visible: Int,
     val zan: Int
-):BaseHomeAllEntity(){
-    init {
-        itemType = topArticle
-    }
-}
+)

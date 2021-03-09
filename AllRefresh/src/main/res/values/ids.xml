@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="content_view" type="id"/>
-    <item name="header_view" type="id"/>
-    <item name="footer_view" type="id"/>
-    <item name="scroll_view" type="id"/>
+    <item name="contentView" type="id"/>
+    <item name="headerView" type="id"/>
+    <item name="footerView" type="id"/>
+    <item name="scrollView" type="id"/>
 </resources>

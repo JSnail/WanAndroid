@@ -12,8 +12,4 @@ data class BannerEntity(
     val title: String,
     val type: Int,
     val url: String
-) : BaseHomeAllEntity() {
-    init {
-        itemType = banner
-    }
-}
+)
