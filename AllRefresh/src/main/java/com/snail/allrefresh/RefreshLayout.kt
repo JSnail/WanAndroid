@@ -458,7 +458,6 @@ class RefreshLayout @JvmOverloads constructor(
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 finish(isHead)
-                return true
             }
         }
         return super.onTouchEvent(e)
@@ -528,13 +527,14 @@ class RefreshLayout @JvmOverloads constructor(
         if (isHead) {
             //当滑动的距离大于等于头部高度的时候触发刷新操作
             if (abs(scrollSum) >= mHeaderHeight) {
-                getHeaderInterface().onRelease()
                 smoothMove(
                     isHead = true,
                     isMove = false,
                     moveScrollY = if (mHeadStyle == Style.NORMAL) -mHeaderHeight else mHeaderHeight,
                     moveY = mHeaderHeight
                 )
+                getHeaderInterface().onRelease()
+
                 refresh()
             } else {
                 getHeaderInterface().onReleaseNoEnough(abs(scrollSum) / mHeaderHeight.toFloat())
@@ -546,8 +546,7 @@ class RefreshLayout @JvmOverloads constructor(
                 smoothMove(
                     isHead = false,
                     isMove = false,
-                    moveScrollY = if (mFooterStyle == Style.NORMAL) (mContentView?.measuredHeight
-                        ?: 0 + mFooterHeight - measuredHeight) else mFooterHeight,
+                    moveScrollY = if (mFooterStyle == Style.NORMAL) (mContentView?.measuredHeight ?: 0) + mFooterHeight - measuredHeight else mFooterHeight,
                     moveY = mFooterHeight
                 )
                 getFooterInterface().onRelease()
@@ -558,8 +557,7 @@ class RefreshLayout @JvmOverloads constructor(
                 smoothMove(
                     isHead = false,
                     isMove = false,
-                    moveScrollY = if (mFooterStyle == Style.NORMAL) (mContentView?.measuredHeight
-                        ?: 0 -measuredHeight) else 0, moveY = 0
+                    moveScrollY = if (mFooterStyle == Style.NORMAL) (mContentView?.measuredHeight ?: 0) -measuredHeight else 0, moveY = 0
                 )
                 onStartDownListener?.onReset()
             }
@@ -730,8 +728,7 @@ class RefreshLayout @JvmOverloads constructor(
             smoothMove(
                 isHead = false,
                 isMove = false,
-                moveScrollY = if (mFooterStyle == Style.NORMAL) mContentView?.measuredHeight
-                    ?: 0 - measuredHeight else mFooterHeight,
+                moveScrollY = if (mFooterStyle == Style.NORMAL) (mContentView?.measuredHeight ?: 0) - measuredHeight else mFooterHeight,
                 moveY = 0
             )
             getFooterInterface().run {

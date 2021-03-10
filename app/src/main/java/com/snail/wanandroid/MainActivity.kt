@@ -46,8 +46,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             this,
             vB.mainDrawerLayout,
             vB.mainToolbar,
-            R.string.app_name,
-            R.string.title_home
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
             .apply {
                 vB.mainDrawerLayout.addDrawerListener(this)

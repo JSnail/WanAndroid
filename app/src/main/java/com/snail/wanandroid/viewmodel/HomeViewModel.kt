@@ -4,7 +4,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.snail.wanandroid.base.BaseViewModel
 import com.snail.wanandroid.entity.BaseHomeAllEntity
-import com.snail.wanandroid.entity.HomeArticleTopEntity
 import com.snail.wanandroid.entity.HomeBannerEntity
 import com.snail.wanandroid.repository.HomeRepository
 import com.snail.wanandroid.widget.MultiStateView
@@ -15,7 +14,7 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
     private var page = 0
     val allData = MutableLiveData<MutableList<BaseHomeAllEntity>>()
 
-    //    val articleListData = MutableLiveData<MutableList<ArticleListBean>>()
+    val articleListData = MutableLiveData<MutableList<BaseHomeAllEntity>>()
     val multiStateView = ObservableField<MultiStateView.ViewState>().apply {
         this.set(MultiStateView.ViewState.LOADING)
     }
@@ -30,12 +29,13 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
             val result = mutableListOf<BaseHomeAllEntity>()
             val bannerEntities = HomeBannerEntity(banner.await().recordset)
             result.add(bannerEntities)
-//
-//            val articleTopEntities = HomeArticleTopEntity( topArticle.await().recordset)
-//            result.add(articleTopEntities)
-//            homeArticleList.await().recordset?.datas?.forEach {
-//                result.add(it)
-//            }
+
+          topArticle.await().recordset?.forEach {
+              result.add(it)
+          }
+            homeArticleList.await().recordset?.datas?.forEach {
+                result.add(it)
+            }
             multiStateView.set(MultiStateView.ViewState.CONTENT)
             allData.value = result
         }
@@ -46,12 +46,11 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
         page++
         launch(handlerExpectation) {
             val homeArticleList = async { homeRepository.getHomeArticleList(page) }
-//            articleListData.value = homeArticleList.await().recordset?.datas
             val result = mutableListOf<BaseHomeAllEntity>()
             homeArticleList.await().recordset?.datas?.forEach {
                 result.add(it)
             }
-            allData.value?.addAll(result)
+            articleListData.value = result
         }
     }
 

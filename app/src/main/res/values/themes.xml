@@ -1,32 +1,41 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.WanAndroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue_700</item>
-        <item name="colorPrimaryVariant">@color/blue_800</item>
-        <item name="colorSecondary">@color/orange_500</item>
-        <item name="colorSecondaryVariant">@color/orange_400</item>
+        <item name="colorPrimary">@color/orange_300</item>
+        <item name="colorPrimaryVariant">@color/orange_400</item>
+        <item name="colorOnPrimary">@color/orange_500</item>
 
-        <item name="android:colorBackground">@color/blue_50</item>
+        <!--         Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+        <!--         Customize your theme here. -->
+
+<!--        <item name="android:colorBackground">@color/blue_50</item>-->
         <item name="colorError">@color/red_400</item>
 
-        <item name="android:statusBarColor">@color/blue_50_alpha_060</item>
         <item name="android:navigationBarColor">@color/nav_bar</item>
 
         <item name="bottomAppBarStyle">
             @style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
         </item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
+<!--        Primary brand color.-->
+
     </style>
 
-    <style name="AppTheme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="TransparentStatusBar" parent="Theme.WanAndroid">
+        <item name="android:statusBarColor">@color/blue_50_alpha_060</item>
+    </style>
+
+    <style name="AppTheme.Transparent" parent="Theme.WanAndroid">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:statusBarColor">@color/blue_50_alpha_060</item>
         <item name="android:navigationBarColor">@color/nav_bar</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="TextInputLayout_Style">
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
@@ -43,5 +52,14 @@
     <style name="LoadingDialogStyle" parent="ThemeOverlay.AppCompat.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="Theme.WanAndroid.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.WanAndroid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.WanAndroid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

@@ -1,11 +1,12 @@
 package com.snail.wanandroid.ui.home
 
-import android.util.Log
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.snail.wanandroid.R
 import com.snail.wanandroid.adapter.HomeAdapter
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentHomeBinding
+import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.viewmodel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,6 +28,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }.addOnLoadMoreListener {
             homeViewModel.getArticleList()
         }
+        vB.test.onClick {
+            startActivity(Intent(context,ScrollingActivity::class.java))
+        }
     }
 
     private fun initView(){
@@ -42,13 +46,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.allData.observe(this, {
             homeAdapter.setData(it)
             vB.homeRefreshLayout.refreshComplete()
+        })
+        homeViewModel.articleListData.observe(this,{
+            homeAdapter.addData(it)
             vB.homeRefreshLayout.lordMoreComplete()
         })
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-//        vB.homeBanner.onHiddenChanged(hidden)
+       homeAdapter.onHiddenChanged(hidden)
     }
 
 }

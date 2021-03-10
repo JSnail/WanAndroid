@@ -3,9 +3,9 @@ package com.snail.wanandroid.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.snail.banner.banner.Banner
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseViewHolder
 import com.snail.wanandroid.databinding.ItemHomeBannerLayoutBinding
@@ -24,9 +24,15 @@ import com.snail.wanandroid.extensions.loadImage
 class HomeAdapter constructor(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data = mutableListOf<BaseHomeAllEntity>()
+    private  var banner: Banner?=null
 
     fun setData(data: MutableList<BaseHomeAllEntity>) {
         this.data = data
+        notifyDataSetChanged()
+    }
+
+    fun addData(data: MutableList<BaseHomeAllEntity>) {
+        this.data.addAll(data)
         notifyDataSetChanged()
     }
 
@@ -77,24 +83,21 @@ class HomeAdapter constructor(private val context: Context) :
     /**
      *banner
      **/
-    inner class HomeBannerViewHolder(private  val view: ItemHomeBannerLayoutBinding) :
+    inner class HomeBannerViewHolder(private val view: ItemHomeBannerLayoutBinding) :
         RecyclerView.ViewHolder(view.root) {
 
         fun setData(bean: HomeBannerEntity) {
+            banner = view.root
             val urls = mutableListOf<String>()
             bean.bannerDatas?.forEach {
                 urls.add(it.imagePath)
             }
-            view.root.BannerBuilder()
-                .addLifecycleOwner((context as FragmentActivity))
-                .setData(urls)
-                .setOnImageLoadListener { imageView, s ->
-                    imageView.loadImage(s)
-                }
-                .setOnItemClickListener { _, _ ->
 
-                }
-                .build()
+            banner?.BannerBuilder()?.addLifecycleOwner((context as FragmentActivity))?.setData(urls)
+                ?.setOnImageLoadListener { imageView, s ->
+                    imageView.loadImage(s)
+                }?.setOnItemClickListener { _, _ ->
+            }?.build()
         }
 
     }
@@ -112,5 +115,9 @@ class HomeAdapter constructor(private val context: Context) :
     inner class HomeCommentViewHolder(view: ItemHomeCommentLayoutBinding) :
         BaseViewHolder(view.root) {
 
+    }
+
+    fun onHiddenChanged(isHidden: Boolean) {
+        banner?.onHiddenChanged(isHidden)
     }
 }
