@@ -1,5 +1,7 @@
 package com.snail.wanandroid.network
 
+import android.util.Log
+
 class CookieManager {
     private var cookies = ""
 
@@ -7,6 +9,7 @@ class CookieManager {
         cookies.forEach{
             this.cookies +=it
         }
+        Log.i("TAG","cookies == $cookies")
     }
 
     fun getCookie(): String  = cookies

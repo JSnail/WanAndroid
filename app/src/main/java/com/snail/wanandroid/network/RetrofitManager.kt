@@ -1,6 +1,8 @@
 package com.snail.wanandroid.network
 
 import com.snail.wanandroid.api.ApiService
+import com.snail.wanandroid.network.interceptor.CookieInterceptor
+import com.snail.wanandroid.network.interceptor.HeaderInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -22,6 +24,8 @@ class RetrofitManager {
 
 
     private fun createClient(): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(CookieInterceptor() )
+        .addInterceptor(HeaderInterceptor())
         .connectTimeout(10000L, TimeUnit.SECONDS)
         .readTimeout(10000L, TimeUnit.SECONDS)
         .writeTimeout(10000L, TimeUnit.SECONDS)

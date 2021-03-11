@@ -82,7 +82,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(R.layout.fragment
             override fun onAnimationEnd(animation: Animator) {
                 vB.cvRegister.visibility = View.INVISIBLE
                 super.onAnimationEnd(animation)
-                vB.fabRegister.setImageResource(R.drawable.ic_regiseter_close_24)
+//                vB.fabRegister.setImageResource(R.drawable.ic_regiseter_close_24)
                 Navigation.findNavController(vB.cvRegister).popBackStack()
             }
 
