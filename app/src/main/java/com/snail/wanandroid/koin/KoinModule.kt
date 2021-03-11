@@ -2,6 +2,7 @@ package com.snail.wanandroid.koin
 
 import com.snail.wanandroid.db.AppDataBase
 import com.snail.wanandroid.dialog.LoadingDialog
+import com.snail.wanandroid.network.CookieManager
 import com.snail.wanandroid.network.RetrofitManager
 import com.snail.wanandroid.repository.HomeRepository
 import com.snail.wanandroid.repository.LoginRepository
@@ -27,6 +28,7 @@ val repositoryModule = module {
 
 val retrofitModule = module {
     single { RetrofitManager().apiService }
+    single { CookieManager() }
 }
 
 val dialogModule = module {
