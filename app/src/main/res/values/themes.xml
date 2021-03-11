@@ -1,15 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.WanAndroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/orange_300</item>
-        <item name="colorPrimaryVariant">@color/orange_400</item>
-        <item name="colorOnPrimary">@color/orange_500</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
 
         <!--         Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!--         Customize your theme here. -->
 
-<!--        <item name="android:colorBackground">@color/blue_50</item>-->
+        <item name="android:colorBackground">@color/blue_50</item>
         <item name="colorError">@color/red_400</item>
 
         <item name="android:navigationBarColor">@color/nav_bar</item>

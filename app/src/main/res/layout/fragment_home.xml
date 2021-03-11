@@ -32,6 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
+                android:clipToPadding="false"
+                android:transitionGroup="true"
                />
 
             <com.snail.allrefresh.view.normal.RotateRefreshView
@@ -41,11 +43,6 @@
 
         </com.snail.allrefresh.RefreshLayout>
 
-<Button
-    android:id="@+id/test"
-    android:layout_width="match_parent"
-    android:layout_gravity="center"
-    android:layout_height="wrap_content"/>
     </com.snail.wanandroid.widget.MultiStateView>
 
 </layout>

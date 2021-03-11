@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="transitionName_login">login_to_register</string>
+    <string name="transitionName_home">home_item_to_web</string>
 
 </resources>

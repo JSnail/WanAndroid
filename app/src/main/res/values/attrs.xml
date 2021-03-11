@@ -13,4 +13,10 @@
             <enum name="custom" value="4" />
         </attr>
     </declare-styleable>
+
+
+    <attr name="motionInterpolatorPersistent" format="reference"/>
+    <attr name="motionInterpolatorIncoming" format="reference"/>
+    <attr name="motionInterpolatorOutgoing" format="reference"/>
+
 </resources>

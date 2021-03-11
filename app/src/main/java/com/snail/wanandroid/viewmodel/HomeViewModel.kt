@@ -30,9 +30,9 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
             val bannerEntities = HomeBannerEntity(banner.await().recordset)
             result.add(bannerEntities)
 
-          topArticle.await().recordset?.forEach {
-              result.add(it)
-          }
+            topArticle.await().recordset?.forEach {
+                result.add(it)
+            }
             homeArticleList.await().recordset?.datas?.forEach {
                 result.add(it)
             }
@@ -51,6 +51,18 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
                 result.add(it)
             }
             articleListData.value = result
+        }
+    }
+
+    fun collect(id: Int) {
+        launch(handlerExpectation) {
+            homeRepository.collect(id)
+        }
+    }
+
+    fun unCollect(id: Int) {
+        launch(handlerExpectation) {
+            homeRepository.unCollect(id)
         }
     }
 

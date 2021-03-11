@@ -7,7 +7,7 @@ data class ArticleTopEntity(
     val canEdit: Boolean,
     val chapterId: Int,
     val chapterName: String,
-    val collect: Boolean,
+    var collect: Boolean,
     val courseId: Int,
     val desc: String,
     val descMd: String,
@@ -28,7 +28,7 @@ data class ArticleTopEntity(
     val shareUser: String,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<Any>,
+    val tags: List<Tag>,
     val title: String,
     val type: Int,
     val userId: Int,
@@ -38,4 +38,9 @@ data class ArticleTopEntity(
     init {
         itemType = topArticle
     }
+
+    data class Tag(
+        val name :String,
+        val url:String
+    )
 }

@@ -1,12 +1,16 @@
 package com.snail.wanandroid.ui.home
 
-import android.content.Intent
+import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.snail.wanandroid.widget.home.ReboundingSwipeActionCallback
 import com.snail.wanandroid.R
 import com.snail.wanandroid.adapter.HomeAdapter
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentHomeBinding
-import com.snail.wanandroid.extensions.onClick
+import com.snail.wanandroid.entity.ArticleListBean
+import com.snail.wanandroid.entity.ArticleTopEntity
+import com.snail.wanandroid.entity.BaseHomeAllEntity
 import com.snail.wanandroid.viewmodel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -14,7 +18,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModel()
     private val homeAdapter by lazy {
-        HomeAdapter(requireActivity())
+        HomeAdapter(requireActivity(),adapterListener)
     }
 
     override fun loadData() {
@@ -28,14 +32,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }.addOnLoadMoreListener {
             homeViewModel.getArticleList()
         }
-        vB.test.onClick {
-            startActivity(Intent(context,ScrollingActivity::class.java))
-        }
     }
 
     private fun initView(){
         vB.contentView.apply {
             this.adapter = homeAdapter
+            val itemTouchHelper = ItemTouchHelper(ReboundingSwipeActionCallback())
+            itemTouchHelper.attachToRecyclerView(this)
             this.layoutManager = LinearLayoutManager(requireActivity())
         }
     }
@@ -58,4 +61,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
        homeAdapter.onHiddenChanged(hidden)
     }
 
+    private val adapterListener = object  :HomeAdapter.HomeAdapterListener{
+
+        override fun onItemClicked(cardView: View, bean: BaseHomeAllEntity) {
+        }
+
+        override fun onStatusChanged(bean: BaseHomeAllEntity?, newValue: Boolean) {
+            if (bean is ArticleTopEntity){
+                if ( bean.collect){
+                    homeViewModel.unCollect(bean.id)
+                    bean.collect =false
+                }else{
+                    homeViewModel.collect(bean.id)
+                    bean.collect =true
+                }
+            }else if (bean is ArticleListBean){
+                if ( bean.collect){
+                    homeViewModel.unCollect(bean.id)
+                    bean.collect =false
+                }else{
+                    homeViewModel.collect(bean.id)
+                    bean.collect =true
+                }
+            }
+        }
+        override fun onCollected(bean: BaseHomeAllEntity) {
+        }
+    }
 }

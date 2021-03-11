@@ -10,7 +10,7 @@ import androidx.databinding.BindingAdapter
  * @Date 1/4/21
  * @Description
  **/
-object BindingAdapter {
+object HomeBindingAdapter {
 
 
     @BindingAdapter("imageUrl", "error")

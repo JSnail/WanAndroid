@@ -14,20 +14,10 @@ class HomeRepository constructor(private val apiService: ApiService) {
 
     suspend fun getArticleTop() = apiService.getArticleTop()
 
+    suspend fun collect(id:Int) = apiService.collectInnerArticle(id)
 
-//    suspend fun getHomeAllData(): ArrayList<BaseHomeAllEntity> = coroutineScope {
-//        val banner = async { apiService.getHomeBanner() }
-//        val topArticle = async { apiService.getArticleTop() }
-//        val homeArticleList = async { apiService.getHomeArticleList(0) }
-//        val result = ArrayList<BaseHomeAllEntity>()
-//
-//
-//        return@coroutineScope BaseHomeAllEntity(
-//            bannerEntity = banner.await().recordset,
-//            articleTopEntity = topArticle.await().recordset,
-//            articleListEntity = homeArticleList.await().recordset
-//        )
-//    }
+    suspend fun unCollect(id:Int) = apiService.cancelCollectArticle(id)
+
 
 
 
