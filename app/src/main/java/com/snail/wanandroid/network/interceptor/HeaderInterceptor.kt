@@ -5,17 +5,20 @@ import com.snail.wanandroid.network.CookieManager
 import com.snail.wanandroid.network.RequestContent
 import okhttp3.Interceptor
 import okhttp3.Response
+import org.koin.java.KoinJavaComponent.inject
 
-class HeaderInterceptor:Interceptor {
+class HeaderInterceptor : Interceptor {
+
+    private val cookieManager:CookieManager by inject(CookieManager::class.java)
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val builder = request.newBuilder()
         builder.addHeader("Content-type", "application/json; charset=utf-8")
-//        val url = request.url.toString()
-//        if (url.contains())
-        builder.header(RequestContent.SET_COOKIE_KEY,CookieManager().getCookie())
-        Log.i("TAG","cookie == ${CookieManager().getCookie()}" )
+        if (CookieManager().getCookie().isNotEmpty()){
+            builder.addHeader(RequestContent.COOKIE_NAME, cookieManager.getCookie())
+        }
 
-            return chain.proceed(request)
+        return chain.proceed(builder.build())
     }
 }

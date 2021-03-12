@@ -3,6 +3,7 @@ package com.snail.wanandroid.bindingAdapter
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.snail.wanandroid.extensions.loadCircleImage
 
 
 /**

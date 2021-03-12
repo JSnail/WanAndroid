@@ -25,6 +25,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             R.id.main_project to createFragment(ProjectFragment::class.java)
         )
 
+        initNavView()
+
         vB.navView.apply {
             setOnNavigationItemSelectedListener {
                 showFragment(it.itemId)
@@ -39,7 +41,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
         showFragment(R.id.main_home)
         vB.mainToolbar.apply {
-            this.title = "aaaa"
             setSupportActionBar(this)
         }
         ActionBarDrawerToggle(
@@ -53,8 +54,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 vB.mainDrawerLayout.addDrawerListener(this)
                 this.syncState()
             }
-        AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_gallery), vB.mainDrawerLayout)
+        AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_gallery
+            ), vB.mainDrawerLayout
+        )
     }
 
     private fun createFragment(clazz: Class<out Fragment>): Fragment {
@@ -85,5 +89,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     if (it.isAdded) this.show(it) else this.add(R.id.fragmentContainer, it)
                 }
             }.commit()
+        showToolbarTitle(id)
+    }
+
+    private fun showToolbarTitle(@IdRes id: Int) {
+      val  title =  when (id) {
+            R.id.main_home -> R.string.title_home
+            R.id.main_system -> R.string.title_navigation
+            R.id.main_navigation -> R.string.title_system
+            R.id.main_project -> R.string.title_project
+            else -> {
+                throw  IllegalArgumentException()
+            }
+        }
+        vB.mainToolbar.title = getString(title)
+    }
+
+    private fun initNavView(){
+        val headView = vB.homeNavigationView.inflateHeaderView(R.layout.nav_header_main)
+
     }
 }

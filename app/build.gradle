@@ -51,8 +51,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${dependenciesVersion.coroutines}"
     implementation "androidx.appcompat:appcompat:${dependenciesVersion.appcompat}"
     //koin
-    implementation "org.koin:koin-core:${dependenciesVersion.koin}"
-    implementation "org.koin:koin-core-ext:${dependenciesVersion.koin}"
+    implementation "org.koin:koin-android:${dependenciesVersion.koin}"
+//    implementation "org.koin:koin-core-ext:${dependenciesVersion.koin}"
+//    implementation "org.koin:koin-android-scope:${dependenciesVersion.koin}"
+    implementation "org.koin:koin-androidx-scope:${dependenciesVersion.koin}"
     implementation "org.koin:koin-androidx-viewmodel:${dependenciesVersion.koin}"
     implementation "org.koin:koin-androidx-fragment:${dependenciesVersion.koin}"
 

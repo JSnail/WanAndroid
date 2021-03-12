@@ -66,14 +66,14 @@ interface ApiService {
      * 文章列表中取消收藏文章
      */
     @POST("lg/uncollect_originId/{id}/json")
-    fun cancelCollectArticle(@Path("id") id: Int): BaseEntity<Any>
+  suspend  fun cancelCollectArticle(@Path("id") id: Int): BaseEntity<Any>
 
     /**
      * 收藏列表中取消收藏文章
      */
     @POST("lg/uncollect/{id}/json")
     @FormUrlEncoded
-    fun removeCollectArticle(
+   suspend fun removeCollectArticle(
         @Path("id") id: Int,
         @Field("originId") originId: Int = -1
     ): BaseEntity<Any>

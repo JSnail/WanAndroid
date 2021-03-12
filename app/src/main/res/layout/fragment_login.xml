@@ -96,7 +96,8 @@
                         android:layout_marginTop="@dimen/x5"
                         android:hint="@string/login_password"
                         android:maxLines="1"
-                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:imeOptions="actionGo"
                         android:textColor="#2fa881"
                         android:textSize="@dimen/font_size_16" />
                 </com.google.android.material.textfield.TextInputLayout>

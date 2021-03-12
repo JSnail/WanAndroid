@@ -1,7 +1,9 @@
 package com.snail.wanandroid.ui.home
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.snail.wanandroid.widget.home.ReboundingSwipeActionCallback
@@ -12,6 +14,7 @@ import com.snail.wanandroid.databinding.FragmentHomeBinding
 import com.snail.wanandroid.entity.ArticleListBean
 import com.snail.wanandroid.entity.ArticleTopEntity
 import com.snail.wanandroid.entity.BaseHomeAllEntity
+import com.snail.wanandroid.entity.TestEntity
 import com.snail.wanandroid.ui.login.LoginActivity
 import com.snail.wanandroid.viewmodel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -56,6 +59,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             homeAdapter.addData(it)
             vB.homeRefreshLayout.lordMoreComplete()
         })
+        homeViewModel.test.myObserve("age",TestEntity::class.java,this, Observer {
+            Log.i("TAG","     entity   ${it.name}     ${it.age}")
+        })
+
+        homeViewModel.test.myObserve("name",TestEntity::class.java,this, Observer {
+            Log.i("TAG","     entity2   ${it.name}     ${it.age}")
+        })
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -66,7 +76,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val adapterListener = object  :HomeAdapter.HomeAdapterListener{
 
         override fun onItemClicked(cardView: View, bean: BaseHomeAllEntity) {
-            startActivity(Intent(requireActivity(),LoginActivity::class.java))
+            if (bean is ArticleTopEntity){
+                homeViewModel.test.value =TestEntity("AAA","13")
+            }else{
+                homeViewModel.test.value =TestEntity("BBB","13")
+            }
+
         }
 
         override fun onStatusChanged(bean: BaseHomeAllEntity?, newValue: Boolean) {

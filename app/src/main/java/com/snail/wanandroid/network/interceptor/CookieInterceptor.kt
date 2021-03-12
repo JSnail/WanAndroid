@@ -5,8 +5,11 @@ import com.snail.wanandroid.network.CookieManager
 import com.snail.wanandroid.network.RequestContent
 import okhttp3.Interceptor
 import okhttp3.Response
+import org.koin.java.KoinJavaComponent.inject
 
 class CookieInterceptor : Interceptor {
+    private val cookieManager:CookieManager by inject(CookieManager::class.java)
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
@@ -17,7 +20,7 @@ class CookieInterceptor : Interceptor {
             || url.contains(RequestContent.REGISTER)
             && response.headers(RequestContent.SET_COOKIE_KEY).isNotEmpty()){
             val cookies = response.headers(RequestContent.SET_COOKIE_KEY)
-            CookieManager().saveCookie(cookies)
+            cookieManager.saveCookie(cookies)
         }
 
         return  response

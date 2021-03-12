@@ -63,6 +63,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         loginViewModel.loginLiveData.observe(this, {
             if (it) {
                 vB.root.showSnackBar(R.string.login_success)
+                requireActivity().finish()
             }
         })
 
