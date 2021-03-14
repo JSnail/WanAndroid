@@ -6,8 +6,6 @@ import com.snail.wanandroid.base.BaseViewModel
 import com.snail.wanandroid.entity.BaseHomeAllEntity
 import com.snail.wanandroid.entity.HomeBannerEntity
 import com.snail.wanandroid.entity.TestEntity
-import com.snail.wanandroid.entity.UserEntity
-import com.snail.wanandroid.listener.MyLiveData
 import com.snail.wanandroid.repository.HomeRepository
 import com.snail.wanandroid.widget.MultiStateView
 import kotlinx.coroutines.async
@@ -16,7 +14,6 @@ import kotlinx.coroutines.launch
 class HomeViewModel constructor(private val homeRepository: HomeRepository) : BaseViewModel() {
     private var page = 0
     val allData = MutableLiveData<MutableList<BaseHomeAllEntity>>()
-    val test = MyLiveData<TestEntity>()
 
     val articleListData = MutableLiveData<MutableList<BaseHomeAllEntity>>()
     val multiStateView = ObservableField<MultiStateView.ViewState>().apply {

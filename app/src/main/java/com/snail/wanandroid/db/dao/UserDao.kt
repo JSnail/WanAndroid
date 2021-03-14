@@ -3,7 +3,6 @@ package com.snail.wanandroid.db.dao
 import androidx.room.*
 import com.snail.wanandroid.entity.UserEntity
 import kotlinx.coroutines.flow.Flow
-import org.jetbrains.annotations.NotNull
 
 
 /**
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.NotNull
 interface UserDao {
 
     @Query("SELECT * FROM UserEntity WHERE  id =:userId")
-    fun queryUserById(userId: Int): Flow<UserEntity>
+    suspend fun queryUserById(userId: Int): UserEntity
 
     @Query("SELECT *  FROM  UserEntity")
     suspend fun queryAllUser(): Array<UserEntity>

@@ -14,11 +14,10 @@ import com.snail.wanandroid.extensions.loadCircleImage
 object HomeBindingAdapter {
 
 
-    @BindingAdapter("imageUrl", "error")
+    @BindingAdapter("imageUrl")
     fun loadImage(
         view: ImageView,
         url: String,
-        error: Drawable
     ) {
 
     }

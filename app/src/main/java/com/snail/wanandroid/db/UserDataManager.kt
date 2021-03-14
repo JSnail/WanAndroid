@@ -1,37 +1,37 @@
 package com.snail.wanandroid.db
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.asFlow
 import com.snail.wanandroid.db.dao.UserDao
 import com.snail.wanandroid.entity.UserEntity
 import com.snail.wanandroid.utils.SharePreferencesUtils
-import kotlinx.coroutines.flow.filter
-import org.koin.java.KoinJavaComponent.inject
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class UserDataManager private constructor() {
+@OptIn(KoinApiExtension::class)
+class UserDataManager private constructor() :KoinComponent{
 
-    private val userDao: UserDao by inject(UserDao::class.java)
-    private val sp =  SharePreferencesUtils.instance
+    private val dataBase: AppDataBase by inject ()
+    private val sp = SharePreferencesUtils.instance
+     var currentUserEntity: UserEntity? = null
 
-    var isLogged = false
-    var currentUserEntity = MutableLiveData<UserEntity>()
-    set(value)  {
-        if (null != value.value){
-            isLogged = true
-        }
-        field = value
-    }
+    val isLogged: Boolean
+        get() = currentUserEntity != null
 
-    fun logout(){
+
+    fun logout() {
         sp.cookie = ""
-        currentUserEntity.value = null
-        MediatorLiveData<UserEntity>().addSource(currentUserEntity){
-
-        }
+        currentUserEntity = null
     }
 
+    suspend fun getCurrentUserData(): UserEntity? {
+        if (null == currentUserEntity) {
+            val userId = sp.tempUserId
+            if (userId != -1) {
+                currentUserEntity = dataBase.userDao().queryUserById(userId)
+            }
+        }
+        return currentUserEntity
+    }
 
 
     private object Handler {

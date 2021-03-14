@@ -12,7 +12,7 @@ data class UserEntity(
 //    val collectIds: List<Any>,
     val email: String,
     val icon: String,
-    val nickname: String,
+    var nickname: String,
     val password: String,
     val publicName: String,
     val token: String,

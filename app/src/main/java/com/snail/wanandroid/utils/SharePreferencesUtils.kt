@@ -18,6 +18,7 @@ class SharePreferencesUtils {
     }
 
     var cookie  by SharedPreferenceDelegates(ShareKey.COOKIE,"")
+    var tempUserId by SharedPreferenceDelegates(ShareKey.TEMP,-1)
 
     private inner class SharedPreferenceDelegates<T>(
         private val key: String,

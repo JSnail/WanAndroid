@@ -1,21 +1,29 @@
 package com.snail.wanandroid
 
+import android.content.Intent
 import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.ui.AppBarConfiguration
 import com.snail.wanandroid.base.BaseActivity
 import com.snail.wanandroid.databinding.ActivityMainBinding
+import com.snail.wanandroid.databinding.NavHeaderMainBinding
+import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.listener.OnScrollToTopListener
 import com.snail.wanandroid.ui.home.HomeFragment
 import com.snail.wanandroid.ui.home.NavigationFragment
 import com.snail.wanandroid.ui.home.ProjectFragment
 import com.snail.wanandroid.ui.home.SystemFragment
+import com.snail.wanandroid.ui.login.LoginActivity
+import com.snail.wanandroid.viewmodel.MainViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var fragments: Map<Int, Fragment>
     private var currentFragment: Fragment? = null
+    private val mainViewModel: MainViewModel by viewModel()
 
     override fun loadData() {
         fragments = mapOf(
@@ -93,7 +101,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun showToolbarTitle(@IdRes id: Int) {
-      val  title =  when (id) {
+        val title = when (id) {
             R.id.main_home -> R.string.title_home
             R.id.main_system -> R.string.title_navigation
             R.id.main_navigation -> R.string.title_system
@@ -105,8 +113,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         vB.mainToolbar.title = getString(title)
     }
 
-    private fun initNavView(){
+    private fun initNavView() {
         val headView = vB.homeNavigationView.inflateHeaderView(R.layout.nav_header_main)
+        val viewBinding = NavHeaderMainBinding.bind(headView)
+        viewBinding.lifecycleOwner = this
+        viewBinding.viewModel = mainViewModel
+    }
 
+    override fun startObserver() {
+        mainViewModel.isNeedLogin.observe(this, Observer {
+            if (it)
+            startActivity(Intent(this,LoginActivity::class.java))
+        })
     }
 }

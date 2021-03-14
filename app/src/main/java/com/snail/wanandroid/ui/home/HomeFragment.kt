@@ -59,13 +59,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             homeAdapter.addData(it)
             vB.homeRefreshLayout.lordMoreComplete()
         })
-        homeViewModel.test.myObserve("age",TestEntity::class.java,this, Observer {
-            Log.i("TAG","     entity   ${it.name}     ${it.age}")
-        })
-
-        homeViewModel.test.myObserve("name",TestEntity::class.java,this, Observer {
-            Log.i("TAG","     entity2   ${it.name}     ${it.age}")
-        })
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -77,9 +70,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         override fun onItemClicked(cardView: View, bean: BaseHomeAllEntity) {
             if (bean is ArticleTopEntity){
-                homeViewModel.test.value =TestEntity("AAA","13")
             }else{
-                homeViewModel.test.value =TestEntity("BBB","13")
             }
 
         }
