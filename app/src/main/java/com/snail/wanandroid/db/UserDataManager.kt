@@ -1,6 +1,7 @@
 package com.snail.wanandroid.db
 
-import com.snail.wanandroid.db.dao.UserDao
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.snail.wanandroid.entity.UserEntity
 import com.snail.wanandroid.utils.SharePreferencesUtils
 import org.koin.core.component.KoinApiExtension
@@ -8,29 +9,30 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 @OptIn(KoinApiExtension::class)
-class UserDataManager private constructor() :KoinComponent{
+class UserDataManager private constructor() : KoinComponent {
 
-    private val dataBase: AppDataBase by inject ()
+    private val dataBase: AppDataBase by inject()
     private val sp = SharePreferencesUtils.instance
-     var currentUserEntity: UserEntity? = null
+    var currentUserEntity = MutableLiveData<UserEntity>()
 
-    val isLogged: Boolean
-        get() = currentUserEntity != null
+    var isLogged: Boolean = false
+        get() = currentUserEntity.value != null
 
 
     fun logout() {
         sp.cookie = ""
-        currentUserEntity = null
+        currentUserEntity.value = null
     }
 
-    suspend fun getCurrentUserData(): UserEntity? {
-        if (null == currentUserEntity) {
+    suspend fun getCurrentUserData() {
+        if (null == currentUserEntity.value) {
             val userId = sp.tempUserId
             if (userId != -1) {
-                currentUserEntity = dataBase.userDao().queryUserById(userId)
+                val data = dataBase.userDao().queryUserById(userId)
+                currentUserEntity.postValue(data)
+                Log.i("TAG","data == ${data.nickname}")
             }
         }
-        return currentUserEntity
     }
 
 

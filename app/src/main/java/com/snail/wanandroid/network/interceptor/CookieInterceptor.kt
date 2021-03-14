@@ -16,8 +16,8 @@ class CookieInterceptor : Interceptor {
         val builder = request.newBuilder()
         builder.addHeader("Content-type", "application/json; charset=utf-8")
         val url = request.url.toString()
-        if (url.contains(RequestContent.LOGIN )
-            || url.contains(RequestContent.REGISTER)
+        if ((url.contains(RequestContent.LOGIN )
+                    || url.contains(RequestContent.REGISTER))
             && response.headers(RequestContent.SET_COOKIE_KEY).isNotEmpty()){
             val cookies = response.headers(RequestContent.SET_COOKIE_KEY)
             cookieManager.saveCookie(cookies)

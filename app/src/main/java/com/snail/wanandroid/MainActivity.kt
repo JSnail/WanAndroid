@@ -1,15 +1,14 @@
 package com.snail.wanandroid
 
 import android.content.Intent
+import android.util.Log
 import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.ui.AppBarConfiguration
 import com.snail.wanandroid.base.BaseActivity
 import com.snail.wanandroid.databinding.ActivityMainBinding
 import com.snail.wanandroid.databinding.NavHeaderMainBinding
-import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.listener.OnScrollToTopListener
 import com.snail.wanandroid.ui.home.HomeFragment
 import com.snail.wanandroid.ui.home.NavigationFragment
@@ -121,9 +120,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     override fun startObserver() {
-        mainViewModel.isNeedLogin.observe(this, Observer {
+        mainViewModel.isNeedLogin.observe(this, {
             if (it)
-            startActivity(Intent(this,LoginActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
         })
+        mainViewModel.userEntity.observe(this, {
+            mainViewModel.getUserRankInfo()
+            Log.i("TAG","首页用户数据变化")
+        })
+    }
+
+    override fun onBackPressed() {
+        if (vB.mainDrawerLayout.isOpen){
+            vB.mainDrawerLayout.close()
+            return
+        }
+        super.onBackPressed()
     }
 }

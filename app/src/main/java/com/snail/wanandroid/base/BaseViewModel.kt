@@ -12,8 +12,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 @OptIn(KoinApiExtension::class)
-open class BaseViewModel : ViewModel(), KoinComponent, CoroutineScope by MainScope() {
-    val dialogViewLiveData by inject<LoadingViewLiveData>()
+open class BaseViewModel : ViewModel(), KoinComponent  {
     val errorMessage = MediatorLiveData<String>()
     protected val handlerExpectation = CoroutineExceptionHandler { _, throwable ->
         Log.e("TAG", "throwable  --->  ${throwable.message}")

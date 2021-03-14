@@ -15,7 +15,7 @@ class LoginRepository constructor(private val api: ApiService, private val dataB
 
     suspend fun saveUser(userEntity: UserEntity) {
         SharePreferencesUtils.instance.tempUserId = userEntity.id
-        UserDataManager.instance.currentUserEntity = userEntity
+        UserDataManager.instance.currentUserEntity.postValue(userEntity)
         dataBase.userDao().insertUser(userEntity)
     }
 }

@@ -1,14 +1,23 @@
 package com.snail.wanandroid.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.snail.wanandroid.api.ApiService
 import com.snail.wanandroid.db.UserDataManager
 import com.snail.wanandroid.entity.UserEntity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 
 class MainRepository(private val apiService: ApiService) {
 
-    suspend fun getUserEntity(): UserEntity? {
-        return UserDataManager.instance.getCurrentUserData()
+     fun getUserEntity(): MutableLiveData<UserEntity> {
+        return UserDataManager.instance.currentUserEntity
+    }
+
+    suspend fun loadUserInfo(){
+       withContext(Dispatchers.IO){
+           UserDataManager.instance.getCurrentUserData()
+       }
     }
 
     fun logout() {

@@ -2,10 +2,10 @@ package com.snail.wanandroid.viewmodel
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.snail.wanandroid.base.BaseViewModel
 import com.snail.wanandroid.entity.BaseHomeAllEntity
 import com.snail.wanandroid.entity.HomeBannerEntity
-import com.snail.wanandroid.entity.TestEntity
 import com.snail.wanandroid.repository.HomeRepository
 import com.snail.wanandroid.widget.MultiStateView
 import kotlinx.coroutines.async
@@ -22,7 +22,7 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
 
     fun getHomeAllData() {
         page = 0
-        launch(handlerExpectation) {
+        viewModelScope.launch(handlerExpectation) {
             val banner = async { homeRepository.getBannerData() }
             val topArticle = async { homeRepository.getArticleTop() }
             val homeArticleList = async { homeRepository.getHomeArticleList(0) }
@@ -45,7 +45,7 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
 
     fun getArticleList() {
         page++
-        launch(handlerExpectation) {
+        viewModelScope.  launch(handlerExpectation) {
             val homeArticleList = async { homeRepository.getHomeArticleList(page) }
             val result = mutableListOf<BaseHomeAllEntity>()
             homeArticleList.await().recordset?.datas?.forEach {
@@ -56,13 +56,13 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
     }
 
     fun collect(id: Int) {
-        launch(handlerExpectation) {
+        viewModelScope.launch(handlerExpectation) {
             homeRepository.collect(id)
         }
     }
 
     fun unCollect(id: Int) {
-        launch(handlerExpectation) {
+        viewModelScope.launch(handlerExpectation) {
             homeRepository.unCollect(id)
         }
     }

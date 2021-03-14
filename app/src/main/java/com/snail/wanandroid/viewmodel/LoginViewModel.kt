@@ -1,6 +1,7 @@
 package com.snail.wanandroid.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.snail.wanandroid.base.BaseViewModel
 import com.snail.wanandroid.entity.UserEntity
 import com.snail.wanandroid.repository.LoginRepository
@@ -14,7 +15,7 @@ class LoginViewModel constructor(private val loginRepository: LoginRepository) :
     val loginLiveData = MutableLiveData<Boolean>()
 
     fun login(account: String, password: String) {
-        launch(handlerExpectation) {
+        viewModelScope.launch(handlerExpectation) {
             loginRepository.login(account, password)
                 .collectLatest {
                     if (it.recordset == null) {
