@@ -20,7 +20,6 @@
         android:layout_width="@dimen/x40"
         android:layout_height="@dimen/x40"
         android:layout_gravity="end"
-        android:onClick="goToRank"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_rank_white_24dp" />

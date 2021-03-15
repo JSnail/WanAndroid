@@ -27,19 +27,19 @@
             android:paddingTop="@dimen/x32"
             android:paddingBottom="@dimen/x32">
 
-            <TextView
-                android:id="@+id/stick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/x32"
-                android:layout_marginTop="@dimen/x16"
-                android:layout_marginEnd="@dimen/x32"
-                android:background="@drawable/round_line_1"
-                android:text="@string/homeFragment_stick"
-                android:textAppearance="?attr/textAppearanceOverline"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <TextView-->
+<!--                android:id="@+id/stick"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/x32"-->
+<!--                android:layout_marginTop="@dimen/x16"-->
+<!--                android:layout_marginEnd="@dimen/x32"-->
+<!--                android:background="@drawable/round_line_1"-->
+<!--                android:text="@string/homeFragment_stick"-->
+<!--                android:textAppearance="?attr/textAppearanceOverline"-->
+<!--                android:textColor="@color/colorPrimary"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <TextView
                 android:id="@+id/newArticle"
@@ -52,7 +52,7 @@
                 android:text="@string/homeFragment_new"
                 android:textAppearance="?attr/textAppearanceOverline"
                 android:textColor="@color/colorPrimary"
-                app:layout_constraintStart_toEndOf="@+id/stick"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 

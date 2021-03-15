@@ -11,6 +11,7 @@ import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentLoginBinding
 import com.snail.wanandroid.databinding.FragmentSystemBinding
 import com.snail.wanandroid.extensions.onAfterTextChanged
+import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.extensions.showSnackBar
 import com.snail.wanandroid.viewmodel.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,9 +30,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         vB.editLoginPwd.onAfterTextChanged {
             vB.editLoginPwdLayout.error = null
         }
+        vB.btnLogin.onClick {
+            login()
+        }
+        vB.fabToRegister.onClick {
+            goToRegister(it)
+        }
     }
 
-    fun login(view: View) {
+   private fun login() {
         val account = vB.editLoginAccount.text.toString()
         if (account.isEmpty()) {
             vB.editLoginAccountLayout.error = getString(R.string.error_account_empty)
@@ -50,7 +57,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     }
 
-    fun goToRegister(view: View) {
+  private  fun goToRegister(view: View) {
         val extras =
             FragmentNavigatorExtras(vB.fabToRegister to getString(R.string.transitionName_login))
         val navController = Navigation.findNavController(view)

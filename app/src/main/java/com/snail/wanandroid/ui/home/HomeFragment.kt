@@ -1,5 +1,6 @@
 package com.snail.wanandroid.ui.home
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,11 @@ import com.snail.wanandroid.databinding.FragmentHomeBinding
 import com.snail.wanandroid.entity.ArticleListBean
 import com.snail.wanandroid.entity.ArticleTopEntity
 import com.snail.wanandroid.entity.BaseHomeAllEntity
+import com.snail.wanandroid.ui.WebActivity
 import com.snail.wanandroid.viewmodel.HomeViewModel
 import com.snail.wanandroid.widget.home.ReboundingSwipeActionCallback
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.IllegalArgumentException
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -68,10 +71,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val adapterListener = object : HomeAdapter.HomeAdapterListener {
 
         override fun onItemClicked(cardView: View, bean: BaseHomeAllEntity) {
-            if (bean is ArticleTopEntity) {
-            } else {
+         val url = when (bean) {
+             is ArticleTopEntity ->  bean.link
+             is ArticleListBean ->  bean.link
+             else -> throw IllegalArgumentException("url error")
+         }
+            val intent = Intent(requireActivity(),WebActivity::class.java).apply {
+                this.putExtra(WebActivity.URL,url)
             }
-
+            goToActivity(intent)
         }
 
         override fun onStatusChanged(bean: BaseHomeAllEntity?, newValue: Boolean) {

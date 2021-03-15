@@ -110,7 +110,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="@dimen/x30"
-                android:onClick="@{register::register}"
                 android:stateListAnimator="@drawable/state_list_animator_z"
                 android:text="@string/login_confirm"
                 android:textColor="#2fa881" />

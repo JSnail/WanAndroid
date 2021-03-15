@@ -1,5 +1,6 @@
 package com.snail.wanandroid.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +29,20 @@ abstract class BaseFragment<T : ViewBinding> :  Fragment() {
         return vB.root
     }
 
-    abstract fun getViewBinding(  inflater: LayoutInflater, container: ViewGroup?): T
+    open fun goToActivity(cls: Class<*>) {
+        startActivity(Intent(requireActivity(), cls))
+    }
 
+    open fun goToActivityForResult(cls: Class<*>, requestId: Int) {
+        startActivityForResult(Intent(requireActivity(), cls), requestId)
+    }
+    open fun goToActivity(intent: Intent){
+        startActivity(intent)
+    }
+
+
+
+    abstract fun getViewBinding(  inflater: LayoutInflater, container: ViewGroup?): T
     abstract fun loadData()
     open fun startObserver() {
         dialogViewLiveData.observe(this.viewLifecycleOwner, {

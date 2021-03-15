@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 
 class MainViewModel constructor(private val repository: MainRepository) : BaseViewModel() {
     var userEntity: MutableLiveData<UserEntity> = repository.getUserEntity()
-    var isNeedLogin = MutableLiveData<Boolean>()
     var userRankEntity = MutableLiveData<UserRankEntity>()
 
     init {
@@ -30,12 +29,10 @@ class MainViewModel constructor(private val repository: MainRepository) : BaseVi
         }
 
 
-    fun loginOrLogout() {
-        if (!isLogin) {
-            isNeedLogin.value = true
-        } else {
-            repository.logout()
-        }
+    fun logout() {
+        repository.logout()
+        isLogin = false
+        userRankEntity.value = null
     }
 
     fun getUserRankInfo() {

@@ -16,6 +16,7 @@ import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentLoginBinding
 import com.snail.wanandroid.databinding.FragmentRegisterBinding
+import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.extensions.showSnackBar
 import com.snail.wanandroid.interfaceImpl.LoginTransitionInterfaceImpl
 import com.snail.wanandroid.viewmodel.RegisterViewModel
@@ -46,6 +47,13 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                     animateRevealClose()
                 }
             })
+
+        vB.btnRegisterGo.onClick {
+            register()
+        }
+        vB.fabRegister.onClick {
+            animateRevealClose()
+        }
     }
 
 
@@ -108,7 +116,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         })
     }
 
-    fun register(view: View) {
+    fun register() {
         val account = vB.editRegisterAccount.text.toString()
         if (account.isEmpty()) {
             vB.editRegisterAccountLayout.error = getString(R.string.error_account_empty)

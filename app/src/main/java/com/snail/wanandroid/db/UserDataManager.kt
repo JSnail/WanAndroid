@@ -32,6 +32,8 @@ class UserDataManager private constructor() : KoinComponent {
                 val data = dataBase.userDao().queryUserById(userId)
                 currentUserEntity.postValue(data)
                 Log.i("TAG","data == ${data.nickname}")
+            }else{
+                currentUserEntity.postValue(null)
             }
         }
     }

@@ -134,7 +134,7 @@ class HomeAdapter constructor(
             view.root.isActivated = bean.collect
             val interpolation = if (bean.collect) 1F else 0F
             updateCardViewTopLeftCornerSize(interpolation)
-            view.author.text = bean.author
+            view.author.text = if (bean.author.isEmpty()) bean.shareUser else bean.author
             view.textHomeTopArticleTitle.text = bean.title
             view.textHomeTopArticleChapter.text = context.getString(
                 R.string.homeFragment_chapter,
@@ -143,18 +143,19 @@ class HomeAdapter constructor(
             )
             view.textHomeTopArticleTime.text = bean.niceShareDate
             view.newArticle.visibility = if (bean.fresh) View.VISIBLE else View.GONE
-           if (bean.tags.isNotEmpty()){
-               view.tag1.visibility =View.VISIBLE
-               view.tag2.text = bean.tags[0].name
-               if (bean.tags.size>1){
-                   view.tag2.visibility =  View.VISIBLE
-                   view.tag2.text = bean.tags[1].name
-               }else{
-                   view.tag2.visibility =  View.GONE
-               }
-           }else{
-               view.tag1.visibility =  View.GONE
-           }
+            if (bean.tags.isNotEmpty()){
+                view.tag1.visibility =View.VISIBLE
+                view.tag1.text = bean.tags[0].name
+                if (bean.tags.size>1){
+                    view.tag2.visibility =  View.VISIBLE
+                    view.tag2.text = bean.tags[1].name
+                }else{
+                    view.tag2.visibility =  View.GONE
+                }
+            }else{
+                view.tag1.visibility =  View.GONE
+                view.tag2.visibility =  View.GONE
+            }
 
             view.cardView.onClick {
                 listener.onItemClicked(it, bean)
@@ -219,7 +220,7 @@ class HomeAdapter constructor(
             view.root.isActivated = bean.collect
             val interpolation = if (bean.collect) 1F else 0F
             updateCardViewTopLeftCornerSize(interpolation)
-            view.author.text = bean.author
+            view.author.text = if (bean.author.isEmpty()) bean.shareUser else bean.author
             view.textHomeTopArticleTitle.text = bean.title
             view.textHomeTopArticleChapter.text = context.getString(
                 R.string.homeFragment_chapter,
@@ -230,7 +231,7 @@ class HomeAdapter constructor(
             view.newArticle.visibility = if (bean.fresh) View.VISIBLE else View.GONE
             if (bean.tags.isNotEmpty()){
                 view.tag1.visibility =View.VISIBLE
-                view.tag2.text = bean.tags[0].name
+                view.tag1.text = bean.tags[0].name
                 if (bean.tags.size>1){
                     view.tag2.visibility =  View.VISIBLE
                     view.tag2.text = bean.tags[1].name
@@ -239,6 +240,7 @@ class HomeAdapter constructor(
                 }
             }else{
                 view.tag1.visibility =  View.GONE
+                view.tag2.visibility =  View.GONE
             }
 
             view.cardView.onClick {

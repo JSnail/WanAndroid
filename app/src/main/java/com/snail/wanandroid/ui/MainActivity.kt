@@ -1,17 +1,16 @@
-package com.snail.wanandroid
+package com.snail.wanandroid.ui
 
-import android.content.Intent
 import android.view.Gravity
-import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
-import androidx.viewbinding.ViewBinding
 import com.google.android.material.navigation.NavigationView
+import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseActivity
 import com.snail.wanandroid.databinding.ActivityMainBinding
-import com.snail.wanandroid.databinding.ActivityRankDetailsBinding
+import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.listener.OnScrollToTopListener
 import com.snail.wanandroid.ui.collect.CollectActivity
 import com.snail.wanandroid.ui.credits.RankActivity
@@ -33,6 +32,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private var currentFragment: Fragment? = null
     private val mainViewModel: MainViewModel by viewModel()
     private lateinit var creditsView: TextView
+    private lateinit var nicknameView: TextView
+    private lateinit var rankView: TextView
 
     override fun getViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -126,27 +127,48 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         vB.homeNavigationView.setNavigationItemSelectedListener(
             onDrawerNavigationItemSelectedListener
         )
+        nicknameView = headView.findViewById(R.id.textHeaderNickname)
+        rankView = headView.findViewById(R.id.textHeaderRank)
+
+        nicknameView.onClick {
+            if (!mainViewModel.isLogin) {
+                goToActivity(LoginActivity::class.java)
+            }
+        }
+
+        headView.findViewById<ImageView>(R.id.imageHeaderRank).onClick {
+            goToActivity(RankActivity::class.java)
+        }
+
         creditsView = vB.homeNavigationView.menu.findItem(R.id.credits).actionView as TextView
         creditsView.gravity = Gravity.CENTER_VERTICAL
 
     }
 
     override fun startObserver() {
-        mainViewModel.isNeedLogin.observe(this, {
-            if (it)
-                startActivity(Intent(this, LoginActivity::class.java))
-        })
+
         mainViewModel.userEntity.observe(this, {
             if (null != it) {
                 mainViewModel.getUserRankInfo()
+                nicknameView.text = it.username
+            } else {
+                nicknameView.text = getString(R.string.click_login)
+                rankView.text = getString(R.string.user_rank, "--")
             }
             vB.homeNavigationView.menu.findItem(R.id.logout).isVisible = null != it
         })
+
+        mainViewModel.userRankEntity.observe(this, {
+            if (null == it) {
+                creditsView.text = ""
+                rankView.text = getString(R.string.user_rank, "--")
+            } else {
+                creditsView.text = it.coinCount.toString()
+                rankView.text = getString(R.string.user_rank, it.rank.toString())
+            }
+        })
     }
 
-    fun goToRank(view: View) {
-        goToActivity(RankActivity::class.java)
-    }
 
     private val onDrawerNavigationItemSelectedListener =
         NavigationView.OnNavigationItemSelectedListener {
@@ -161,7 +183,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.toDo -> goToActivity(TodoActivity::class.java)
                 R.id.systemSet -> goToActivity(SystemSettingActivity::class.java)
                 R.id.logout -> {
-                    mainViewModel.loginOrLogout()
+                    mainViewModel.logout()
                 }
             }
             return@OnNavigationItemSelectedListener true
