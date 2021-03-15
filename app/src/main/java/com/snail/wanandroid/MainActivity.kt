@@ -1,28 +1,41 @@
 package com.snail.wanandroid
 
 import android.content.Intent
-import android.util.Log
+import android.view.Gravity
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
-import androidx.navigation.ui.AppBarConfiguration
+import androidx.viewbinding.ViewBinding
+import com.google.android.material.navigation.NavigationView
 import com.snail.wanandroid.base.BaseActivity
 import com.snail.wanandroid.databinding.ActivityMainBinding
-import com.snail.wanandroid.databinding.NavHeaderMainBinding
+import com.snail.wanandroid.databinding.ActivityRankDetailsBinding
 import com.snail.wanandroid.listener.OnScrollToTopListener
+import com.snail.wanandroid.ui.collect.CollectActivity
+import com.snail.wanandroid.ui.credits.RankActivity
+import com.snail.wanandroid.ui.credits.RankDetailsActivity
 import com.snail.wanandroid.ui.home.HomeFragment
 import com.snail.wanandroid.ui.home.NavigationFragment
 import com.snail.wanandroid.ui.home.ProjectFragment
 import com.snail.wanandroid.ui.home.SystemFragment
 import com.snail.wanandroid.ui.login.LoginActivity
+import com.snail.wanandroid.ui.set.SystemSettingActivity
+import com.snail.wanandroid.ui.share.ShareActivity
+import com.snail.wanandroid.ui.todo.TodoActivity
 import com.snail.wanandroid.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private lateinit var fragments: Map<Int, Fragment>
     private var currentFragment: Fragment? = null
     private val mainViewModel: MainViewModel by viewModel()
+    private lateinit var creditsView: TextView
+
+    override fun getViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+
 
     override fun loadData() {
         fragments = mapOf(
@@ -61,11 +74,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 vB.mainDrawerLayout.addDrawerListener(this)
                 this.syncState()
             }
-        AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_gallery
-            ), vB.mainDrawerLayout
-        )
+
     }
 
     private fun createFragment(clazz: Class<out Fragment>): Fragment {
@@ -114,9 +123,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun initNavView() {
         val headView = vB.homeNavigationView.inflateHeaderView(R.layout.nav_header_main)
-        val viewBinding = NavHeaderMainBinding.bind(headView)
-        viewBinding.lifecycleOwner = this
-        viewBinding.viewModel = mainViewModel
+        vB.homeNavigationView.setNavigationItemSelectedListener(
+            onDrawerNavigationItemSelectedListener
+        )
+        creditsView = vB.homeNavigationView.menu.findItem(R.id.credits).actionView as TextView
+        creditsView.gravity = Gravity.CENTER_VERTICAL
+
     }
 
     override fun startObserver() {
@@ -125,13 +137,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 startActivity(Intent(this, LoginActivity::class.java))
         })
         mainViewModel.userEntity.observe(this, {
-            mainViewModel.getUserRankInfo()
-            Log.i("TAG","首页用户数据变化")
+            if (null != it) {
+                mainViewModel.getUserRankInfo()
+            }
+            vB.homeNavigationView.menu.findItem(R.id.logout).isVisible = null != it
         })
     }
 
+    fun goToRank(view: View) {
+        goToActivity(RankActivity::class.java)
+    }
+
+    private val onDrawerNavigationItemSelectedListener =
+        NavigationView.OnNavigationItemSelectedListener {
+            if (!mainViewModel.isLogin) {
+                goToActivity(LoginActivity::class.java)
+                return@OnNavigationItemSelectedListener true
+            }
+            when (it.itemId) {
+                R.id.credits -> goToActivity(RankDetailsActivity::class.java)
+                R.id.collect -> goToActivity(CollectActivity::class.java)
+                R.id.share -> goToActivity(ShareActivity::class.java)
+                R.id.toDo -> goToActivity(TodoActivity::class.java)
+                R.id.systemSet -> goToActivity(SystemSettingActivity::class.java)
+                R.id.logout -> {
+                    mainViewModel.loginOrLogout()
+                }
+            }
+            return@OnNavigationItemSelectedListener true
+        }
+
     override fun onBackPressed() {
-        if (vB.mainDrawerLayout.isOpen){
+        if (vB.mainDrawerLayout.isOpen) {
             vB.mainDrawerLayout.close()
             return
         }

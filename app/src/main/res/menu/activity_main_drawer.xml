@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/other">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="1111" />
+            android:id="@+id/credits"
+            android:icon="@drawable/ic_main_credits"
+            app:actionViewClass="android.widget.TextView"
+            android:title="@string/my_score" >
+
+        </item>
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="2222" />
+            android:id="@+id/collect"
+            android:icon="@drawable/ic_main_collect"
+            android:title="@string/my_collect" />
+        <item
+            android:id="@+id/share"
+            android:icon="@drawable/ic_main_share"
+            android:title="@string/my_share" />
+        <item
+            android:id="@+id/toDo"
+            android:icon="@drawable/ic_main_todo"
+            android:title="@string/todo" />
+        <item
+            android:id="@+id/systemSet"
+            android:icon="@drawable/ic_main_setting"
+            android:title="@string/system_setting" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_main_logout"
+            android:title="@string/logout" />
     </group>
 </menu>

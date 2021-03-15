@@ -1,11 +1,7 @@
 package com.snail.wanandroid.viewmodel
 
-import android.util.Log
-import androidx.databinding.Bindable
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.snail.wanandroid.BR
 import com.snail.wanandroid.base.BaseViewModel
 import com.snail.wanandroid.db.UserDataManager
 import com.snail.wanandroid.entity.UserEntity
@@ -26,16 +22,16 @@ class MainViewModel constructor(private val repository: MainRepository) : BaseVi
     }
 
 
-    var isLogin = ObservableBoolean(false)
-        get() = ObservableBoolean(UserDataManager.instance.isLogged)
+    var isLogin = false
+        get() = UserDataManager.instance.isLogged
         set(value) {
-            UserDataManager.instance.isLogged = value.get()
+            UserDataManager.instance.isLogged = value
             field = value
         }
 
 
     fun loginOrLogout() {
-        if (!isLogin.get()) {
+        if (!isLogin) {
             isNeedLogin.value = true
         } else {
             repository.logout()
@@ -43,15 +39,13 @@ class MainViewModel constructor(private val repository: MainRepository) : BaseVi
     }
 
     fun getUserRankInfo() {
-        isLogin.set(true)
+        isLogin = true
         viewModelScope.launch {
             repository.getUserRankInfo()
                 .collectLatest {
                     userRankEntity.value = it.recordset
-                    Log.i("TAG", "  ${it.errorMsg}   ${Thread.currentThread().name}")
                 }
         }
     }
-
 
 }

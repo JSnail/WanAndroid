@@ -1,24 +1,31 @@
 package com.snail.wanandroid.base
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 
-abstract class BaseActivity<T : ViewDataBinding>
-constructor(@LayoutRes private val layoutId: Int) : AppCompatActivity() {
+abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
 
     protected lateinit var vB: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        vB = DataBindingUtil.setContentView(this, layoutId)
+        vB = getViewBinding()
+        setContentView(vB.root)
         loadData()
         startObserver()
     }
 
+    abstract fun getViewBinding(): T
+
+    open fun goToActivity(cls: Class<*>) {
+        startActivity(Intent(this, cls))
+    }
+
+    open fun goToActivityForResult(cls: Class<*>, requestId: Int) {
+        startActivityForResult(Intent(this, cls), requestId)
+    }
 
 
     abstract fun loadData()

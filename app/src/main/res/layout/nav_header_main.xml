@@ -1,80 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_view_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/x32"
+    android:paddingTop="@dimen/x70"
+    android:paddingRight="@dimen/x32"
+    android:paddingBottom="@dimen/x20"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <data>
+    <ImageView
+        android:id="@+id/imageHeaderRank"
+        android:layout_width="@dimen/x40"
+        android:layout_height="@dimen/x40"
+        android:layout_gravity="end"
+        android:onClick="goToRank"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_rank_white_24dp" />
 
-        <variable
-            name="viewModel"
-            type="com.snail.wanandroid.viewmodel.MainViewModel" />
+    <ImageView
+        android:id="@+id/imageHeaderHeader"
+        android:layout_width="@dimen/x160"
+        android:layout_height="@dimen/x160"
+        android:layout_gravity="center_horizontal"
+        app:borderWidth="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageHeaderRank"
+        app:srcCompat="@mipmap/ic_launcher" />
 
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/nav_view_header"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textHeaderNickname"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/x32"
-        android:paddingTop="@dimen/x70"
-        android:paddingRight="@dimen/x32"
-        android:paddingBottom="@dimen/x20"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
-
-        <ImageView
-            android:id="@+id/imageHeaderRank"
-            android:layout_width="@dimen/x40"
-            android:layout_height="@dimen/x40"
-            android:layout_gravity="end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_rank_white_24dp" />
-
-        <ImageView
-            android:id="@+id/imageHeaderHeader"
-            android:layout_width="@dimen/x160"
-            android:layout_height="@dimen/x160"
-            android:layout_gravity="center_horizontal"
-            app:borderWidth="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageHeaderRank"
-            app:srcCompat="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/textHeaderNickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/x24"
-            android:onClick="@{view ->viewModel.loginOrLogout()}"
-            android:text="@{viewModel.login ? viewModel.userRankEntity.username : @string/click_login}"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_size_16"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageHeaderHeader" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x24"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_16"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageHeaderHeader" />
 
 
-        <TextView
-            android:id="@+id/textHeaderRank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/x5"
-            android:layout_marginTop="@dimen/x10"
-            android:text="@{ @string/user_rank(viewModel.login ? String.valueOf(viewModel.userRankEntity.rank) : @string/placeholder )}"
-            android:textAppearance="?attr/textAppearanceCaption"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textHeaderNickname" />
+    <TextView
+        android:id="@+id/textHeaderRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/x5"
+        android:layout_marginTop="@dimen/x10"
+        android:textAppearance="?attr/textAppearanceCaption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textHeaderNickname" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

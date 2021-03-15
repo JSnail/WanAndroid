@@ -2,27 +2,33 @@ package com.snail.wanandroid.ui.login.fragments
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.Navigation
 import androidx.transition.Transition
 import androidx.transition.TransitionInflater
+import androidx.viewbinding.ViewBinding
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
+import com.snail.wanandroid.databinding.FragmentLoginBinding
 import com.snail.wanandroid.databinding.FragmentRegisterBinding
 import com.snail.wanandroid.extensions.showSnackBar
 import com.snail.wanandroid.interfaceImpl.LoginTransitionInterfaceImpl
 import com.snail.wanandroid.viewmodel.RegisterViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterFragment : BaseFragment<FragmentRegisterBinding>(R.layout.fragment_register) {
+class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
+
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentRegisterBinding =
+        FragmentRegisterBinding.inflate(inflater, container, false)
 
     private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun loadData() {
-        vB.register = this
 
         val transition =
             TransitionInflater.from(activity).inflateTransition(R.transition.fabtransition)

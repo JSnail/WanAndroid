@@ -1,6 +1,5 @@
 package com.snail.wanandroid.viewmodel
 
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.snail.wanandroid.base.BaseViewModel
@@ -16,9 +15,6 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
     val allData = MutableLiveData<MutableList<BaseHomeAllEntity>>()
 
     val articleListData = MutableLiveData<MutableList<BaseHomeAllEntity>>()
-    val multiStateView = ObservableField<MultiStateView.ViewState>().apply {
-        this.set(MultiStateView.ViewState.LOADING)
-    }
 
     fun getHomeAllData() {
         page = 0
@@ -37,7 +33,6 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
             homeArticleList.await().recordset?.datas?.forEach {
                 result.add(it)
             }
-            multiStateView.set(MultiStateView.ViewState.CONTENT)
             allData.value = result
         }
 
@@ -68,6 +63,5 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
     }
 
     override fun onErrorMessage(errorMessage: String) {
-        multiStateView.set(MultiStateView.ViewState.ERROR)
     }
 }

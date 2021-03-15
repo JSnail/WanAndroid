@@ -1,48 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.snail.wanandroid.widget.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:msv_viewState="content">
 
-    <data>
-
-
-        <variable
-            name="viewModel"
-            type="com.snail.wanandroid.viewmodel.HomeViewModel" />
-    </data>
-
-    <com.snail.wanandroid.widget.MultiStateView
+    <com.snail.allrefresh.RefreshLayout
+        android:id="@+id/homeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:msv_viewState="content"
-        setViewState="@{viewModel.multiStateView}">
+        android:layout_height="match_parent">
 
-        <com.snail.allrefresh.RefreshLayout
-            android:id="@+id/homeRefreshLayout"
+        <com.snail.allrefresh.view.normal.NormalRefreshView
+            android:id="@+id/headerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content" />
 
-            <com.snail.allrefresh.view.normal.NormalRefreshView
-                android:id="@+id/headerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/contentView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:transitionGroup="true" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/contentView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:clipToPadding="false"
-                android:transitionGroup="true"
-               />
+        <com.snail.allrefresh.view.normal.RotateRefreshView
+            android:id="@+id/footerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <com.snail.allrefresh.view.normal.RotateRefreshView
-                android:id="@+id/footerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+    </com.snail.allrefresh.RefreshLayout>
 
-        </com.snail.allrefresh.RefreshLayout>
-
-    </com.snail.wanandroid.widget.MultiStateView>
-
-</layout>
+</com.snail.wanandroid.widget.MultiStateView>

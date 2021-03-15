@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="holder"
-            type="com.snail.wanandroid.ui.login.fragments.LoginFragment" />
-    </data>
-
-
-    <RelativeLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,7 +36,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="50dp"
-                        android:text=""
+                        android:text="@string/login_login"
                         android:textColor="#FFCC00"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -71,6 +63,7 @@
                         android:hint="@string/login_account"
                         android:imeOptions="actionNext"
                         android:maxLines="1"
+                        android:text="Jsnail"
                         android:singleLine="true"
                         android:textColor="#2fa881"
                         android:textSize="16sp" />
@@ -95,9 +88,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x5"
                         android:hint="@string/login_password"
-                        android:maxLines="1"
-                        android:singleLine="true"
                         android:imeOptions="actionGo"
+                        android:maxLines="1"
+                        android:text="123456"
+                        android:singleLine="true"
                         android:textColor="#2fa881"
                         android:textSize="@dimen/font_size_16" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -113,8 +107,7 @@
                         android:layout_width="@dimen/x300"
                         android:layout_height="@dimen/x100"
                         android:stateListAnimator="@drawable/state_list_animator_z"
-                        android:onClick="@{holder::login}"
-                        android:text="@string/login_login" />
+                        android:text="@string/login_confirm" />
                 </RelativeLayout>
 
                 <TextView
@@ -125,10 +118,9 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="@dimen/x20"
                     android:text="@string/login_forget_password"
-                    android:visibility="gone"
-                    android:onClick="@{holder::forgetPassword}"
                     android:textColor="#FFCC00"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -141,11 +133,8 @@
             android:layout_marginTop="25dp"
             android:layout_marginEnd="-20dp"
             android:elevation="@dimen/x5"
-            android:onClick="@{holder::goToRegister}"
             android:src="@drawable/ic_baseline_add_24"
             android:transitionName="@string/transitionName_login"
             app:fabSize="normal" />
 
     </RelativeLayout>
-
-</layout>

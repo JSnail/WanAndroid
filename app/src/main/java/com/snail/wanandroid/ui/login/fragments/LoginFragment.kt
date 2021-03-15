@@ -1,23 +1,28 @@
 package com.snail.wanandroid.ui.login.fragments
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.viewbinding.ViewBinding
 import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentLoginBinding
+import com.snail.wanandroid.databinding.FragmentSystemBinding
 import com.snail.wanandroid.extensions.onAfterTextChanged
 import com.snail.wanandroid.extensions.showSnackBar
 import com.snail.wanandroid.viewmodel.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentLoginBinding =
+        FragmentLoginBinding.inflate(inflater, container, false)
 
     private val loginViewModel: LoginViewModel by viewModel()
 
 
     override fun loadData() {
-        vB.holder = this
         vB.editLoginAccount.onAfterTextChanged {
             vB.editLoginAccountLayout.error = null
         }

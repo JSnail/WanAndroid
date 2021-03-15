@@ -1,24 +1,20 @@
 package com.snail.wanandroid.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.snail.wanandroid.dialog.LoadingDialog
 import com.snail.wanandroid.viewmodel.LoadingViewLiveData
 import org.koin.android.ext.android.inject
 
-abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private val layoutId: Int) :
-    Fragment() {
+abstract class BaseFragment<T : ViewBinding> :  Fragment() {
 
     protected lateinit var vB: T
     protected val dialogViewLiveData: LoadingViewLiveData by inject()
-    private val loadingDialog : LoadingDialog by inject()
+    private val loadingDialog: LoadingDialog by inject()
 
 
     override fun onCreateView(
@@ -26,29 +22,19 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        vB = DataBindingUtil.inflate(inflater, layoutId, container, false) as T
-        vB.lifecycleOwner = this
+        vB = getViewBinding(inflater,container)
         startObserver()
         loadData()
         return vB.root
     }
 
+    abstract fun getViewBinding(  inflater: LayoutInflater, container: ViewGroup?): T
 
     abstract fun loadData()
     open fun startObserver() {
         dialogViewLiveData.observe(this.viewLifecycleOwner, {
-            if (it) loadingDialog.show(childFragmentManager,"loading") else loadingDialog.dismiss()
+            if (it) loadingDialog.show(childFragmentManager, "loading") else loadingDialog.dismiss()
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.i("TAG","BaseFragment  onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        vB.unbind()
-        Log.i("TAG","BaseFragment  onDestroy")
-    }
 }

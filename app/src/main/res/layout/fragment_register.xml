@@ -1,145 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <data>
-        <variable
-            name="register"
-            type="com.snail.wanandroid.ui.login.fragments.RegisterFragment" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvRegister"
+        android:layout_width="@dimen/x600"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x300"
+        android:visibility="invisible"
+        app:cardBackgroundColor="#2ea67f"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvRegister"
-            android:layout_width="@dimen/x600"
-            android:visibility="invisible"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/x300"
-            app:cardBackgroundColor="#2ea67f"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="3dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:text="@string/login_register"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editRegisterAccountLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:minHeight="@dimen/x70"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp"
+                android:textColorHint="#f0f7f4"
+                android:theme="@style/TextLabel">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="50dp"
-                    android:text="@string/login_register"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/editRegisterAccountLayout"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editRegisterAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:minHeight="@dimen/x70"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp"
-                    android:textColorHint="#f0f7f4"
-                    android:theme="@style/TextLabel">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editRegisterAccount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/login_account"
-                        android:inputType="textPersonName"
-                        android:textColor="#f0f7f4"
-                        android:maxLines="1"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="@string/login_account"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textColor="#f0f7f4"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/editRegisterPwdLayout"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editRegisterPwdLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minHeight="@dimen/x70"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp"
+                android:textColorHint="#f0f7f4"
+                android:theme="@style/TextLabel">
+
+                <EditText
+                    android:id="@+id/editRegisterPwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:minHeight="@dimen/x70"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp"
-                    android:textColorHint="#f0f7f4"
-                    android:theme="@style/TextLabel">
-
-                    <EditText
-                        android:id="@+id/editRegisterPwd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/login_password"
-                        android:inputType="textPassword"
-                        android:textColor="#f0f7f4"
-                        android:maxLines="1"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="@string/login_password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="#f0f7f4"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/editRegisterRePwdLayout"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editRegisterRePwdLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minHeight="@dimen/x70"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp"
+                android:textColorHint="#f0f7f4"
+                android:theme="@style/TextLabel">
+
+                <EditText
+                    android:id="@+id/editRegisterRePwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:minHeight="@dimen/x70"
-                    android:paddingStart="50dp"
-                    android:paddingEnd="30dp"
-                    android:textColorHint="#f0f7f4"
-                    android:theme="@style/TextLabel">
+                    android:hint="@string/login_password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="#f0f7f4"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/editRegisterRePwd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/login_password"
-                        android:inputType="textPassword"
-                        android:textColor="#f0f7f4"
-                        android:maxLines="1"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRegisterGo"
+                android:layout_width="150dp"
+                android:layout_height="@dimen/x80"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="@dimen/x30"
+                android:onClick="@{register::register}"
+                android:stateListAnimator="@drawable/state_list_animator_z"
+                android:text="@string/login_confirm"
+                android:textColor="#2fa881" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnRegisterGo"
-                    android:layout_width="150dp"
-                    android:layout_height="@dimen/x80"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="@dimen/x30"
-                    android:stateListAnimator="@drawable/state_list_animator_z"
-                    android:text="@string/login_confirm"
-                    android:onClick="@{register::register}"
-                    android:textColor="#2fa881" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:src="@drawable/ic_baseline_add_24"
-            android:transitionName="@string/transitionName_login"
-            app:fabSize="normal"
-            android:rotation="45"
-            app:layout_constraintBottom_toTopOf="@+id/cvRegister"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cvRegister" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:rotation="45"
+        android:src="@drawable/ic_baseline_add_24"
+        android:transitionName="@string/transitionName_login"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/cvRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cvRegister" />
+</androidx.constraintlayout.widget.ConstraintLayout>

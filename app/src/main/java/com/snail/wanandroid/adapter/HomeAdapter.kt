@@ -15,6 +15,7 @@ import com.snail.wanandroid.databinding.ItemHomeCommentLayoutBinding
 import com.snail.wanandroid.databinding.ItemHomeTopLayoutBinding
 import com.snail.wanandroid.entity.*
 import com.snail.wanandroid.extensions.loadImage
+import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.widget.home.HomeCollectSwipeActionDrawable
 import com.snail.wanandroid.widget.home.ReboundingSwipeActionCallback
 import kotlin.math.abs
@@ -120,6 +121,8 @@ class HomeAdapter constructor(
      **/
     inner class HomeTopViewHolder(private val view: ItemHomeTopLayoutBinding) :
         BaseViewHolder(view.root), ReboundingSwipeActionCallback.ReboundAbleViewHolder {
+        private lateinit var bean: ArticleTopEntity
+
         init {
             view.run {
                 this.root.background = HomeCollectSwipeActionDrawable(context)
@@ -127,11 +130,35 @@ class HomeAdapter constructor(
         }
 
         fun setData(bean: ArticleTopEntity) {
-            view.listener = listener
-            view.articleTopBean = bean
+            this.bean = bean
             view.root.isActivated = bean.collect
             val interpolation = if (bean.collect) 1F else 0F
             updateCardViewTopLeftCornerSize(interpolation)
+            view.author.text = bean.author
+            view.textHomeTopArticleTitle.text = bean.title
+            view.textHomeTopArticleChapter.text = context.getString(
+                R.string.homeFragment_chapter,
+                bean.superChapterName,
+                bean.chapterName
+            )
+            view.textHomeTopArticleTime.text = bean.niceShareDate
+            view.newArticle.visibility = if (bean.fresh) View.VISIBLE else View.GONE
+           if (bean.tags.isNotEmpty()){
+               view.tag1.visibility =View.VISIBLE
+               view.tag2.text = bean.tags[0].name
+               if (bean.tags.size>1){
+                   view.tag2.visibility =  View.VISIBLE
+                   view.tag2.text = bean.tags[1].name
+               }else{
+                   view.tag2.visibility =  View.GONE
+               }
+           }else{
+               view.tag1.visibility =  View.GONE
+           }
+
+            view.cardView.onClick {
+                listener.onItemClicked(it, bean)
+            }
         }
 
         override val reboundAbleView: View
@@ -144,7 +171,7 @@ class HomeAdapter constructor(
         ) {
             if (currentTargetHasMetThresholdOnce) return
 
-            val isStarred = view.articleTopBean?.collect ?: false
+            val isStarred = bean.collect
 
             val interpolation = (currentSwipePercentage / swipeThreshold).coerceIn(0F, 1F)
             val adjustedInterpolation = abs((if (isStarred) 1F else 0F) - interpolation)
@@ -161,8 +188,8 @@ class HomeAdapter constructor(
         }
 
         override fun onRebounded() {
-            val isCollect = view.articleTopBean?.collect ?: false
-            view.listener?.onStatusChanged(view.articleTopBean, isCollect)
+            val isCollect = bean.collect
+            listener.onStatusChanged(bean, isCollect)
         }
 
         private fun updateCardViewTopLeftCornerSize(interpolation: Float) {
@@ -179,6 +206,8 @@ class HomeAdapter constructor(
      **/
     inner class HomeCommentViewHolder(private val view: ItemHomeCommentLayoutBinding) :
         BaseViewHolder(view.root), ReboundingSwipeActionCallback.ReboundAbleViewHolder {
+        private lateinit var bean: ArticleListBean
+
         init {
             view.run {
                 this.root.background = HomeCollectSwipeActionDrawable(context)
@@ -186,11 +215,35 @@ class HomeAdapter constructor(
         }
 
         fun setData(bean: ArticleListBean) {
-            view.articleListBean = bean
-            view.listener = listener
+            this.bean = bean
             view.root.isActivated = bean.collect
             val interpolation = if (bean.collect) 1F else 0F
             updateCardViewTopLeftCornerSize(interpolation)
+            view.author.text = bean.author
+            view.textHomeTopArticleTitle.text = bean.title
+            view.textHomeTopArticleChapter.text = context.getString(
+                R.string.homeFragment_chapter,
+                bean.superChapterName,
+                bean.chapterName
+            )
+            view.textHomeTopArticleTime.text = bean.niceShareDate
+            view.newArticle.visibility = if (bean.fresh) View.VISIBLE else View.GONE
+            if (bean.tags.isNotEmpty()){
+                view.tag1.visibility =View.VISIBLE
+                view.tag2.text = bean.tags[0].name
+                if (bean.tags.size>1){
+                    view.tag2.visibility =  View.VISIBLE
+                    view.tag2.text = bean.tags[1].name
+                }else{
+                    view.tag2.visibility =  View.GONE
+                }
+            }else{
+                view.tag1.visibility =  View.GONE
+            }
+
+            view.cardView.onClick {
+                listener.onItemClicked(it, bean)
+            }
         }
 
         override val reboundAbleView: View
@@ -203,7 +256,7 @@ class HomeAdapter constructor(
         ) {
             if (currentTargetHasMetThresholdOnce) return
 
-            val isStarred = view.articleListBean?.collect ?: false
+            val isStarred = bean.collect
 
             val interpolation = (currentSwipePercentage / swipeThreshold).coerceIn(0F, 1F)
             val adjustedInterpolation = abs((if (isStarred) 1F else 0F) - interpolation)
@@ -220,8 +273,8 @@ class HomeAdapter constructor(
         }
 
         override fun onRebounded() {
-            val isCollect = view.articleListBean?.collect ?: false
-            view.listener?.onStatusChanged(view.articleListBean, isCollect)
+            val isCollect = bean.collect
+            listener.onStatusChanged(bean, isCollect)
         }
 
         private fun updateCardViewTopLeftCornerSize(interpolation: Float) {

@@ -1,160 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/x8"
+    android:layout_marginVertical="@dimen/x4"
     tools:ignore="UnusedAttribute">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="articleTopBean"
-            type="com.snail.wanandroid.entity.ArticleTopEntity" />
-
-        <variable
-            name="listener"
-            type="com.snail.wanandroid.adapter.HomeAdapter.HomeAdapterListener" />
-    </data>
-
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/x8"
-        android:layout_marginVertical="@dimen/x4">
+        android:background="?attr/colorSecondary"
+        android:clickable="true"
+        android:elevation="@dimen/x0"
+        android:focusable="true"
+        android:transitionName="@string/transitionName_home"
+        app:cardCornerRadius="@dimen/x2"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorSecondary"
-            android:clickable="true"
-            android:elevation="@dimen/x0"
-            android:focusable="true"
-            android:onClick="@{(view) -> listener.onItemClicked(view, articleTopBean)}"
-            android:transitionName="@string/transitionName_home"
-            app:cardCornerRadius="@dimen/x2"
-            app:cardElevation="0dp"
-            app:cardPreventCornerOverlap="false">
+            android:paddingTop="@dimen/x32"
+            android:paddingBottom="@dimen/x32">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/stick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x32"
+                android:layout_marginTop="@dimen/x16"
+                android:layout_marginEnd="@dimen/x32"
+                android:background="@drawable/round_line_1"
+                android:text="@string/homeFragment_stick"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/newArticle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x16"
+                android:layout_marginTop="@dimen/x16"
+                android:layout_marginEnd="@dimen/x32"
+                android:background="@drawable/round_line_1"
+                android:text="@string/homeFragment_new"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintStart_toEndOf="@+id/stick"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tag1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x16"
+                android:layout_marginTop="@dimen/x16"
+                android:layout_marginEnd="@dimen/x32"
+                android:background="@drawable/round_line_2"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="@color/orange_200"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/newArticle"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tag2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x16"
+                android:layout_marginTop="@dimen/x16"
+                android:layout_marginEnd="@dimen/x32"
+                android:background="@drawable/round_line_2"
+                android:textAppearance="?attr/textAppearanceOverline"
+                android:textColor="@color/orange_200"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/tag1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x32"
+                android:layout_marginTop="@dimen/x16"
+                android:layout_marginEnd="@dimen/x32"
+                android:maxLines="1"
+                android:textAppearance="?attr/textAppearanceCaption"
+                app:layout_constraintStart_toEndOf="@+id/tag2"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Google Express - 12m" />
+
+            <TextView
+                android:id="@+id/textHomeTopArticleTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/x32"
-                android:paddingBottom="@dimen/x32">
+                android:layout_margin="@dimen/x32"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/author"
+                app:layout_goneMarginEnd="@dimen/x32"
+                tools:text="Package Shipped!" />
 
-                <TextView
-                    android:id="@+id/stick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/x32"
-                    android:layout_marginTop="@dimen/x16"
-                    android:layout_marginEnd="@dimen/x32"
-                    android:background="@drawable/round_line_1"
-                    android:text="@string/homeFragment_stick"
-                    android:textAppearance="?attr/textAppearanceOverline"
-                    android:textColor="@color/colorPrimary"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/newArticle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/x16"
-                    android:layout_marginTop="@dimen/x16"
-                    android:layout_marginEnd="@dimen/x32"
-                    android:background="@drawable/round_line_1"
-                    android:text="@string/homeFragment_new"
-                    android:textAppearance="?attr/textAppearanceOverline"
-                    android:textColor="@color/colorPrimary"
-                    android:visibility="@{articleTopBean.fresh? View.VISIBLE: View. GONE}"
-                    app:layout_constraintStart_toEndOf="@+id/stick"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textHomeTopArticleChapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x32"
+                android:layout_marginTop="@dimen/x32"
+                android:textAppearance="?attr/textAppearanceCaption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textHomeTopArticleTitle" />
 
 
-                <TextView
-                    android:id="@+id/tag1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/x16"
-                    android:layout_marginTop="@dimen/x16"
-                    android:layout_marginEnd="@dimen/x32"
-                    android:background="@drawable/round_line_2"
-                    android:text="@{articleTopBean.tags.size()>0 ?  articleTopBean.tags.get(0).name : @string/homeFragment_new  }"
-                    android:textAppearance="?attr/textAppearanceOverline"
-                    android:textColor="@color/orange_200"
-                    android:visibility="@{articleTopBean.tags.size()>0? View.VISIBLE : View. GONE}"
-                    app:layout_constraintStart_toEndOf="@+id/newArticle"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textHomeTopArticleTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x16"
+                android:layout_marginEnd="@dimen/x32"
+                android:textAppearance="?attr/textAppearanceCaption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textHomeTopArticleTitle" />
 
-                <TextView
-                    android:id="@+id/tag2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/x16"
-                    android:layout_marginTop="@dimen/x16"
-                    android:layout_marginEnd="@dimen/x32"
-                    android:background="@drawable/round_line_2"
-                    android:text="@{articleTopBean.tags.size()>1 ?  articleTopBean.tags.get(1).name : @string/homeFragment_new }"
-                    android:textAppearance="?attr/textAppearanceOverline"
-                    android:textColor="@color/orange_200"
-                    android:visibility="@{articleTopBean.tags.size()>1 ? View.VISIBLE: View. GONE}"
-                    app:layout_constraintStart_toEndOf="@+id/tag1"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                <TextView
-                    android:id="@+id/author"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/x32"
-                    android:layout_marginTop="@dimen/x16"
-                    android:layout_marginEnd="@dimen/x32"
-                    android:maxLines="1"
-                    android:text="@{articleTopBean.author}"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    app:layout_constraintStart_toEndOf="@+id/tag2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Google Express - 12m" />
-
-                <TextView
-                    android:id="@+id/textHomeTopArticleTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/x32"
-                    android:text="@{articleTopBean.title}"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/author"
-                    app:layout_goneMarginEnd="@dimen/x32"
-                    tools:text="Package Shipped!" />
-
-                <TextView
-                    android:id="@+id/textHomeTopArticleChapter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/x32"
-                    android:layout_marginTop="@dimen/x32"
-                    android:text="@{@string/homeFragment_chapter(articleTopBean.superChapterName,articleTopBean.chapterName)}"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textHomeTopArticleTitle" />
-
-
-                <TextView
-                    android:id="@+id/textHomeTopArticleTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/x16"
-                    android:layout_marginEnd="@dimen/x32"
-                    android:text="@{articleTopBean.niceShareDate}"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textHomeTopArticleTitle" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
-</layout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

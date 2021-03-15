@@ -16,11 +16,12 @@ class UserDataManager private constructor() : KoinComponent {
     var currentUserEntity = MutableLiveData<UserEntity>()
 
     var isLogged: Boolean = false
-        get() = currentUserEntity.value != null
+        get() = currentUserEntity.value != null && sp.cookie.isNotEmpty()
 
 
     fun logout() {
         sp.cookie = ""
+        sp.tempUserId =-1
         currentUserEntity.value = null
     }
 
