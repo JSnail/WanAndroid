@@ -30,7 +30,7 @@
         <activity android:name=".ui.share.ShareActivity" />
         <activity android:name=".ui.todo.TodoActivity" />
         <activity android:name=".ui.set.SystemSettingActivity" />
-        <activity android:name=".ui.WebActivity" />
+        <activity android:name=".ui.web.WebActivity" />
     </application>
 
 </manifest>

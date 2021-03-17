@@ -1,19 +1,18 @@
+import com.snail.versionplugin.*
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
 }
-apply from : '../config.gradle'
 
 android {
-    compileSdkVersion versions.compileSdkVersion
-    buildToolsVersion versions.buildToolsVersion
+    compileSdkVersion BuildConfig.compileSdkVersion
+    buildToolsVersion BuildConfig.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion versions.minSdkVersion
-        targetSdkVersion versions.targetSdkVersion
-        versionCode versions.versionCode
-        versionName versions.versionName
-
+        minSdkVersion BuildConfig.minSdkVersion
+        targetSdkVersion BuildConfig.targetSdkVersion
+        versionCode BuildConfig.versionCode
+        versionName BuildConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -38,9 +37,9 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:${dependenciesVersion.kotlin_version}"
-    implementation "androidx.core:core-ktx:${dependenciesVersion.core_ktx}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${dependenciesVersion.coroutines}"
-    implementation "androidx.appcompat:appcompat:${dependenciesVersion.appcompat}"
-    implementation "com.google.android.material:material:${dependenciesVersion.meterial}"
+    implementation Kt.kotlin
+    implementation AndroidX.androidXCore
+    implementation Coroutines.coroutines
+    implementation AndroidX.appcompat
+    implementation Material.material
 }

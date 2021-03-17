@@ -1,5 +1,9 @@
 package com.snail.wanandroid.entity
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class ArticleTopEntity(
     val apkLink: String,
     val audit: Int,
@@ -34,13 +38,14 @@ data class ArticleTopEntity(
     val userId: Int,
     val visible: Int,
     val zan: Int
-):BaseHomeAllEntity(){
+):BaseHomeAllEntity(), Parcelable {
     init {
         itemType = topArticle
     }
 
+    @Parcelize
     data class Tag(
         val name :String,
         val url:String
-    )
+    ):Parcelable
 }

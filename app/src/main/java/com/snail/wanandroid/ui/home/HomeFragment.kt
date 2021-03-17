@@ -4,16 +4,18 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewbinding.ViewBinding
+import com.google.android.material.transition.MaterialElevationScale
+import com.snail.wanandroid.R
 import com.snail.wanandroid.adapter.HomeAdapter
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentHomeBinding
 import com.snail.wanandroid.entity.ArticleListBean
 import com.snail.wanandroid.entity.ArticleTopEntity
 import com.snail.wanandroid.entity.BaseHomeAllEntity
-import com.snail.wanandroid.ui.WebActivity
+import com.snail.wanandroid.ui.web.WebActivity
 import com.snail.wanandroid.viewmodel.HomeViewModel
 import com.snail.wanandroid.widget.home.ReboundingSwipeActionCallback
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -76,7 +78,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
              is ArticleListBean ->  bean.link
              else -> throw IllegalArgumentException("url error")
          }
-            val intent = Intent(requireActivity(),WebActivity::class.java).apply {
+
+            exitTransition = MaterialElevationScale(false).apply {
+                duration =300L
+            }
+            reenterTransition = MaterialElevationScale(true).apply {
+                duration =300L
+            }
+
+            val extras = FragmentNavigatorExtras(cardView to getString(R.string.transitionName_home))
+
+            val intent = Intent(requireActivity(), WebActivity::class.java).apply {
                 this.putExtra(WebActivity.URL,url)
             }
             goToActivity(intent)

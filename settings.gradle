@@ -1,3 +1,4 @@
+includeBuild  'VersionPlugin'
 include ':AllRefresh'
 include ':banner'
 include ':app'
