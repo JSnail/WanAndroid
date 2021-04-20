@@ -1,27 +1,31 @@
 package com.snail.wanandroid.ui.home
 
+import android.app.ActivityOptions
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import android.view.Window
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.MaterialElevationScale
-import com.snail.wanandroid.R
+import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.snail.wanandroid.adapter.HomeAdapter
 import com.snail.wanandroid.base.BaseFragment
 import com.snail.wanandroid.databinding.FragmentHomeBinding
 import com.snail.wanandroid.entity.ArticleListBean
 import com.snail.wanandroid.entity.ArticleTopEntity
 import com.snail.wanandroid.entity.BaseHomeAllEntity
+import com.snail.wanandroid.listener.OnScrollToTopListener
 import com.snail.wanandroid.ui.web.WebActivity
 import com.snail.wanandroid.viewmodel.HomeViewModel
 import com.snail.wanandroid.widget.home.ReboundingSwipeActionCallback
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.IllegalArgumentException
+import java.text.ParsePosition
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(), OnScrollToTopListener {
 
     private val homeViewModel: HomeViewModel by viewModel()
     private val homeAdapter by lazy {
@@ -72,11 +76,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val adapterListener = object : HomeAdapter.HomeAdapterListener {
 
-        override fun onItemClicked(cardView: View, bean: BaseHomeAllEntity) {
-         val url = when (bean) {
-             is ArticleTopEntity ->  bean.link
-             is ArticleListBean ->  bean.link
-             else -> throw IllegalArgumentException("url error")
+        override fun onItemClicked(cardView: View, position: Int,bean: BaseHomeAllEntity) {
+         val title = when (bean) {
+             is ArticleTopEntity ->  bean.title
+             is ArticleListBean ->  bean.title
+             else -> throw IllegalArgumentException("title error")
          }
 
             exitTransition = MaterialElevationScale(false).apply {
@@ -86,12 +90,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 duration =300L
             }
 
-            val extras = FragmentNavigatorExtras(cardView to getString(R.string.transitionName_home))
-
             val intent = Intent(requireActivity(), WebActivity::class.java).apply {
-                this.putExtra(WebActivity.URL,url)
+                this.putExtra(WebActivity.URLS, homeViewModel.urlArray)
+                this.putExtra(WebActivity.TITLE,title)
             }
-            goToActivity(intent)
+            currentPosition = position
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                requireActivity(),
+                cardView,
+                cardView.transitionName
+            )
+            goToActivity(intent,options)
         }
 
         override fun onStatusChanged(bean: BaseHomeAllEntity?, newValue: Boolean) {
@@ -118,5 +127,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(currentPosition != -1 ){
+            Log.d("TAG", "onResume: ")
+            vB.contentView.smoothScrollToPosition(currentPosition)
+        }
+    }
+
+    override fun onScrollToTop() {
+        vB.contentView.smoothScrollToPosition(0)
+    }
+
+    companion object{
+         var currentPosition = -1
+    }
 
 }

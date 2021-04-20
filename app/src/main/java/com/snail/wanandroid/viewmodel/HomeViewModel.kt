@@ -16,6 +16,8 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
 
     val articleListData = MutableLiveData<MutableList<BaseHomeAllEntity>>()
 
+    val urlArray = ArrayList<String>()
+
     fun getHomeAllData() {
         page = 0
         viewModelScope.launch(handlerExpectation) {
@@ -27,11 +29,15 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
             val bannerEntities = HomeBannerEntity(banner.await().recordset)
             result.add(bannerEntities)
 
+            urlArray.clear()
+
             topArticle.await().recordset?.forEach {
                 result.add(it)
+                urlArray.add(it.link)
             }
             homeArticleList.await().recordset?.datas?.forEach {
                 result.add(it)
+                urlArray.add(it.link)
             }
             allData.value = result
         }
@@ -45,6 +51,7 @@ class HomeViewModel constructor(private val homeRepository: HomeRepository) : Ba
             val result = mutableListOf<BaseHomeAllEntity>()
             homeArticleList.await().recordset?.datas?.forEach {
                 result.add(it)
+                urlArray.add(it.link)
             }
             articleListData.value = result
         }

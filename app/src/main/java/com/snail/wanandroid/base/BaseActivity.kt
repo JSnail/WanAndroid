@@ -10,6 +10,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
     protected lateinit var vB: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        configure()
         super.onCreate(savedInstanceState)
         vB = getViewBinding()
         setContentView(vB.root)
@@ -31,6 +32,10 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
     abstract fun loadData()
 
     open fun startObserver() {
+
+    }
+
+    open fun configure(){
 
     }
 }

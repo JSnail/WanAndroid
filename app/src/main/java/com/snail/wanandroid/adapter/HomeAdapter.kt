@@ -84,11 +84,11 @@ class HomeAdapter constructor(
             }
             BaseHomeAllEntity.topArticle -> {
                 val bean = data[position] as ArticleTopEntity
-                (holder as HomeTopViewHolder).setData(bean)
+                (holder as HomeTopViewHolder).setData(bean,position)
             }
             BaseHomeAllEntity.commonArticle -> {
                 val bean = data[position] as ArticleListBean
-                (holder as HomeCommentViewHolder).setData(bean)
+                (holder as HomeCommentViewHolder).setData(bean,position)
             }
         }
     }
@@ -129,7 +129,7 @@ class HomeAdapter constructor(
             }
         }
 
-        fun setData(bean: ArticleTopEntity) {
+        fun setData(bean: ArticleTopEntity,position: Int) {
             this.bean = bean
             view.root.isActivated = bean.collect
             val interpolation = if (bean.collect) 1F else 0F
@@ -158,7 +158,7 @@ class HomeAdapter constructor(
             }
 
             view.cardView.onClick {
-                listener.onItemClicked(it, bean)
+                listener.onItemClicked(it, position,bean)
             }
         }
 
@@ -215,7 +215,7 @@ class HomeAdapter constructor(
             }
         }
 
-        fun setData(bean: ArticleListBean) {
+        fun setData(bean: ArticleListBean,position: Int) {
             this.bean = bean
             view.root.isActivated = bean.collect
             val interpolation = if (bean.collect) 1F else 0F
@@ -244,7 +244,7 @@ class HomeAdapter constructor(
             }
 
             view.cardView.onClick {
-                listener.onItemClicked(it, bean)
+                listener.onItemClicked(it,position, bean)
             }
         }
 
@@ -293,7 +293,7 @@ class HomeAdapter constructor(
     }
 
     interface HomeAdapterListener {
-        fun onItemClicked(cardView: View, bean: BaseHomeAllEntity)
+        fun onItemClicked(cardView: View, position: Int,bean: BaseHomeAllEntity)
         fun onStatusChanged(bean: BaseHomeAllEntity?, newValue: Boolean)
         fun onCollected(bean: BaseHomeAllEntity)
     }

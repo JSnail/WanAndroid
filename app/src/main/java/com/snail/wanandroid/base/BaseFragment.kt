@@ -1,5 +1,6 @@
 package com.snail.wanandroid.base
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,6 +41,9 @@ abstract class BaseFragment<T : ViewBinding> :  Fragment() {
         startActivity(intent)
     }
 
+    open fun goToActivity(intent: Intent,option: ActivityOptions){
+        startActivity(intent,option.toBundle())
+    }
 
 
     abstract fun getViewBinding(  inflater: LayoutInflater, container: ViewGroup?): T
