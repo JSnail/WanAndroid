@@ -1,14 +1,12 @@
 package com.snail.wanandroid.ui.web
 
 import android.net.Uri
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.webkit.ConsoleMessage
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat.getColor
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.WebChromeClient
@@ -22,6 +20,8 @@ import com.snail.wanandroid.databinding.FragmentWebBinding
 class WebFragment : BaseFragment<FragmentWebBinding>() {
 
     private lateinit var agentWeb: AgentWeb
+
+    var title = ""
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -62,6 +62,7 @@ class WebFragment : BaseFragment<FragmentWebBinding>() {
 
     private val webChromeClient = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView?, title: String?) {
+            this@WebFragment.title = title ?: ""
             super.onReceivedTitle(view, title)
         }
 

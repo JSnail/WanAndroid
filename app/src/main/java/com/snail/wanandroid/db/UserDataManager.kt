@@ -18,10 +18,9 @@ class UserDataManager private constructor() : KoinComponent {
     var isLogged: Boolean = false
         get() = currentUserEntity.value != null && sp.cookie.isNotEmpty()
 
-
     fun logout() {
         sp.cookie = ""
-        sp.tempUserId =-1
+        sp.tempUserId = -1
         currentUserEntity.value = null
     }
 
@@ -31,8 +30,8 @@ class UserDataManager private constructor() : KoinComponent {
             if (userId != -1) {
                 val data = dataBase.userDao().queryUserById(userId)
                 currentUserEntity.postValue(data)
-                Log.i("TAG","data == ${data.nickname}")
-            }else{
+                Log.i("TAG", "data == ${data.nickname}")
+            } else {
                 currentUserEntity.postValue(null)
             }
         }

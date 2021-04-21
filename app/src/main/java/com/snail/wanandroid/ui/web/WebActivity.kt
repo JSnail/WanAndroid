@@ -9,15 +9,27 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
+import com.snail.wanandroid.R
 import com.snail.wanandroid.base.BaseActivity
 import com.snail.wanandroid.databinding.ActivityWebBinding
+import com.snail.wanandroid.db.UserDataManager
+import com.snail.wanandroid.entity.WebDataEntity
+import com.snail.wanandroid.extensions.onClick
 import com.snail.wanandroid.ui.home.HomeFragment
+import com.snail.wanandroid.ui.login.LoginActivity
+import com.snail.wanandroid.viewmodel.WebViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
+import kotlin.collections.HashMap
 
 
 class WebActivity : BaseActivity<ActivityWebBinding>() {
-    private lateinit var urls: ArrayList<String>
+    private lateinit var urls: ArrayList<WebDataEntity>
     private var title = ""
+    private lateinit var currentBean: WebDataEntity
+
+    private val viewModel : WebViewModel by viewModel ()
+    private val changeId = ArrayList<HashMap<Int,Boolean>>()
 
     override fun getViewBinding(): ActivityWebBinding {
         return ActivityWebBinding.inflate(layoutInflater)
@@ -36,8 +48,12 @@ class WebActivity : BaseActivity<ActivityWebBinding>() {
         }
     }
 
+    fun setTitle(title: String) {
+        vB.webToolbar.title = title
+    }
+
     override fun loadData() {
-        urls = intent.getStringArrayListExtra(URLS) ?: ArrayList()
+        urls = intent.getParcelableArrayListExtra(URLS) ?: ArrayList()
         title = intent.getStringExtra(TITLE) ?: ""
         vB.webViewPager.adapter = ViewPagerAdapter(this)
         vB.webViewPager.offscreenPageLimit = 7
@@ -45,8 +61,35 @@ class WebActivity : BaseActivity<ActivityWebBinding>() {
         vB.webViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 HomeFragment.currentPosition = position
+                currentBean = urls[position]
+                val fragment =
+                    supportFragmentManager.findFragmentByTag("f${HomeFragment.currentPosition}") as WebFragment
+                setTitle(fragment.title)
+                val collected = urls[position].isCollect
+                vB.fab.setImageResource(
+                    if (collected) {
+                        R.drawable.ic_web_colleted
+                    } else {
+                        R.drawable.ic_web_uncolleted
+                    }
+                )
             }
         })
+        vB.webToolbar.title = title
+
+        currentBean = urls[HomeFragment.currentPosition]
+        vB.fab.onClick {
+            if (UserDataManager.instance.isLogged) {
+                if (currentBean.isCollect){
+                    viewModel.unCollect(currentBean.id)
+                }else{
+                    viewModel.collect(currentBean.id)
+                }
+
+            }else{
+                goToActivity(LoginActivity::class.java)
+            }
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -66,7 +109,7 @@ class WebActivity : BaseActivity<ActivityWebBinding>() {
         override fun createFragment(position: Int): Fragment {
             return WebFragment().apply {
                 val args = Bundle()
-                args.putString(WebFragment.URL, urls[position])
+                args.putString(WebFragment.URL, urls[position].url)
                 arguments = args
             }
 

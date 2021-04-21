@@ -22,8 +22,8 @@
             android:id="@+id/webToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/toolbar"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,5 +41,5 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_main_collect" />
+         />
 </androidx.constraintlayout.widget.ConstraintLayout>

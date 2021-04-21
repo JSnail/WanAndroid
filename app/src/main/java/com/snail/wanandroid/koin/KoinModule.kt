@@ -4,10 +4,7 @@ import com.snail.wanandroid.db.AppDataBase
 import com.snail.wanandroid.dialog.LoadingDialog
 import com.snail.wanandroid.network.CookieManager
 import com.snail.wanandroid.network.RetrofitManager
-import com.snail.wanandroid.repository.HomeRepository
-import com.snail.wanandroid.repository.LoginRepository
-import com.snail.wanandroid.repository.MainRepository
-import com.snail.wanandroid.repository.RegisterRepository
+import com.snail.wanandroid.repository.*
 import com.snail.wanandroid.viewmodel.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -17,6 +14,7 @@ val viewModelModule = module {
     viewModel { RegisterViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { MainViewModel(get()) }
+    viewModel { WebViewModel(get()) }
 }
 
 val repositoryModule = module {
@@ -24,6 +22,7 @@ val repositoryModule = module {
     single { RegisterRepository(get()) }
     single { HomeRepository(get()) }
     single { MainRepository(get()) }
+    single { WebRepository(get()) }
 }
 
 val retrofitModule = module {

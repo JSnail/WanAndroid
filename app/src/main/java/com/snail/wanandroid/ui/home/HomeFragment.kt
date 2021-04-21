@@ -18,6 +18,7 @@ import com.snail.wanandroid.databinding.FragmentHomeBinding
 import com.snail.wanandroid.entity.ArticleListBean
 import com.snail.wanandroid.entity.ArticleTopEntity
 import com.snail.wanandroid.entity.BaseHomeAllEntity
+import com.snail.wanandroid.entity.WebDataEntity
 import com.snail.wanandroid.listener.OnScrollToTopListener
 import com.snail.wanandroid.ui.web.WebActivity
 import com.snail.wanandroid.viewmodel.HomeViewModel
@@ -104,7 +105,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), OnScrollToTopListener 
         }
 
         override fun onStatusChanged(bean: BaseHomeAllEntity?, newValue: Boolean) {
+            var id = 0
             if (bean is ArticleTopEntity) {
+                id = bean.id
                 if (bean.collect) {
                     homeViewModel.unCollect(bean.id)
                     bean.collect = false
@@ -113,6 +116,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), OnScrollToTopListener 
                     bean.collect = true
                 }
             } else if (bean is ArticleListBean) {
+                id = bean.id
                 if (bean.collect) {
                     homeViewModel.unCollect(bean.id)
                     bean.collect = false
@@ -121,6 +125,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), OnScrollToTopListener 
                     bean.collect = true
                 }
             }
+            homeViewModel.updateWebUrlStatus(id)
         }
 
         override fun onCollected(bean: BaseHomeAllEntity) {
